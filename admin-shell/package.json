@@ -1,0 +1,33 @@
+{
+  "name": "@peanut-admin/admin-shell",
+  "version": "0.1.0",
+  "description": "Reference Admin layout, navigation, and extension boundaries",
+  "type": "module",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "files": ["src"],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@peanut-admin/admin-core": "workspace:^",
+    "element-plus": "2.14.3",
+    "pinia": "4.0.2",
+    "vue-router": "5.2.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "8.1.4",
+    "vitest": "4.1.10",
+    "vue": "3.5.39"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.39"
+  }
+}
