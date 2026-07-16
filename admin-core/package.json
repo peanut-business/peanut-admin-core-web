@@ -16,10 +16,15 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "openapi-fetch": "0.17.0"
+    "openapi-fetch": "0.17.0",
+    "pinia": "4.0.2"
   },
   "devDependencies": {
     "typescript": "5.9.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.10",
+    "vue": "3.5.39"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.39"
   }
 }

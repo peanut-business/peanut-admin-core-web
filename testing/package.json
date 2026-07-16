@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@peanut-admin/admin-core": "workspace:^",
     "@vue/test-utils": "2.4.11"
   },
   "devDependencies": {
