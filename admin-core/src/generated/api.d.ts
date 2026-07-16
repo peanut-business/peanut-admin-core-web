@@ -5928,7 +5928,10 @@ export interface operations {
     };
     listTenantAuditEvents: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: number;
+                page_size?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
