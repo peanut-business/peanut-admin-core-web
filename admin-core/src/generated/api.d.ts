@@ -1161,10 +1161,13 @@ export interface components {
         };
         TargetSet: {
             target_resource_key: string;
+            /** @default primary */
+            target_role: string;
             target_ids: string[];
         };
         BoundaryTarget: {
             target_resource_key: string;
+            target_role: string;
             target_id: string;
             label: string;
         };
@@ -1179,6 +1182,7 @@ export interface components {
             revision: string;
             boundary_target?: {
                 target_resource_key: string;
+                target_role: string;
                 target_id: string;
                 label: string;
             };
@@ -1214,6 +1218,7 @@ export interface components {
                 revision: string;
                 boundary_target?: {
                     target_resource_key: string;
+                    target_role: string;
                     target_id: string;
                     label: string;
                 };
@@ -1234,15 +1239,21 @@ export interface components {
         };
         Target: {
             target_resource_key: string;
+            /** @default primary */
+            target_role: string;
             target_id: string;
         };
         CreateWorkItemRequest: {
             target: {
                 target_resource_key: string;
+                /** @default primary */
+                target_role: string;
                 target_id: string;
             };
             related_target?: {
                 target_resource_key: string;
+                /** @default primary */
+                target_role: string;
                 target_id: string;
             } | null;
             reference_item_id: string;
@@ -1328,6 +1339,8 @@ export interface components {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -5304,6 +5317,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -5785,6 +5800,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -6229,6 +6246,7 @@ export interface operations {
                 resource_key: string;
                 operation: string;
                 target_resource_key: string;
+                target_role: string;
                 mode?: "runtime" | "policy-config";
                 page?: number;
                 page_size?: number;
@@ -6393,6 +6411,7 @@ export interface operations {
                 page?: number;
                 page_size?: number;
                 target_resource_key: string;
+                target_role: string;
                 target_id: string[];
                 status?: "open" | "active" | "closed";
                 sort?: "-created_at" | "created_at" | "title" | "-title";
@@ -6421,6 +6440,7 @@ export interface operations {
                             revision: string;
                             boundary_target?: {
                                 target_resource_key: string;
+                                target_role: string;
                                 target_id: string;
                                 label: string;
                             };
@@ -6479,10 +6499,14 @@ export interface operations {
                 "application/json": {
                     target: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_id: string;
                     };
                     related_target?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_id: string;
                     } | null;
                     reference_item_id: string;
@@ -6969,6 +6993,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -7097,6 +7123,7 @@ export interface operations {
         parameters: {
             query: {
                 target_resource_key: string;
+                target_role: string;
                 target_id: string;
                 q?: string;
             };
@@ -7295,6 +7322,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -7458,6 +7487,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -8102,6 +8133,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -8428,6 +8461,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -9270,6 +9305,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -9722,6 +9759,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -10048,6 +10087,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -10215,6 +10256,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -10928,6 +10971,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -11254,6 +11299,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };
@@ -11552,6 +11599,8 @@ export interface operations {
                     groups?: Record<string, never>[];
                     targets?: {
                         target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
                         target_ids: string[];
                     }[];
                 };

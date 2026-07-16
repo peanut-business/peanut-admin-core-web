@@ -11,6 +11,7 @@ const PaginationComponent = ElPagination as unknown as Component
 
 const targetKey = (target: TypedTarget): string => JSON.stringify([
   target.target_resource_key,
+  target.target_role,
   target.target_id,
 ])
 
@@ -53,6 +54,7 @@ export const TargetSelector = defineComponent({
           ? []
           : [{
               target_resource_key: candidate.target_resource_key,
+              target_role: candidate.target_role,
               target_id: candidate.target_id,
             }]
       })

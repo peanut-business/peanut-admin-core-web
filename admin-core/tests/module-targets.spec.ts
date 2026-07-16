@@ -43,14 +43,15 @@ describe('module and operation target state', () => {
       resourceKey: 'example.work-item',
       operation: 'list',
       targetResourceKey: 'example.project',
+      targetRole: 'primary',
     } as const
     const queueScope = { ...projectScope, targetResourceKey: 'example.queue' }
 
-    targets.replace(projectScope, [{ target_resource_key: 'example.project', target_id: '9001', label: 'Project' }])
-    targets.replace(queueScope, [{ target_resource_key: 'example.queue', target_id: '9001', label: 'Queue' }])
+    targets.replace(projectScope, [{ target_resource_key: 'example.project', target_role: 'primary', target_id: '9001', label: 'Project' }])
+    targets.replace(queueScope, [{ target_resource_key: 'example.queue', target_role: 'primary', target_id: '9001', label: 'Queue' }])
 
-    expect(targets.selected(projectScope)).toEqual([{ target_resource_key: 'example.project', target_id: '9001' }])
-    expect(targets.selected(queueScope)).toEqual([{ target_resource_key: 'example.queue', target_id: '9001' }])
+    expect(targets.selected(projectScope)).toEqual([{ target_resource_key: 'example.project', target_role: 'primary', target_id: '9001' }])
+    expect(targets.selected(queueScope)).toEqual([{ target_resource_key: 'example.queue', target_role: 'primary', target_id: '9001' }])
   })
 
   it('rejects multiple primary targets for a one-required operation', () => {
@@ -60,16 +61,17 @@ describe('module and operation target state', () => {
       resourceKey: 'example.work-item',
       operation: 'update',
       targetResourceKey: 'example.project',
+      targetRole: 'primary',
       cardinality: 'one_required',
     } as const
     targets.replace(scope, [
-      { target_resource_key: 'example.project', target_id: '9001', label: 'One' },
-      { target_resource_key: 'example.project', target_id: '9002', label: 'Two' },
+      { target_resource_key: 'example.project', target_role: 'primary', target_id: '9001', label: 'One' },
+      { target_resource_key: 'example.project', target_role: 'primary', target_id: '9002', label: 'Two' },
     ])
 
     expect(() => targets.select(scope, [
-      { target_resource_key: 'example.project', target_id: '9001' },
-      { target_resource_key: 'example.project', target_id: '9002' },
+      { target_resource_key: 'example.project', target_role: 'primary', target_id: '9001' },
+      { target_resource_key: 'example.project', target_role: 'primary', target_id: '9002' },
     ])).toThrow('TARGET_SELECTION_CARDINALITY_INVALID')
     expect(() => targets.selectionForRequest(scope)).toThrow('TARGET_SELECTION_CARDINALITY_INVALID')
   })

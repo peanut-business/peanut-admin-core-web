@@ -2,11 +2,13 @@ import { defineStore } from 'pinia'
 
 export interface TypedTarget {
   target_resource_key: string
+  target_role: string
   target_id: string
 }
 
 export interface TypedTargetSet {
   target_resource_key: string
+  target_role: string
   target_ids: readonly string[]
 }
 
@@ -21,10 +23,11 @@ export interface OperationTargetScope {
   resourceKey: string
   operation: string
   targetResourceKey: string
+  targetRole: string
   cardinality?: TargetCardinality
 }
 
-export type TargetCardinality = 'none' | 'one_required' | 'many_readable' | 'aggregate_read' | 'policy_publish'
+export type TargetCardinality = 'none' | 'one_required' | 'zero_or_one' | 'many_readable' | 'aggregate_read' | 'policy_publish' | 'bulk_write'
 
 interface TargetEntry {
   scope: OperationTargetScope
@@ -42,6 +45,7 @@ const scopeKey = (scope: OperationTargetScope): string => JSON.stringify([
   scope.resourceKey,
   scope.operation,
   scope.targetResourceKey,
+  scope.targetRole,
   scope.cardinality ?? 'many_readable',
 ])
 
@@ -52,6 +56,7 @@ const normalizeCandidates = (
   const ids = new Set<string>()
   return candidates.map(candidate => {
     if (candidate.target_resource_key !== scope.targetResourceKey
+      || candidate.target_role !== scope.targetRole
       || candidate.target_id === ''
       || ids.has(candidate.target_id)) {
       throw new Error('TARGET_CANDIDATE_SCOPE_INVALID')
@@ -86,14 +91,18 @@ export const useOperationTargets = defineStore('peanut-admin-operation-targets',
       const available = new Set(entry.candidates.map(candidate => candidate.target_id))
       const selected = new Set<string>()
       for (const target of targets) {
-        if (target.target_resource_key !== scope.targetResourceKey || !available.has(target.target_id)) {
+        if (target.target_resource_key !== scope.targetResourceKey
+          || target.target_role !== scope.targetRole
+          || !available.has(target.target_id)) {
           throw new Error('TARGET_SELECTION_INVALID')
         }
         selected.add(target.target_id)
       }
       const cardinality = scope.cardinality ?? 'many_readable'
       if ((cardinality === 'none' && selected.size > 0)
-        || (cardinality === 'one_required' && selected.size > 1)) {
+        || (cardinality === 'one_required' && selected.size !== 1)
+        || (cardinality === 'zero_or_one' && selected.size > 1)
+        || cardinality === 'bulk_write') {
         throw new Error('TARGET_SELECTION_CARDINALITY_INVALID')
       }
       entry.selectedIds = [...selected]
@@ -103,12 +112,14 @@ export const useOperationTargets = defineStore('peanut-admin-operation-targets',
       const entry = this.entries[scopeKey(scope)]
       return (entry?.selectedIds ?? []).map(targetId => ({
         target_resource_key: scope.targetResourceKey,
+        target_role: scope.targetRole,
         target_id: targetId,
       }))
     },
     selectedSet(scope: OperationTargetScope): TypedTargetSet {
       return {
         target_resource_key: scope.targetResourceKey,
+        target_role: scope.targetRole,
         target_ids: this.selected(scope).map(target => target.target_id),
       }
     },
@@ -116,7 +127,9 @@ export const useOperationTargets = defineStore('peanut-admin-operation-targets',
       const selection = this.selectedSet(scope)
       const cardinality = scope.cardinality ?? 'many_readable'
       if ((cardinality === 'one_required' && selection.target_ids.length !== 1)
-        || (cardinality === 'none' && selection.target_ids.length !== 0)) {
+        || (cardinality === 'zero_or_one' && selection.target_ids.length > 1)
+        || (cardinality === 'none' && selection.target_ids.length !== 0)
+        || cardinality === 'bulk_write') {
         throw new Error('TARGET_SELECTION_CARDINALITY_INVALID')
       }
 
