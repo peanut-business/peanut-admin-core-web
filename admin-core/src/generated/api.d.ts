@@ -8103,7 +8103,9 @@ export interface operations {
     createPlatformTenant: {
         parameters: {
             query?: never;
-            header?: never;
+            header: {
+                "Idempotency-Key": string;
+            };
             path?: never;
             cookie?: never;
         };
@@ -8883,7 +8885,45 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: email */
+                    email?: string;
+                    password?: string;
+                    tenant_code?: string | null;
+                    challenge_token?: string;
+                    display_name?: string | null;
+                    initial_password?: string;
+                    code?: string;
+                    name?: string;
+                    description?: string | null;
+                    locale?: string;
+                    timezone?: string;
+                    parent_id?: string | null;
+                    primary_department_id?: string | null;
+                    sort_order?: number;
+                    role_ids?: string[];
+                    permission_keys?: string[];
+                    status?: string;
+                    source?: string;
+                    config?: Record<string, never>;
+                    /** Format: date-time */
+                    effective_at?: string | null;
+                    /** Format: date-time */
+                    expires_at?: string | null;
+                    change_reason?: string;
+                    reason?: string;
+                    groups?: Record<string, never>[];
+                    targets?: {
+                        target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
+                        target_ids: string[];
+                    }[];
+                };
+            };
+        };
         responses: {
             /** @description Successful command */
             200: {
@@ -9015,7 +9055,45 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: email */
+                    email?: string;
+                    password?: string;
+                    tenant_code?: string | null;
+                    challenge_token?: string;
+                    display_name?: string | null;
+                    initial_password?: string;
+                    code?: string;
+                    name?: string;
+                    description?: string | null;
+                    locale?: string;
+                    timezone?: string;
+                    parent_id?: string | null;
+                    primary_department_id?: string | null;
+                    sort_order?: number;
+                    role_ids?: string[];
+                    permission_keys?: string[];
+                    status?: string;
+                    source?: string;
+                    config?: Record<string, never>;
+                    /** Format: date-time */
+                    effective_at?: string | null;
+                    /** Format: date-time */
+                    expires_at?: string | null;
+                    change_reason?: string;
+                    reason?: string;
+                    groups?: Record<string, never>[];
+                    targets?: {
+                        target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
+                        target_ids: string[];
+                    }[];
+                };
+            };
+        };
         responses: {
             /** @description Successful command */
             200: {
@@ -9147,7 +9225,45 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: email */
+                    email?: string;
+                    password?: string;
+                    tenant_code?: string | null;
+                    challenge_token?: string;
+                    display_name?: string | null;
+                    initial_password?: string;
+                    code?: string;
+                    name?: string;
+                    description?: string | null;
+                    locale?: string;
+                    timezone?: string;
+                    parent_id?: string | null;
+                    primary_department_id?: string | null;
+                    sort_order?: number;
+                    role_ids?: string[];
+                    permission_keys?: string[];
+                    status?: string;
+                    source?: string;
+                    config?: Record<string, never>;
+                    /** Format: date-time */
+                    effective_at?: string | null;
+                    /** Format: date-time */
+                    expires_at?: string | null;
+                    change_reason?: string;
+                    reason?: string;
+                    groups?: Record<string, never>[];
+                    targets?: {
+                        target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
+                        target_ids: string[];
+                    }[];
+                };
+            };
+        };
         responses: {
             /** @description Successful command */
             200: {
@@ -9449,7 +9565,45 @@ export interface operations {
             };
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": {
+                    /** Format: email */
+                    email?: string;
+                    password?: string;
+                    tenant_code?: string | null;
+                    challenge_token?: string;
+                    display_name?: string | null;
+                    initial_password?: string;
+                    code?: string;
+                    name?: string;
+                    description?: string | null;
+                    locale?: string;
+                    timezone?: string;
+                    parent_id?: string | null;
+                    primary_department_id?: string | null;
+                    sort_order?: number;
+                    role_ids?: string[];
+                    permission_keys?: string[];
+                    status?: string;
+                    source?: string;
+                    config?: Record<string, never>;
+                    /** Format: date-time */
+                    effective_at?: string | null;
+                    /** Format: date-time */
+                    expires_at?: string | null;
+                    change_reason?: string;
+                    reason?: string;
+                    groups?: Record<string, never>[];
+                    targets?: {
+                        target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
+                        target_ids: string[];
+                    }[];
+                };
+            };
+        };
         responses: {
             /** @description Successful command */
             200: {
