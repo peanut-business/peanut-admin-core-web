@@ -7942,7 +7942,10 @@ export interface operations {
     };
     listPlatformTenants: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: number;
+                page_size?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -9568,7 +9571,10 @@ export interface operations {
     };
     listPlatformOperators: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: number;
+                page_size?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -10780,7 +10786,10 @@ export interface operations {
     };
     listPlatformRoles: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: number;
+                page_size?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -11887,7 +11896,10 @@ export interface operations {
     };
     listPlatformAuditEvents: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: number;
+                page_size?: number;
+            };
             header?: never;
             path?: never;
             cookie?: never;
