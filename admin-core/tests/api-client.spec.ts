@@ -52,6 +52,30 @@ describe('audience API clients', () => {
     await expect(client.GET('/api/v1/tenant')).rejects.toThrow('API_AUDIENCE_MISMATCH')
   })
 
+  it('serializes multi-target query arrays without duplicate PHP keys', async () => {
+    let requestedUrl = ''
+    const client = createTenantApiClient({
+      baseUrl: 'https://example.test',
+      fetch: vi.fn(async (request: Request) => {
+        requestedUrl = request.url
+        return json({ data: [], meta: { page: 1, page_size: 20, total: 0, total_pages: 0 } })
+      }),
+      getAccessToken: () => 'tenant-token',
+      refresh: async () => null,
+    })
+
+    await client.GET('/api/v1/example/work-items', {
+      params: { query: {
+        target_resource_key: 'example.project',
+        target_role: 'primary',
+        target_id: ['1', '2'],
+      } },
+    })
+
+    expect(requestedUrl).toContain('target_id=1,2')
+    expect(requestedUrl).not.toContain('target_id=1&target_id=2')
+  })
+
   it('parses only RFC 9457-shaped problems', () => {
     const problem = parseProblemDetails({
       type: '/docs/problems/precondition-required',

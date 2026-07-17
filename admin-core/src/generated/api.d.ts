@@ -1259,6 +1259,35 @@ export interface components {
             reference_item_id: string;
             title: string;
         };
+        UpdateWorkItemRequest: {
+            target: {
+                target_resource_key: string;
+                /** @default primary */
+                target_role: string;
+                target_id: string;
+            };
+            related_target?: {
+                target_resource_key: string;
+                /** @default primary */
+                target_role: string;
+                target_id: string;
+            } | null;
+            title?: string;
+            /** @enum {unknown} */
+            status?: "open" | "active" | "closed";
+        } | unknown | unknown;
+        PublishWorkItemPolicyRequest: {
+            name: string;
+            config: {
+                [key: string]: unknown;
+            };
+            targets: {
+                target_resource_key: string;
+                /** @default primary */
+                target_role: string;
+                target_ids: string[];
+            }[];
+        };
         CreateTenantOwnerCandidateRequest: {
             /** Format: email */
             email: string;
@@ -6641,7 +6670,11 @@ export interface operations {
     };
     aggregateExampleWorkItems: {
         parameters: {
-            query?: never;
+            query: {
+                target_resource_key: string;
+                target_role: string;
+                target_id: string[];
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -6970,40 +7003,22 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
+                    target: {
                         target_resource_key: string;
                         /** @default primary */
                         target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                        target_id: string;
+                    };
+                    related_target?: {
+                        target_resource_key: string;
+                        /** @default primary */
+                        target_role: string;
+                        target_id: string;
+                    } | null;
+                    title?: string;
+                    /** @enum {unknown} */
+                    status?: "open" | "active" | "closed";
+                } | unknown | unknown;
             };
         };
         responses: {
@@ -7299,34 +7314,11 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
+                    name: string;
+                    config: {
+                        [key: string]: unknown;
+                    };
+                    targets: {
                         target_resource_key: string;
                         /** @default primary */
                         target_role: string;

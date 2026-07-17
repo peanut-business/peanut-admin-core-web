@@ -104,6 +104,7 @@ const createAudienceClient = (
     baseUrl: options.baseUrl ?? '',
     credentials: 'include',
     fetch: securedFetch,
+    querySerializer: { array: { style: 'form', explode: false } },
   })
 }
 
