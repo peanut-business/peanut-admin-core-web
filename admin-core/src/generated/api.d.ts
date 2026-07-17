@@ -163,7 +163,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
@@ -183,7 +183,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
@@ -202,7 +202,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
@@ -221,7 +221,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
@@ -240,7 +240,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
@@ -277,7 +277,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
@@ -297,7 +297,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
@@ -316,7 +316,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
@@ -353,7 +353,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
@@ -373,7 +373,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
@@ -392,7 +392,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
@@ -411,7 +411,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
                 resource_key: string;
                 operation: string;
             };
@@ -467,7 +467,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                module_key: string;
+                module_key: components["parameters"]["ModuleKey"];
             };
             cookie?: never;
         };
@@ -572,7 +572,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                work_item_id: string;
+                work_item_id: components["schemas"]["BigIntString"];
             };
             cookie?: never;
         };
@@ -712,7 +712,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
@@ -732,7 +732,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
@@ -751,8 +751,8 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
-                member_id: string;
+                tenant_id: components["parameters"]["TenantId"];
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
@@ -771,7 +771,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
@@ -790,7 +790,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
@@ -809,7 +809,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
@@ -828,8 +828,8 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
-                module_key: string;
+                tenant_id: components["parameters"]["TenantId"];
+                module_key: components["parameters"]["ModuleKey"];
             };
             cookie?: never;
         };
@@ -867,7 +867,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
@@ -887,7 +887,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
@@ -906,7 +906,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
@@ -925,7 +925,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
@@ -944,7 +944,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
@@ -981,7 +981,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
@@ -1001,7 +1001,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
@@ -1020,7 +1020,7 @@ export interface paths {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
@@ -1095,14 +1095,45 @@ export interface components {
             password: string;
             tenant_code?: string | null;
         };
+        BigIntString: string;
+        TenantContext: {
+            /** @constant */
+            audience: "tenant";
+            account_id: components["schemas"]["BigIntString"];
+            tenant_id: components["schemas"]["BigIntString"];
+            tenant_member_id: components["schemas"]["BigIntString"];
+            authorization_revision?: components["schemas"]["BigIntString"];
+        };
+        TenantAuthentication: {
+            /** @constant */
+            state: "authenticated";
+            access_token: string;
+            /** @constant */
+            token_type: "Bearer";
+            expires_in: number;
+            context: components["schemas"]["TenantContext"];
+        };
+        TenantChoice: {
+            tenant_id: components["schemas"]["BigIntString"];
+            tenant_code: string;
+            tenant_name: string;
+            tenant_member_id: components["schemas"]["BigIntString"];
+            member_display_name: string;
+        };
+        TenantSelection: {
+            /** @constant */
+            state: "tenant_selection_required";
+            challenge_token: string;
+            /** Format: date-time */
+            expires_at: string;
+            tenants: components["schemas"]["TenantChoice"][];
+        };
         RequestMeta: {
             request_id: string;
         };
-        SuccessResponse: {
-            data: unknown;
-            meta: {
-                request_id: string;
-            };
+        TenantLoginResponse: {
+            data: components["schemas"]["TenantAuthentication"] | components["schemas"]["TenantSelection"];
+            meta: components["schemas"]["RequestMeta"];
         };
         Problem: {
             type: string;
@@ -1118,74 +1149,57 @@ export interface components {
                 message: string;
             }[];
         };
-        BigIntString: string;
         SelectTenantRequest: {
             challenge_token: string;
-            tenant_id: string;
+            tenant_id: components["schemas"]["BigIntString"];
         };
-        CreateMemberRequest: {
-            /** Format: email */
-            email: string;
-            display_name: string;
-            /** @description Required only when the exact email does not already identify an account. */
-            initial_password?: string;
+        TenantAuthenticationResponse: {
+            data: components["schemas"]["TenantAuthentication"];
+            meta: components["schemas"]["RequestMeta"];
         };
-        UpdateMemberRequest: {
-            display_name?: string | null;
-            primary_department_id?: string | null;
+        TenantContextResponse: {
+            data: components["schemas"]["TenantContext"];
+            meta: components["schemas"]["RequestMeta"];
         };
-        ReplaceMemberRolesRequest: {
-            role_ids: string[];
+        TenantSelectionResponse: {
+            data: components["schemas"]["TenantSelection"];
+            meta: components["schemas"]["RequestMeta"];
         };
-        WriteDepartmentRequest: {
+        Tenant: {
+            id: components["schemas"]["BigIntString"];
             code: string;
             name: string;
-            parent_id?: string | null;
-            /** @default 0 */
-            sort_order: number;
-        };
-        MoveDepartmentRequest: {
-            parent_id: string | null;
-        };
-        CreateRoleRequest: {
-            key: string;
-            name: string;
-            description?: string | null;
-        };
-        UpdateRoleRequest: {
-            name: string;
-            description?: string | null;
-        };
-        ReplaceRolePermissionsRequest: {
-            permission_keys: string[];
-        };
-        TargetSet: {
-            target_resource_key: string;
-            /** @default primary */
-            target_role: string;
-            target_ids: string[];
-        };
-        BoundaryTarget: {
-            target_resource_key: string;
-            target_role: string;
-            target_id: string;
-            label: string;
-        };
-        WorkItem: {
-            id: string;
-            project_id: string;
-            queue_id?: string | null;
-            reference_item_id: string;
-            title: string;
+            display_name: string | null;
             /** @enum {unknown} */
-            status: "open" | "active" | "closed";
+            status: "provisioning" | "active" | "suspended" | "closed";
+            locale: string;
+            timezone: string;
+            security_revision: components["schemas"]["BigIntString"];
+            authorization_revision: components["schemas"]["BigIntString"];
+            revision: components["schemas"]["BigIntString"];
+            activated_at?: string | null;
+            suspended_at?: string | null;
+            closed_at?: string | null;
+            created_at: string;
+            updated_at: string;
+        };
+        TenantResponse: {
+            data: components["schemas"]["Tenant"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        Member: {
+            id: string;
+            account_id?: string;
+            display_name?: string | null;
+            member_no?: string | null;
+            /** @enum {string} */
+            member_type?: "internal" | "external";
+            primary_department_id?: string | null;
+            /** @enum {string} */
+            status: "pending" | "active" | "suspended" | "left";
+            security_revision: string;
             revision: string;
-            boundary_target?: {
-                target_resource_key: string;
-                target_role: string;
-                target_id: string;
-                label: string;
-            };
+            role_keys: string[];
         };
         TargetScope: {
             /** @enum {unknown} */
@@ -1199,43 +1213,289 @@ export interface components {
             page_size: number;
             total: number;
             total_pages: number;
-            target_scope?: {
-                /** @enum {unknown} */
-                mode: "none" | "single" | "multiple" | "aggregate";
-                target_count: number;
-                digest: string;
+            target_scope?: components["schemas"]["TargetScope"];
+        };
+        MemberListResponse: {
+            data: components["schemas"]["Member"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        CreateMemberRequest: {
+            /** Format: email */
+            email: string;
+            display_name: string;
+            /** @description Required only when the exact email does not already identify an account. */
+            initial_password?: string;
+        };
+        MemberResponse: {
+            data: components["schemas"]["Member"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        UpdateMemberRequest: {
+            display_name?: string | null;
+            primary_department_id?: string | null;
+        };
+        ReplaceMemberRolesRequest: {
+            role_ids: string[];
+        };
+        Department: {
+            id: string;
+            parent_id?: string | null;
+            code: string;
+            name: string;
+            sort_order: number;
+            /** @enum {string} */
+            status: "active" | "disabled" | "archived";
+            revision: string;
+        };
+        DepartmentListResponse: {
+            data: components["schemas"]["Department"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        WriteDepartmentRequest: {
+            code: string;
+            name: string;
+            parent_id?: string | null;
+            /** @default 0 */
+            sort_order: number;
+        };
+        DepartmentResponse: {
+            data: components["schemas"]["Department"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        MoveDepartmentRequest: {
+            parent_id: string | null;
+        };
+        Role: {
+            id: string;
+            key: string;
+            name: string;
+            description?: string | null;
+            is_builtin: boolean;
+            /** @enum {string} */
+            status: "active" | "disabled" | "archived";
+            revision: string;
+            permission_keys: string[];
+        };
+        RoleListResponse: {
+            data: components["schemas"]["Role"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        CreateRoleRequest: {
+            key: string;
+            name: string;
+            description?: string | null;
+        };
+        RoleResponse: {
+            data: components["schemas"]["Role"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        UpdateRoleRequest: {
+            name: string;
+            description?: string | null;
+        };
+        ReplaceRolePermissionsRequest: {
+            permission_keys: string[];
+        };
+        DataPolicyTarget: {
+            target_id: string;
+        };
+        DataPolicyTargetSet: {
+            id: components["schemas"]["BigIntString"];
+            name: string;
+            target_mode: string;
+            target_resource_key: string;
+            status: string;
+            revision: components["schemas"]["BigIntString"];
+            targets: components["schemas"]["DataPolicyTarget"][];
+        };
+        DataPolicyCondition: {
+            id: components["schemas"]["BigIntString"];
+            condition_key: string;
+            status: string;
+            revision: components["schemas"]["BigIntString"];
+            target_set: components["schemas"]["DataPolicyTargetSet"] | null;
+            config: {
+                [key: string]: unknown;
+            } | null;
+        };
+        DataPolicyGroup: {
+            id: components["schemas"]["BigIntString"];
+            name: string;
+            match_mode: string;
+            sort_order: number;
+            status: string;
+            revision: components["schemas"]["BigIntString"];
+            conditions: components["schemas"]["DataPolicyCondition"][];
+        };
+        DataPolicy: {
+            id: components["schemas"]["BigIntString"];
+            tenant_id: components["schemas"]["BigIntString"];
+            role_id: components["schemas"]["BigIntString"];
+            resource_key: string;
+            operation: string;
+            /** @enum {unknown} */
+            status: "active" | "disabled";
+            valid_from?: string | null;
+            valid_until?: string | null;
+            revision: components["schemas"]["BigIntString"];
+            reason?: string | null;
+            groups: components["schemas"]["DataPolicyGroup"][];
+            created_at: string;
+            updated_at: string;
+        };
+        DataPolicyResponse: {
+            data: components["schemas"]["DataPolicy"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        DataPolicyTargetSetWrite: {
+            name: string;
+            target_resource_key: string;
+            targets: {
+                target_id: string;
+            }[];
+        };
+        DataPolicyConditionWrite: {
+            condition_key: string;
+            target_set?: components["schemas"]["DataPolicyTargetSetWrite"] | null;
+        };
+        DataPolicyGroupWrite: {
+            name: string;
+            conditions: components["schemas"]["DataPolicyConditionWrite"][];
+        };
+        ReplaceDataPolicyRequest: {
+            /** @enum {unknown} */
+            status: "active" | "disabled";
+            reason?: string | null;
+            /** Format: date-time */
+            valid_from?: string | null;
+            /** Format: date-time */
+            valid_until?: string | null;
+            groups: components["schemas"]["DataPolicyGroupWrite"][];
+        };
+        Permission: {
+            id: components["schemas"]["BigIntString"];
+            key: string;
+            module_key: string;
+            type: string;
+            name: string;
+            description: string | null;
+            risk_level: string;
+        };
+        PermissionListResponse: {
+            data: components["schemas"]["Permission"][];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        TenantModule: {
+            id?: components["schemas"]["BigIntString"];
+            tenant_id?: components["schemas"]["BigIntString"];
+            module_key: string;
+            name?: string;
+            version?: string;
+            deployment_status?: string;
+            /** @enum {unknown} */
+            status: "enabled" | "disabled";
+            source?: string | null;
+            config?: {
+                [key: string]: unknown;
+            };
+            revision?: components["schemas"]["BigIntString"] | null;
+            config_revision?: components["schemas"]["BigIntString"];
+            authorization_revision?: components["schemas"]["BigIntString"];
+            effective_at?: string | null;
+            expires_at?: string | null;
+            enabled_at?: string | null;
+            disabled_at?: string | null;
+            disabled_reason?: string | null;
+            created_at?: string;
+            updated_at?: string;
+        };
+        TenantModuleListResponse: {
+            data: components["schemas"]["TenantModule"][];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        TenantModuleResponse: {
+            data: components["schemas"]["TenantModule"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        TenantAuditEvent: {
+            id: components["schemas"]["BigIntString"];
+            event_type: string;
+            action: string;
+            outcome: string;
+            reason_code?: string | null;
+            actor_type: string;
+            actor_tenant_member_id?: string | null;
+            actor_platform_operator_id?: string | null;
+            actor_id?: string | null;
+            actor_label?: string;
+            target_resource_type?: string | null;
+            target_resource_id?: string | null;
+            boundary_target_type?: string | null;
+            boundary_target_id?: string | null;
+            target_count: number;
+            target_set_digest?: string | null;
+            request_id: string;
+            operation_id?: string | null;
+            created_at: string;
+        };
+        TenantAuditListResponse: {
+            data: components["schemas"]["TenantAuditEvent"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        MenuItem: {
+            key: string;
+            type: string;
+            name: string;
+            route_name: string | null;
+            route_path: string | null;
+            icon: string | null;
+            children: components["schemas"]["MenuItem"][];
+        };
+        MenuListResponse: {
+            data: components["schemas"]["MenuItem"][];
+            meta: components["schemas"]["RequestMeta"] & {
+                authorization_revision?: components["schemas"]["BigIntString"];
             };
         };
+        TargetCandidate: {
+            target_resource_key: string;
+            target_id: string;
+            label: string;
+        };
+        TargetCandidateMeta: {
+            request_id: string;
+            page: number;
+            page_size: number;
+            total: number;
+            total_pages: number;
+            /** @enum {unknown} */
+            target_cardinality: "none" | "single" | "multiple";
+            available_count: number;
+        };
+        TargetCandidateListResponse: {
+            data: components["schemas"]["TargetCandidate"][];
+            meta: components["schemas"]["TargetCandidateMeta"];
+        };
+        BoundaryTarget: {
+            target_resource_key: string;
+            target_role: string;
+            target_id: string;
+            label: string;
+        };
+        WorkItem: {
+            id: components["schemas"]["BigIntString"];
+            project_id: components["schemas"]["BigIntString"];
+            queue_id?: components["schemas"]["BigIntString"] | null;
+            reference_item_id: components["schemas"]["BigIntString"];
+            title: string;
+            /** @enum {unknown} */
+            status: "open" | "active" | "closed";
+            revision: components["schemas"]["BigIntString"];
+            boundary_target?: components["schemas"]["BoundaryTarget"];
+        };
         WorkItemListResponse: {
-            data: {
-                id: string;
-                project_id: string;
-                queue_id?: string | null;
-                reference_item_id: string;
-                title: string;
-                /** @enum {unknown} */
-                status: "open" | "active" | "closed";
-                revision: string;
-                boundary_target?: {
-                    target_resource_key: string;
-                    target_role: string;
-                    target_id: string;
-                    label: string;
-                };
-            }[];
-            meta: {
-                request_id: string;
-                page: number;
-                page_size: number;
-                total: number;
-                total_pages: number;
-                target_scope?: {
-                    /** @enum {unknown} */
-                    mode: "none" | "single" | "multiple" | "aggregate";
-                    target_count: number;
-                    digest: string;
-                };
-            };
+            data: components["schemas"]["WorkItem"][];
+            meta: components["schemas"]["PageMeta"];
         };
         Target: {
             target_resource_key: string;
@@ -1244,49 +1504,138 @@ export interface components {
             target_id: string;
         };
         CreateWorkItemRequest: {
-            target: {
-                target_resource_key: string;
-                /** @default primary */
-                target_role: string;
-                target_id: string;
-            };
-            related_target?: {
-                target_resource_key: string;
-                /** @default primary */
-                target_role: string;
-                target_id: string;
-            } | null;
-            reference_item_id: string;
+            target: components["schemas"]["Target"];
+            related_target?: components["schemas"]["Target"] | null;
+            reference_item_id: components["schemas"]["BigIntString"];
             title: string;
         };
-        UpdateWorkItemRequest: {
-            target: {
-                target_resource_key: string;
-                /** @default primary */
-                target_role: string;
-                target_id: string;
+        WorkItemCommand: {
+            id: components["schemas"]["BigIntString"];
+            /** @enum {unknown} */
+            status?: "open" | "active" | "closed";
+            revision: components["schemas"]["BigIntString"];
+        };
+        WorkItemCommandResponse: {
+            data: components["schemas"]["WorkItemCommand"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        WorkItemAggregate: {
+            total: number;
+            by_status: {
+                open: number;
+                active: number;
+                closed: number;
             };
-            related_target?: {
-                target_resource_key: string;
-                /** @default primary */
-                target_role: string;
-                target_id: string;
-            } | null;
+        };
+        WorkItemAggregateResponse: {
+            data: components["schemas"]["WorkItemAggregate"];
+            meta: {
+                request_id: string;
+                target_scope: components["schemas"]["TargetScope"];
+            };
+        };
+        WorkItemResponse: {
+            data: components["schemas"]["WorkItem"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        UpdateWorkItemRequest: {
+            target: components["schemas"]["Target"];
+            related_target?: components["schemas"]["Target"] | null;
             title?: string;
             /** @enum {unknown} */
             status?: "open" | "active" | "closed";
-        } | unknown | unknown;
+        };
+        ReferenceCandidate: {
+            id: components["schemas"]["BigIntString"];
+            code: string;
+            name: string;
+            /** @enum {unknown} */
+            owner_type: "deployment" | "tenant";
+            owner_tenant_id: components["schemas"]["BigIntString"] | null;
+            /** @constant */
+            status: "active";
+        };
+        ReferenceCandidateListResponse: {
+            data: components["schemas"]["ReferenceCandidate"][];
+            meta: {
+                request_id: string;
+                total: number;
+            };
+        };
+        TargetSet: {
+            target_resource_key: string;
+            /** @default primary */
+            target_role: string;
+            target_ids: string[];
+        };
         PublishWorkItemPolicyRequest: {
             name: string;
             config: {
                 [key: string]: unknown;
             };
-            targets: {
-                target_resource_key: string;
-                /** @default primary */
-                target_role: string;
-                target_ids: string[];
-            }[];
+            targets: components["schemas"]["TargetSet"][];
+        };
+        WorkItemPolicyPublication: {
+            policy_id: components["schemas"]["BigIntString"];
+            target_id: components["schemas"]["BigIntString"];
+            target_label: string;
+            /** @constant */
+            status: "published";
+            message: string;
+        };
+        WorkItemPolicyPublicationResponse: {
+            data: components["schemas"]["WorkItemPolicyPublication"][];
+            meta: {
+                request_id: string;
+                policy_id: components["schemas"]["BigIntString"];
+                revision: components["schemas"]["BigIntString"];
+            };
+        };
+        PlatformLoginRequest: {
+            /** Format: email */
+            email: string;
+            password: string;
+        };
+        PlatformContext: {
+            /** @constant */
+            audience: "platform";
+            account_id: components["schemas"]["BigIntString"];
+            platform_operator_id: components["schemas"]["BigIntString"];
+        };
+        PlatformAuthentication: {
+            /** @constant */
+            state: "authenticated";
+            access_token: string;
+            /** @constant */
+            token_type: "Bearer";
+            expires_in: number;
+            context: components["schemas"]["PlatformContext"];
+        };
+        PlatformAuthenticationResponse: {
+            data: components["schemas"]["PlatformAuthentication"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        PlatformContextResponse: {
+            data: components["schemas"]["PlatformContext"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        TenantListResponse: {
+            data: components["schemas"]["Tenant"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        CreatePlatformTenantRequest: {
+            code: string;
+            name: string;
+            display_name?: string | null;
+            locale?: string;
+            timezone?: string;
+        };
+        UpdatePlatformTenantRequest: {
+            name: string;
+            display_name: string | null;
+            locale: string;
+            timezone: string;
+            change_reason: string;
         };
         CreateTenantOwnerCandidateRequest: {
             /** Format: email */
@@ -1295,31 +1644,759 @@ export interface components {
             /** @description Required only for a new account and never returned or audited. */
             initial_password?: string;
         };
+        TenantOwnerCandidate: {
+            tenant_id: string;
+            member: components["schemas"]["Member"];
+        };
+        TenantOwnerCandidateResponse: {
+            data: components["schemas"]["TenantOwnerCandidate"];
+            meta: components["schemas"]["RequestMeta"];
+        };
         ActivateTenantOwnerCandidateRequest: {
             change_reason: string;
+        };
+        ChangeReasonRequest: {
+            change_reason: string;
+        };
+        EnableTenantModuleRequest: {
+            /** @constant */
+            status: "enabled";
+            /** @constant */
+            source: "manual";
+            config: {
+                [key: string]: unknown;
+            };
+            /** Format: date-time */
+            effective_at?: string | null;
+            /** Format: date-time */
+            expires_at?: string | null;
+            change_reason: string;
+        };
+        PlatformOperator: {
+            id: components["schemas"]["BigIntString"];
+            account_id: components["schemas"]["BigIntString"];
+            display_name: string | null;
+            /** Format: email */
+            email: string | null;
+            /** @enum {unknown} */
+            status: "active" | "suspended" | "closed";
+            security_revision: components["schemas"]["BigIntString"];
+            role_keys: string[];
+            suspended_at?: string | null;
+            closed_at?: string | null;
+            created_at: string;
+            updated_at: string;
+        };
+        PlatformOperatorListResponse: {
+            data: components["schemas"]["PlatformOperator"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        CreatePlatformOperatorRequest: {
+            /** Format: email */
+            email: string;
+            display_name: string;
+            initial_password?: string;
+        };
+        PlatformOperatorResponse: {
+            data: components["schemas"]["PlatformOperator"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        UpdatePlatformOperatorRequest: {
+            display_name: string;
+            change_reason: string;
+        };
+        ReplacePlatformOperatorRolesRequest: {
+            role_ids: components["schemas"]["BigIntString"][];
+            change_reason: string;
+        };
+        PlatformRole: {
+            id: components["schemas"]["BigIntString"];
+            key: string;
+            name: string;
+            description: string | null;
+            is_builtin: boolean;
+            /** @enum {unknown} */
+            status: "active" | "disabled" | "archived";
+            revision: components["schemas"]["BigIntString"];
+            permission_count?: number;
+            permission_keys?: string[];
+            archived_at?: string | null;
+            created_at: string;
+            updated_at: string;
+        };
+        PlatformRoleListResponse: {
+            data: components["schemas"]["PlatformRole"][];
+            meta: components["schemas"]["PageMeta"];
+        };
+        CreatePlatformRoleRequest: {
+            key: string;
+            name: string;
+            description?: string | null;
+        };
+        PlatformRoleResponse: {
+            data: components["schemas"]["PlatformRole"];
+            meta: components["schemas"]["RequestMeta"];
+        };
+        UpdatePlatformRoleRequest: {
+            name: string;
+            description?: string | null;
+            change_reason: string;
+        };
+        ReplacePlatformRolePermissionsRequest: {
+            permission_keys: string[];
+            change_reason: string;
+        };
+        PlatformAuditEvent: {
+            id: components["schemas"]["BigIntString"];
+            event_type: string;
+            action: string;
+            outcome: string;
+            reason_code?: string | null;
+            operator_id?: string | null;
+            account_id?: string | null;
+            operator_label: string;
+            target_type: string | null;
+            target_id: string | null;
+            target_tenant_id?: string | null;
+            request_id: string;
+            operation_id?: string | null;
+            created_at: string;
+        };
+        PlatformAuditListResponse: {
+            data: components["schemas"]["PlatformAuditEvent"][];
+            meta: components["schemas"]["PageMeta"];
         };
     };
     responses: {
         /** @description RFC 9457 problem response */
         Problem: {
             headers: {
+                "X-Request-Id"?: string;
+                "Cache-Control"?: "no-store";
                 [name: string]: unknown;
             };
             content: {
-                "application/problem+json": {
-                    type: string;
-                    title: string;
-                    status: number;
-                    detail: string;
-                    instance: string;
-                    code: string;
-                    request_id: string;
-                    errors?: {
-                        pointer: string;
-                        code: string;
-                        message: string;
-                    }[];
-                };
+                "application/problem+json": components["schemas"]["Problem"];
+            };
+        };
+        /** @description RFC 9457 rate limit problem response */
+        RateLimitedProblem: {
+            headers: {
+                "X-Request-Id"?: string;
+                "Cache-Control"?: "no-store";
+                "Retry-After"?: number;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/problem+json": components["schemas"]["Problem"];
+            };
+        };
+        /** @description Authentication completed or tenant selection is required. */
+        TenantLoginOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantLoginResponse"];
+            };
+        };
+        /** @description Tenant session authenticated. */
+        TenantAuthenticatedOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description HttpOnly refresh credential cookie. */
+                "Set-Cookie"?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantAuthenticationResponse"];
+            };
+        };
+        /** @description Current tenant access context. */
+        TenantContextOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantContextResponse"];
+            };
+        };
+        /** @description A fresh tenant selection challenge. */
+        TenantSelectionOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantSelectionResponse"];
+            };
+        };
+        /** @description Tenant resource. */
+        TenantOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantResponse"];
+            };
+        };
+        /** @description Member page. */
+        MemberListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["MemberListResponse"];
+            };
+        };
+        /** @description Member created in pending state. */
+        MemberCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["MemberResponse"];
+            };
+        };
+        /** @description Member resource. */
+        MemberOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["MemberResponse"];
+            };
+        };
+        /** @description Department page. */
+        DepartmentListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DepartmentListResponse"];
+            };
+        };
+        /** @description Department created. */
+        DepartmentCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DepartmentResponse"];
+            };
+        };
+        /** @description Department resource. */
+        DepartmentOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DepartmentResponse"];
+            };
+        };
+        /** @description Role page. */
+        RoleListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["RoleListResponse"];
+            };
+        };
+        /** @description Role created. */
+        RoleCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["RoleResponse"];
+            };
+        };
+        /** @description Role resource. */
+        RoleOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["RoleResponse"];
+            };
+        };
+        /** @description Role data policy. */
+        DataPolicyOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["DataPolicyResponse"];
+            };
+        };
+        /** @description Permission catalog. */
+        PermissionListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PermissionListResponse"];
+            };
+        };
+        /** @description Tenant module catalog. */
+        TenantModuleListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantModuleListResponse"];
+            };
+        };
+        /** @description Tenant module state. */
+        TenantModuleOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantModuleResponse"];
+            };
+        };
+        /** @description Tenant audit event page. */
+        TenantAuditListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantAuditListResponse"];
+            };
+        };
+        /** @description Visible menu tree. */
+        MenuListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["MenuListResponse"];
+            };
+        };
+        /** @description Authorized target candidate page. */
+        TargetCandidateListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TargetCandidateListResponse"];
+            };
+        };
+        /** @description Authorized multi-target work item page. */
+        WorkItemListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["WorkItemListResponse"];
+            };
+        };
+        /** @description Work item created. */
+        WorkItemCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["WorkItemCommandResponse"];
+            };
+        };
+        /** @description Authorized work item aggregate. */
+        WorkItemAggregateOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["WorkItemAggregateResponse"];
+            };
+        };
+        /** @description Work item resource. */
+        WorkItemOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["WorkItemResponse"];
+            };
+        };
+        /** @description Work item updated. */
+        WorkItemUpdated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["WorkItemCommandResponse"];
+            };
+        };
+        /** @description Shared reference candidates available to the selected target. */
+        ReferenceCandidateListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ReferenceCandidateListResponse"];
+            };
+        };
+        /** @description Work item view policy published. */
+        WorkItemPolicyPublished: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["WorkItemPolicyPublicationResponse"];
+            };
+        };
+        /** @description Platform session authenticated. */
+        PlatformAuthenticatedOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description HttpOnly refresh credential cookie. */
+                "Set-Cookie"?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformAuthenticationResponse"];
+            };
+        };
+        /** @description Current platform access context. */
+        PlatformContextOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformContextResponse"];
+            };
+        };
+        /** @description Tenant page. */
+        TenantListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantListResponse"];
+            };
+        };
+        /** @description Tenant created. */
+        TenantCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantResponse"];
+            };
+        };
+        /** @description Tenant resource updated. */
+        TenantVersionedOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantResponse"];
+            };
+        };
+        /** @description Tenant owner candidate created. */
+        TenantOwnerCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantOwnerCandidateResponse"];
+            };
+        };
+        /** @description Tenant owner candidate activated. */
+        TenantOwnerOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["TenantOwnerCandidateResponse"];
+            };
+        };
+        /** @description Platform operator page. */
+        PlatformOperatorListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformOperatorListResponse"];
+            };
+        };
+        /** @description Platform operator created. */
+        PlatformOperatorCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformOperatorResponse"];
+            };
+        };
+        /** @description Platform operator resource. */
+        PlatformOperatorOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformOperatorResponse"];
+            };
+        };
+        /** @description Platform role page. */
+        PlatformRoleListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformRoleListResponse"];
+            };
+        };
+        /** @description Platform role created. */
+        PlatformRoleCreated: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                /** @description Canonical resource URL. */
+                Location?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformRoleResponse"];
+            };
+        };
+        /** @description Platform role resource. */
+        PlatformRoleOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                /** @description Current resource revision. */
+                ETag?: string;
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformRoleResponse"];
+            };
+        };
+        /** @description Platform audit event page. */
+        PlatformAuditListOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["PlatformAuditListResponse"];
             };
         };
     };
@@ -1329,51 +2406,26 @@ export interface components {
         IfMatch: string;
         IfMatchOptional: string;
         IdempotencyKey: string;
-        TenantId: string;
-        MemberId: string;
-        DepartmentId: string;
-        RoleId: string;
-        OperatorId: string;
+        TenantId: components["schemas"]["BigIntString"];
+        MemberId: components["schemas"]["BigIntString"];
+        DepartmentId: components["schemas"]["BigIntString"];
+        RoleId: components["schemas"]["BigIntString"];
+        OperatorId: components["schemas"]["BigIntString"];
         ModuleKey: string;
     };
     requestBodies: {
-        GenericWrite: {
+        ModuleConfigWrite: {
             content: {
                 "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
+                    config: {
+                        [key: string]: unknown;
+                    };
                 };
+            };
+        };
+        DataPolicyWrite: {
+            content: {
+                "application/json": components["schemas"]["ReplaceDataPolicyRequest"];
             };
         };
     };
@@ -1391,129 +2443,132 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email: string;
-                    password: string;
-                    tenant_code?: string | null;
-                };
+                "application/json": components["schemas"]["TenantLoginRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Authentication completed or tenant selection is required. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantLoginResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -1527,127 +2582,134 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    challenge_token: string;
-                    tenant_id: string;
-                };
+                "application/json": components["schemas"]["SelectTenantRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant session authenticated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description HttpOnly refresh credential cookie. */
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantAuthenticationResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -1661,120 +2723,130 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Tenant session authenticated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description HttpOnly refresh credential cookie. */
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantAuthenticationResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -1788,150 +2860,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Current tenant access context. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantContextResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -1945,120 +2962,128 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description A fresh tenant selection challenge. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantSelectionResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2075,6 +3100,9 @@ export interface operations {
             /** @description Session revoked */
             204: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content?: never;
@@ -2082,23 +3110,79 @@ export interface operations {
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2115,6 +3199,9 @@ export interface operations {
             /** @description Sessions revoked */
             204: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content?: never;
@@ -2122,23 +3209,79 @@ export interface operations {
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2152,150 +3295,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Tenant resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2303,8 +3391,8 @@ export interface operations {
     listMembers: {
         parameters: {
             query?: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -2312,150 +3400,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Member page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2469,130 +3502,136 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email: string;
-                    display_name: string;
-                    /** @description Required only when the exact email does not already identify an account. */
-                    initial_password?: string;
-                };
+                "application/json": components["schemas"]["CreateMemberRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Member created in pending state. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2602,156 +3641,136 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Member resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2760,136 +3779,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    display_name?: string | null;
-                    primary_department_id?: string | null;
-                };
+                "application/json": components["schemas"]["UpdateMemberRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Member resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -2898,135 +3924,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    role_ids: string[];
-                };
+                "application/json": components["schemas"]["ReplaceMemberRolesRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Member resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -3035,129 +4069,139 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Member resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -3166,129 +4210,139 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Member resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -3297,286 +4351,244 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                member_id: string;
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Member resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MemberResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
     };
     listDepartments: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Department page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DepartmentListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -3590,130 +4602,136 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    code: string;
-                    name: string;
-                    parent_id?: string | null;
-                    /** @default 0 */
-                    sort_order?: number;
-                };
+                "application/json": components["schemas"]["WriteDepartmentRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Department created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DepartmentResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -3723,156 +4741,136 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Department resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DepartmentResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -3881,139 +4879,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    code: string;
-                    name: string;
-                    parent_id?: string | null;
-                    /** @default 0 */
-                    sort_order?: number;
-                };
+                "application/json": components["schemas"]["WriteDepartmentRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Department resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DepartmentResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -4022,135 +5024,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    parent_id: string | null;
-                };
+                "application/json": components["schemas"]["MoveDepartmentRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Department resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DepartmentResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -4159,286 +5169,244 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                department_id: string;
+                department_id: components["parameters"]["DepartmentId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Department resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DepartmentResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
     };
     listRoles: {
         parameters: {
-            query?: never;
+            query?: {
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Role page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["RoleListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -4452,128 +5420,136 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    key: string;
-                    name: string;
-                    description?: string | null;
-                };
+                "application/json": components["schemas"]["CreateRoleRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Role created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["RoleResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -4583,156 +5559,136 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["RoleResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -4741,136 +5697,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    name: string;
-                    description?: string | null;
-                };
+                "application/json": components["schemas"]["UpdateRoleRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["RoleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -4879,129 +5842,139 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["RoleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5010,135 +5983,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    permission_keys: string[];
-                };
+                "application/json": components["schemas"]["ReplaceRolePermissionsRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["RoleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5148,7 +6129,7 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
                 resource_key: string;
                 operation: string;
             };
@@ -5156,150 +6137,130 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Role data policy. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DataPolicyResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5308,169 +6269,141 @@ export interface operations {
         parameters: {
             query?: never;
             header?: {
-                "If-Match"?: string;
+                "If-Match"?: components["parameters"]["IfMatchOptional"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
                 resource_key: string;
                 operation: string;
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
-            };
-        };
+        requestBody: components["requestBodies"]["DataPolicyWrite"];
         responses: {
-            /** @description Successful command */
+            /** @description Role data policy. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["DataPolicyResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5484,150 +6417,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Permission catalog. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PermissionListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5641,150 +6519,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Tenant module catalog. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantModuleListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5793,167 +6616,139 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                module_key: string;
+                module_key: components["parameters"]["ModuleKey"];
             };
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
-            };
-        };
+        requestBody: components["requestBodies"]["ModuleConfigWrite"];
         responses: {
-            /** @description Successful command */
+            /** @description Tenant module state. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantModuleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -5961,8 +6756,8 @@ export interface operations {
     listTenantAuditEvents: {
         parameters: {
             query?: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -5970,150 +6765,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Tenant audit event page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantAuditListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6127,150 +6867,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Visible menu tree. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MenuListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6283,8 +6968,9 @@ export interface operations {
                 target_resource_key: string;
                 target_role: string;
                 mode?: "runtime" | "policy-config";
-                page?: number;
-                page_size?: number;
+                q?: string;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -6292,150 +6978,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Authorized target candidate page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TargetCandidateListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6443,8 +7074,8 @@ export interface operations {
     listExampleWorkItems: {
         parameters: {
             query: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
                 target_resource_key: string;
                 target_role: string;
                 target_id: string[];
@@ -6457,65 +7088,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Authorized multi-target work items */
+            /** @description Authorized multi-target work item page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: {
-                            id: string;
-                            project_id: string;
-                            queue_id?: string | null;
-                            reference_item_id: string;
-                            title: string;
-                            /** @enum {unknown} */
-                            status: "open" | "active" | "closed";
-                            revision: string;
-                            boundary_target?: {
-                                target_resource_key: string;
-                                target_role: string;
-                                target_id: string;
-                                label: string;
-                            };
-                        }[];
-                        meta: {
-                            request_id: string;
-                            page: number;
-                            page_size: number;
-                            total: number;
-                            total_pages: number;
-                            target_scope?: {
-                                /** @enum {unknown} */
-                                mode: "none" | "single" | "multiple" | "aggregate";
-                                target_count: number;
-                                digest: string;
-                            };
-                        };
-                    };
+                    "application/json": components["schemas"]["WorkItemListResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6524,146 +7185,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    target: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_id: string;
-                    };
-                    related_target?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_id: string;
-                    } | null;
-                    reference_item_id: string;
-                    title: string;
-                };
+                "application/json": components["schemas"]["CreateWorkItemRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Work item created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["WorkItemCommandResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6681,150 +7339,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Authorized work item aggregate. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["WorkItemAggregateResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6834,156 +7437,103 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                work_item_id: string;
+                work_item_id: components["schemas"]["BigIntString"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Work item resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["WorkItemResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -6992,150 +7542,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                work_item_id: string;
+                work_item_id: components["schemas"]["BigIntString"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    target: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_id: string;
-                    };
-                    related_target?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_id: string;
-                    } | null;
-                    title?: string;
-                    /** @enum {unknown} */
-                    status?: "open" | "active" | "closed";
-                } | unknown | unknown;
+                "application/json": components["schemas"]["UpdateWorkItemRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Work item updated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["WorkItemCommandResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7154,150 +7698,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Shared reference candidates available to the selected target. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["ReferenceCandidateListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7306,142 +7795,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    name: string;
-                    config: {
-                        [key: string]: unknown;
-                    };
-                    targets: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["PublishWorkItemPolicyRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Work item view policy published. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["WorkItemPolicyPublicationResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7455,158 +7945,134 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["PlatformLoginRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform session authenticated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description HttpOnly refresh credential cookie. */
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformAuthenticationResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7620,120 +8086,130 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful command */
+            /** @description Platform session authenticated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description HttpOnly refresh credential cookie. */
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformAuthenticationResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7747,150 +8223,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Current platform access context. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformContextResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7907,6 +8328,9 @@ export interface operations {
             /** @description Session revoked */
             204: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Set-Cookie"?: string;
                     [name: string]: unknown;
                 };
                 content?: never;
@@ -7914,23 +8338,79 @@ export interface operations {
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -7938,8 +8418,8 @@ export interface operations {
     listPlatformTenants: {
         parameters: {
             query?: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -7947,150 +8427,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Tenant page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -8099,165 +8524,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["CreatePlatformTenantRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Tenant created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -8267,156 +8670,136 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Tenant resource updated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -8425,167 +8808,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["UpdatePlatformTenantRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant resource updated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -8595,136 +8954,142 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email: string;
-                    display_name: string;
-                    /** @description Required only for a new account and never returned or audited. */
-                    initial_password?: string;
-                };
+                "application/json": components["schemas"]["CreateTenantOwnerCandidateRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Tenant owner candidate created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantOwnerCandidateResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -8733,137 +9098,145 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                tenant_id: string;
-                member_id: string;
+                tenant_id: components["parameters"]["TenantId"];
+                member_id: components["parameters"]["MemberId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    change_reason: string;
-                };
+                "application/json": components["schemas"]["ActivateTenantOwnerCandidateRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant owner candidate activated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantOwnerCandidateResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -8872,168 +9245,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant resource updated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -9042,168 +9391,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant resource updated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -9212,168 +9537,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                tenant_id: string;
+                tenant_id: components["parameters"]["TenantId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant resource updated. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -9382,168 +9683,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                tenant_id: string;
-                module_key: string;
+                tenant_id: components["parameters"]["TenantId"];
+                module_key: components["parameters"]["ModuleKey"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["EnableTenantModuleRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant module state. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantModuleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -9552,168 +9829,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                tenant_id: string;
-                module_key: string;
+                tenant_id: components["parameters"]["TenantId"];
+                module_key: components["parameters"]["ModuleKey"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Tenant module state. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["TenantModuleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -9721,8 +9974,8 @@ export interface operations {
     listPlatformOperators: {
         parameters: {
             query?: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -9730,150 +9983,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Platform operator page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -9882,165 +10080,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["CreatePlatformOperatorRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Platform operator created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -10050,156 +10226,136 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Platform operator resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -10208,167 +10364,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["UpdatePlatformOperatorRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform operator resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -10377,167 +10509,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ReplacePlatformOperatorRolesRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform operator resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -10546,168 +10654,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform operator resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -10716,168 +10800,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform operator resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -10886,168 +10946,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                operator_id: string;
+                operator_id: components["parameters"]["OperatorId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform operator resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformOperatorResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -11055,8 +11091,8 @@ export interface operations {
     listPlatformRoles: {
         parameters: {
             query?: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -11064,150 +11100,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Platform role page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformRoleListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -11216,165 +11197,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "Idempotency-Key": string;
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["CreatePlatformRoleRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
-                };
-            };
-            /** @description Resource created */
+            /** @description Platform role created. */
             201: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
+                    /** @description Canonical resource URL. */
+                    Location?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformRoleResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -11384,156 +11343,136 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Platform role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformRoleResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            409: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            412: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -11542,167 +11481,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["UpdatePlatformRoleRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformRoleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -11711,168 +11626,144 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
-                "Idempotency-Key": string;
+                "If-Match": components["parameters"]["IfMatch"];
+                "Idempotency-Key": components["parameters"]["IdempotencyKey"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ChangeReasonRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformRoleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -11881,167 +11772,143 @@ export interface operations {
         parameters: {
             query?: never;
             header: {
-                "If-Match": string;
+                "If-Match": components["parameters"]["IfMatch"];
             };
             path: {
-                role_id: string;
+                role_id: components["parameters"]["RoleId"];
             };
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": {
-                    /** Format: email */
-                    email?: string;
-                    password?: string;
-                    tenant_code?: string | null;
-                    challenge_token?: string;
-                    display_name?: string | null;
-                    initial_password?: string;
-                    code?: string;
-                    name?: string;
-                    description?: string | null;
-                    locale?: string;
-                    timezone?: string;
-                    parent_id?: string | null;
-                    primary_department_id?: string | null;
-                    sort_order?: number;
-                    role_ids?: string[];
-                    permission_keys?: string[];
-                    status?: string;
-                    source?: string;
-                    config?: Record<string, never>;
-                    /** Format: date-time */
-                    effective_at?: string | null;
-                    /** Format: date-time */
-                    expires_at?: string | null;
-                    change_reason?: string;
-                    reason?: string;
-                    groups?: Record<string, never>[];
-                    targets?: {
-                        target_resource_key: string;
-                        /** @default primary */
-                        target_role: string;
-                        target_ids: string[];
-                    }[];
-                };
+                "application/json": components["schemas"]["ReplacePlatformRolePermissionsRequest"];
             };
         };
         responses: {
-            /** @description Successful command */
+            /** @description Platform role resource. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    /** @description Current resource revision. */
+                    ETag?: string;
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformRoleResponse"];
                 };
             };
-            /** @description Resource created */
-            201: {
+            /** @description RFC 9457 problem response */
+            401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             409: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             412: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             428: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -12055,150 +11922,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Permission catalog. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PermissionListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -12206,8 +12018,8 @@ export interface operations {
     listPlatformAuditEvents: {
         parameters: {
             query?: {
-                page?: number;
-                page_size?: number;
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
             };
             header?: never;
             path?: never;
@@ -12215,150 +12027,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Platform audit event page. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["PlatformAuditListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
@@ -12372,150 +12129,95 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Successful response */
+            /** @description Visible menu tree. */
             200: {
                 headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        data: unknown;
-                        meta: {
-                            request_id: string;
-                        };
-                    };
+                    "application/json": components["schemas"]["MenuListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
             401: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             403: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             404: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             422: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
-            429: {
+            500: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
             /** @description RFC 9457 problem response */
             503: {
                 headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/problem+json": {
-                        type: string;
-                        title: string;
-                        status: number;
-                        detail: string;
-                        instance: string;
-                        code: string;
-                        request_id: string;
-                        errors?: {
-                            pointer: string;
-                            code: string;
-                            message: string;
-                        }[];
-                    };
+                    "application/problem+json": components["schemas"]["Problem"];
                 };
             };
         };
