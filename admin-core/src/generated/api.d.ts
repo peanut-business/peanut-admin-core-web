@@ -1157,8 +1157,35 @@ export interface components {
             data: components["schemas"]["TenantAuthentication"];
             meta: components["schemas"]["RequestMeta"];
         };
+        ContextAccount: {
+            id: components["schemas"]["BigIntString"];
+            display_name: string;
+            avatar_uri: string | null;
+        };
+        ContextTenant: {
+            id: components["schemas"]["BigIntString"];
+            code: string;
+            display_name: string;
+            timezone: string;
+        };
+        ContextMember: {
+            id: components["schemas"]["BigIntString"];
+            display_name: string;
+            primary_department_id: string | null;
+            role_ids: components["schemas"]["BigIntString"][];
+        };
+        TenantContextView: {
+            /** @constant */
+            audience: "tenant";
+            account: components["schemas"]["ContextAccount"];
+            tenant: components["schemas"]["ContextTenant"];
+            member: components["schemas"]["ContextMember"];
+            module_keys: string[];
+            permission_keys: string[];
+            authorization_revision: components["schemas"]["BigIntString"];
+        };
         TenantContextResponse: {
-            data: components["schemas"]["TenantContext"];
+            data: components["schemas"]["TenantContextView"];
             meta: components["schemas"]["RequestMeta"];
         };
         TenantSelectionResponse: {
@@ -1615,8 +1642,20 @@ export interface components {
             data: components["schemas"]["PlatformAuthentication"];
             meta: components["schemas"]["RequestMeta"];
         };
+        PlatformContextOperator: {
+            id: components["schemas"]["BigIntString"];
+            display_name: string;
+        };
+        PlatformContextView: {
+            /** @constant */
+            audience: "platform";
+            account: components["schemas"]["ContextAccount"];
+            operator: components["schemas"]["PlatformContextOperator"];
+            permission_keys: string[];
+            authorization_revision: string;
+        };
         PlatformContextResponse: {
-            data: components["schemas"]["PlatformContext"];
+            data: components["schemas"]["PlatformContextView"];
             meta: components["schemas"]["RequestMeta"];
         };
         TenantListResponse: {
