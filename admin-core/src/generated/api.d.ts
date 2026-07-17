@@ -1298,6 +1298,7 @@ export interface components {
         Page: number;
         PageSize: number;
         IfMatch: string;
+        IfMatchOptional: string;
         IdempotencyKey: string;
         TenantId: string;
         MemberId: string;
@@ -5277,7 +5278,9 @@ export interface operations {
     replaceRoleDataPolicy: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "If-Match"?: string;
+            };
             path: {
                 role_id: string;
                 resource_key: string;
