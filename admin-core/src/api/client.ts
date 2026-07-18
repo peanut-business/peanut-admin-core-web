@@ -2,6 +2,8 @@ import createClient from 'openapi-fetch'
 import type { Client } from 'openapi-fetch'
 
 import type { paths } from '../generated/api'
+import { createBrowserRefreshCoordinator } from './refresh'
+import type { RefreshCoordinator } from './refresh'
 
 export type ApiAudience = 'tenant' | 'platform'
 
@@ -9,7 +11,10 @@ export interface AudienceApiClientOptions {
   baseUrl?: string
   fetch?: (request: Request) => Promise<Response>
   getAccessToken: () => string | null
+  setAccessToken: (token: string) => void
   refresh: () => Promise<string | null>
+  refreshScope: string
+  refreshCoordinator?: RefreshCoordinator
   createRequestId?: () => string
 }
 
@@ -54,41 +59,41 @@ const withSecurityHeaders = (
   return new Request(request, { headers, credentials: 'include' })
 }
 
-const createAudienceClient = (
-  audience: ApiAudience,
-  options: AudienceApiClientOptions,
-): AudienceApiClient => {
+export interface ProtectedFetchOptions extends AudienceApiClientOptions {
+  isAllowedPath: (pathname: string) => boolean
+  isCredentialExchange?: (pathname: string) => boolean
+}
+
+const defaultRefreshCoordinator = createBrowserRefreshCoordinator()
+
+export const createProtectedFetch = (options: ProtectedFetchOptions): ((request: Request) => Promise<Response>) => {
   const fetcher = options.fetch ?? globalThis.fetch.bind(globalThis)
   const createRequestId = options.createRequestId ?? requestId
-  let refreshPromise: Promise<string | null> | null = null
+  const refreshCoordinator = options.refreshCoordinator ?? defaultRefreshCoordinator
+  const credentialExchange = options.isCredentialExchange ?? isCredentialExchange
 
   const refreshOnce = async (failedToken: string | null): Promise<string | null> => {
-    const currentToken = options.getAccessToken()
-    if (currentToken !== null && currentToken !== failedToken) {
-      return currentToken
-    }
-    if (refreshPromise === null) {
-      refreshPromise = Promise.resolve()
-        .then(options.refresh)
-        .finally(() => {
-          refreshPromise = null
-        })
-    }
-
-    return refreshPromise
+    const token = await refreshCoordinator.coordinate({
+      scope: options.refreshScope,
+      failedToken,
+      getAccessToken: options.getAccessToken,
+      refresh: options.refresh,
+    })
+    if (token !== null && token !== '') options.setAccessToken(token)
+    return token
   }
 
-  const securedFetch = async (input: Request): Promise<Response> => {
+  return async (input: Request): Promise<Response> => {
     const url = new URL(input.url)
-    if (!isAudiencePath(audience, url.pathname)) {
-      throw new Error(`API_AUDIENCE_MISMATCH: ${audience} client cannot request ${url.pathname}`)
+    if (!options.isAllowedPath(url.pathname)) {
+      throw new Error(`API_AUDIENCE_MISMATCH: protected client cannot request ${url.pathname}`)
     }
 
     const failedToken = options.getAccessToken()
     const firstRequest = withSecurityHeaders(input, failedToken, createRequestId)
     const retrySource = firstRequest.clone()
     const response = await fetcher(firstRequest)
-    if (response.status !== 401 || isCredentialExchange(url.pathname)) {
+    if (response.status !== 401 || credentialExchange(url.pathname)) {
       return response
     }
 
@@ -99,6 +104,16 @@ const createAudienceClient = (
 
     return fetcher(withSecurityHeaders(retrySource, refreshedToken, createRequestId))
   }
+}
+
+const createAudienceClient = (
+  audience: ApiAudience,
+  options: AudienceApiClientOptions,
+): AudienceApiClient => {
+  const securedFetch = createProtectedFetch({
+    ...options,
+    isAllowedPath: pathname => isAudiencePath(audience, pathname),
+  })
 
   return createClient<paths>({
     baseUrl: options.baseUrl ?? '',

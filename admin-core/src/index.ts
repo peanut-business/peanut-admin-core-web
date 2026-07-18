@@ -1,8 +1,15 @@
 export const ADMIN_CORE_PACKAGE = '@peanut-admin/admin-core' as const
 export const ADMIN_CORE_VERSION = '0.1.0' as const
 
-export { createPlatformApiClient, createTenantApiClient } from './api/client'
-export type { ApiAudience, AudienceApiClient, AudienceApiClientOptions } from './api/client'
+export { createPlatformApiClient, createProtectedFetch, createTenantApiClient } from './api/client'
+export type {
+  ApiAudience,
+  AudienceApiClient,
+  AudienceApiClientOptions,
+  ProtectedFetchOptions,
+} from './api/client'
+export { createBrowserRefreshCoordinator, createMemoryRefreshCoordinator } from './api/refresh'
+export type { RefreshAttempt, RefreshCoordinator } from './api/refresh'
 export { isProblemCode, parseProblemDetails } from './api/problem'
 export type { ProblemDetails, ProblemFieldError } from './api/problem'
 export { hasAllPermissions, hasPermission, useAccess } from './access/access'
