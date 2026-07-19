@@ -232,6 +232,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/members/{member_id}/effective-access": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Canonical positive decimal member ID no greater than the server PHP_INT_MAX value. */
+                member_id: components["parameters"]["EffectiveAccessMemberId"];
+            };
+            cookie?: never;
+        };
+        /** getMemberEffectiveAccess */
+        get: operations["getMemberEffectiveAccess"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/members/{member_id}/activate": {
         parameters: {
             query?: never;
@@ -1335,6 +1355,70 @@ export interface components {
         ReplaceMemberRolesRequest: {
             role_ids: string[];
         };
+        EffectiveAccessMember: {
+            id: components["schemas"]["BigIntString"];
+            display_name: string | null;
+            /** @enum {unknown} */
+            status: "pending" | "active" | "suspended" | "left";
+            primary_department_id: components["schemas"]["BigIntString"] | null;
+            effective: boolean;
+        };
+        EffectiveAccessRole: {
+            id: components["schemas"]["BigIntString"];
+            key: string;
+            name: string;
+            is_builtin: boolean;
+        };
+        EffectiveAccessCondition: {
+            condition_key: string;
+            target_resource_key: string | null;
+            target_count: number;
+        };
+        EffectiveAccessGroup: {
+            source_role_key: string;
+            /** @constant */
+            condition_match: "all";
+            conditions: components["schemas"]["EffectiveAccessCondition"][];
+        };
+        EffectiveDataAccess: {
+            /** @enum {unknown} */
+            mode: "functional_denied" | "tenant_wide" | "global_reference_read" | "conditional" | "no_effective_policy" | "tenant_actor_denied";
+            runtime_decision_required: boolean;
+            /** @constant */
+            group_match: "any";
+            groups: components["schemas"]["EffectiveAccessGroup"][];
+        };
+        EffectiveResourceOperation: {
+            resource_key: string;
+            module_key: string;
+            operation: string;
+            /** @enum {unknown} */
+            ownership: "tenant_owned" | "business_target_owned" | "shared_master" | "global_reference" | "platform_internal";
+            /** @enum {unknown} */
+            access_mode: "tenant_wide" | "rule_filtered" | "explicit_targets" | "global_reference_read" | "system_internal";
+            /** @enum {unknown} */
+            target_cardinality: "none" | "one_required" | "zero_or_one" | "many_readable" | "aggregate_read" | "policy_publish" | "bulk_write";
+            /** @enum {unknown} */
+            permission_match: "all" | "any";
+            required_permission_keys: string[];
+            functional_allowed: boolean;
+            data_access: components["schemas"]["EffectiveDataAccess"];
+        };
+        MemberEffectiveAccess: {
+            /** @constant */
+            preview_kind: "authorization_inputs";
+            /** Format: date-time */
+            evaluated_at: string;
+            snapshot_revision: string;
+            member: components["schemas"]["EffectiveAccessMember"];
+            roles: components["schemas"]["EffectiveAccessRole"][];
+            permission_keys: string[];
+            resource_operations: components["schemas"]["EffectiveResourceOperation"][];
+        };
+        MemberEffectiveAccessResponse: {
+            data: components["schemas"]["MemberEffectiveAccess"];
+            meta: components["schemas"]["PageMeta"];
+        };
         Department: {
             id: string;
             parent_id?: string | null;
@@ -2013,6 +2097,19 @@ export interface components {
                 "application/json": components["schemas"]["MemberResponse"];
             };
         };
+        /** @description Current effective authorization inputs for one tenant member. */
+        MemberEffectiveAccessOk: {
+            headers: {
+                /** @description Request correlation identifier. */
+                "X-Request-Id"?: string;
+                /** @description Sensitive API responses are not cached. */
+                "Cache-Control"?: "no-store";
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["MemberEffectiveAccessResponse"];
+            };
+        };
         /** @description Department page. */
         DepartmentListOk: {
             headers: {
@@ -2518,6 +2615,8 @@ export interface components {
         IdempotencyKey: string;
         TenantId: components["schemas"]["BigIntString"];
         MemberId: components["schemas"]["BigIntString"];
+        /** @description Canonical positive decimal member ID no greater than the server PHP_INT_MAX value. */
+        EffectiveAccessMemberId: string;
         DepartmentId: components["schemas"]["BigIntString"];
         RoleId: components["schemas"]["BigIntString"];
         OperatorId: components["schemas"]["BigIntString"];
@@ -4570,6 +4669,91 @@ export interface operations {
             };
             /** @description RFC 9457 problem response */
             503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
+    getMemberEffectiveAccess: {
+        parameters: {
+            query?: {
+                page?: components["parameters"]["Page"];
+                page_size?: components["parameters"]["PageSize"];
+            };
+            header?: never;
+            path: {
+                /** @description Canonical positive decimal member ID no greater than the server PHP_INT_MAX value. */
+                member_id: components["parameters"]["EffectiveAccessMemberId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Current effective authorization inputs for one tenant member. */
+            200: {
+                headers: {
+                    /** @description Request correlation identifier. */
+                    "X-Request-Id"?: string;
+                    /** @description Sensitive API responses are not cached. */
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MemberEffectiveAccessResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
                 headers: {
                     "X-Request-Id"?: string;
                     "Cache-Control"?: "no-store";
