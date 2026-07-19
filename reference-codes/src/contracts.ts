@@ -131,7 +131,7 @@ export interface ReferenceCodesFetchTransportOptions {
 const moduleKeyPattern = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:\.[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*$/
 const localKeyPattern = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/
 const etagPattern = /^"rev-[1-9][0-9]*"$/
-const instantPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}(?:Z|[+-]\d{2}:\d{2})$/
+const instantPattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})(?:Z|([+-])(\d{2}):(\d{2}))$/
 
 const invalidResponse = (): never => {
   throw new Error('REFERENCE_CODES_RESPONSE_INVALID')
@@ -172,7 +172,31 @@ const boundedInteger = (value: unknown, minimum: number, maximum: number): numbe
 }
 
 export const normalizeReferenceCodeInstant = (value: string): string => {
-  if (!instantPattern.test(value)) throw new Error('REFERENCE_CODES_INSTANT_INVALID')
+  const match = instantPattern.exec(value)
+  if (match === null) throw new Error('REFERENCE_CODES_INSTANT_INVALID')
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+  const hour = Number(match[4])
+  const minute = Number(match[5])
+  const second = Number(match[6])
+  const offsetHour = match[9] === undefined ? 0 : Number(match[9])
+  const offsetMinute = match[10] === undefined ? 0 : Number(match[10])
+  const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+  const daysInMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  if (
+    month < 1
+    || month > 12
+    || day < 1
+    || day > (daysInMonth[month - 1] ?? 0)
+    || hour > 23
+    || minute > 59
+    || second > 59
+    || offsetHour > 23
+    || offsetMinute > 59
+  ) {
+    throw new Error('REFERENCE_CODES_INSTANT_INVALID')
+  }
   const timestamp = Date.parse(value)
   if (!Number.isFinite(timestamp)) throw new Error('REFERENCE_CODES_INSTANT_INVALID')
   return new Date(timestamp).toISOString()
@@ -296,7 +320,9 @@ const entryRecord = (value: unknown): ReferenceCodeEntry => {
 }
 
 const dataEnvelope = (value: unknown): Record<string, unknown> => {
-  const envelope = exactRecord(value, ['data'])
+  const envelope = exactRecord(value, ['data', 'meta'])
+  const meta = exactRecord(envelope.meta, ['request_id'])
+  if (typeof meta.request_id !== 'string' || meta.request_id === '') return invalidResponse()
   if (!isRecord(envelope.data)) return invalidResponse()
   return envelope.data
 }

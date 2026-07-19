@@ -49,23 +49,42 @@ const result = (
   headers: Record<string, string> = {},
 ): ReferenceCodesTransportResult => ({ body, status, headers: new Headers(headers) })
 
-const listResult = (...items: Record<string, unknown>[]): ReferenceCodesTransportResult => result({
-  data: {
+const success = (data: unknown, requestId = 'req_reference_codes'): Record<string, unknown> => ({
+  data,
+  meta: { request_id: requestId },
+})
+
+const listResult = (...items: Record<string, unknown>[]): ReferenceCodesTransportResult => result(success({
     items,
     as_of: '2026-07-20T02:00:00.000Z',
     page: 1,
     page_size: 50,
     total: items.length,
-  },
-})
+}))
+
+const filteredListResult = (
+  items: Record<string, unknown>[],
+  query: { asOf: string; page: number; pageSize: number },
+): ReferenceCodesTransportResult => result(success({
+  items,
+  as_of: query.asOf,
+  page: query.page,
+  page_size: query.pageSize,
+  total: items.length,
+}))
 
 const createTransport = (): ReferenceCodesTransport => ({
-  listSets: vi.fn(async () => result({ data: { items: [setSummary] } })),
+  listSets: vi.fn(async () => result(success({ items: [setSummary] }))),
   listCodes: vi.fn(async () => listResult(entry())),
-  getCode: vi.fn(async () => result({ data: entry({ revision: 3, etag: '"rev-3"' }) }, 200, { ETag: '"rev-3"' })),
-  create: vi.fn(async () => result({ data: entry({ code: 'priority', revision: 1, etag: '"rev-1"' }) }, 201, { ETag: '"rev-1"' })),
-  replace: vi.fn(async () => result({ data: entry({ revision: 3, etag: '"rev-3"' }) }, 200, { ETag: '"rev-3"' })),
-  retire: vi.fn(async () => result({ data: entry({ lifecycle: 'retired', revision: 3, etag: '"rev-3"', retired_at: '2026-07-20T02:00:00.000Z' }) }, 200, { ETag: '"rev-3"' })),
+  getCode: vi.fn(async () => result(success(entry({ revision: 3, etag: '"rev-3"' })), 200, { ETag: '"rev-3"' })),
+  create: vi.fn(async () => result(success(entry({
+    code: 'priority',
+    revision: 1,
+    etag: '"rev-1"',
+    effective: { ...(entry().effective as Record<string, unknown>), revision: 1 },
+  })), 201, { ETag: '"rev-1"' })),
+  replace: vi.fn(async () => result(success(entry({ revision: 3, etag: '"rev-3"' })), 200, { ETag: '"rev-3"' })),
+  retire: vi.fn(async () => result(success(entry({ lifecycle: 'retired', revision: 4, etag: '"rev-4"', retired_at: '2026-07-20T02:00:00.000Z' })), 200, { ETag: '"rev-4"' })),
 })
 
 describe('reference-code Tenant page', () => {
@@ -90,7 +109,7 @@ describe('reference-code Tenant page', () => {
     expect(contribution.routes.some(route => route.path.startsWith('/platform/'))).toBe(false)
 
     const invalidSuccessTransport = createTransport()
-    vi.mocked(invalidSuccessTransport.listSets).mockResolvedValueOnce(result({ data: { items: [setSummary] } }, 201))
+    vi.mocked(invalidSuccessTransport.listSets).mockResolvedValueOnce(result(success({ items: [setSummary] }), 201))
     const invalidSuccessRuntime = createReferenceCodesRuntime({
       transport: invalidSuccessTransport,
       canRead: () => true,
@@ -103,6 +122,21 @@ describe('reference-code Tenant page', () => {
 
   it('drives owner/set, as-of, create, append-version, and retire operations', async () => {
     const transport = createTransport()
+    const priority = entry({
+      code: 'priority',
+      revision: 1,
+      etag: '"rev-1"',
+      effective: { ...(entry().effective as Record<string, unknown>), revision: 1, label: 'Priority', sort_order: 5 },
+    })
+    const standardV3 = entry({ revision: 3, etag: '"rev-3"' })
+    const retiredStandard = entry({
+      lifecycle: 'retired', revision: 4, etag: '"rev-4"', retired_at: '2026-07-20T02:00:00.000Z',
+    })
+    vi.mocked(transport.listCodes)
+      .mockResolvedValueOnce(listResult(entry()))
+      .mockResolvedValueOnce(listResult(priority, entry()))
+      .mockResolvedValueOnce(listResult(priority, standardV3))
+      .mockResolvedValueOnce(listResult(priority, retiredStandard))
     const runtime = createReferenceCodesRuntime({
       transport,
       canRead: () => true,
@@ -233,5 +267,199 @@ describe('reference-code Tenant page', () => {
     })
     expect(runtime.state.requests.size).toBe(0)
     await expect(Promise.race([pending, Promise.resolve()])).resolves.toBeUndefined()
+  })
+
+  it('reuses create retry keys and resets them on edit, cancel, and success', async () => {
+    const transport = createTransport()
+    const nextKey = vi.fn()
+      .mockReturnValueOnce('idem_create_0001')
+      .mockReturnValueOnce('idem_create_0002')
+      .mockReturnValueOnce('idem_create_0003')
+      .mockReturnValueOnce('idem_create_0004')
+    vi.mocked(transport.create)
+      .mockRejectedValueOnce(new Error('network failed'))
+      .mockResolvedValueOnce(result({ detail: 'unavailable', request_id: 'req_503' }, 503))
+      .mockResolvedValueOnce(result({ detail: 'invalid', request_id: 'req_422' }, 422))
+      .mockRejectedValueOnce(new Error('network failed after unchanged 422 retry'))
+      .mockRejectedValueOnce(new Error('network failed after edit'))
+      .mockRejectedValueOnce(new Error('network failed after cancel'))
+      .mockResolvedValueOnce(result(success(entry({ code: 'retry-code', revision: 1, etag: '"rev-1"' })), 201, {
+        ETag: '"rev-1"',
+      }))
+      .mockRejectedValueOnce(new Error('network failed after success'))
+    const runtime = createReferenceCodesRuntime({
+      transport,
+      canRead: () => true,
+      canManage: () => true,
+      createIdempotencyKey: nextKey,
+      now: () => '2026-07-20T02:00:00.000Z',
+    })
+    await runtime.loadSets()
+    await runtime.selectSet('example.catalog', 'service-level')
+    runtime.beginCreate()
+    runtime.updateCreateDraft({ code: 'retry-code', label: 'Retry label' })
+
+    await runtime.create()
+    await runtime.create()
+    await runtime.create()
+    await runtime.create()
+    runtime.updateCreateDraft({ label: 'Changed retry label' })
+    await runtime.create()
+    runtime.cancelCreate()
+    runtime.beginCreate()
+    runtime.updateCreateDraft({ code: 'retry-code', label: 'Changed retry label' })
+    await runtime.create()
+    await runtime.create()
+    runtime.beginCreate()
+    runtime.updateCreateDraft({ code: 'retry-code', label: 'Changed retry label' })
+    await runtime.create()
+
+    const keys = vi.mocked(transport.create).mock.calls.map(call => call[2].idempotencyKey)
+    expect(keys[0]).toBe(keys[1])
+    expect(keys[1]).toBe(keys[2])
+    expect(keys[2]).toBe(keys[3])
+    expect(keys[4]).not.toBe(keys[3])
+    expect(keys[5]).not.toBe(keys[4])
+    expect(keys[6]).toBe(keys[5])
+    expect(keys[7]).not.toBe(keys[6])
+  })
+
+  it('reuses replace and retire keys until edit, cancel, success, or stale reload', async () => {
+    const transport = createTransport()
+    const nextKey = vi.fn()
+      .mockReturnValueOnce('idem_mutation_0001')
+      .mockReturnValueOnce('idem_mutation_0002')
+      .mockReturnValueOnce('idem_mutation_0003')
+      .mockReturnValueOnce('idem_mutation_0004')
+      .mockReturnValueOnce('idem_mutation_0005')
+      .mockReturnValueOnce('idem_mutation_0006')
+      .mockReturnValueOnce('idem_mutation_0007')
+    vi.mocked(transport.replace)
+      .mockRejectedValueOnce(new Error('network failed'))
+      .mockResolvedValueOnce(result({ detail: 'unavailable', request_id: 'req_replace_503' }, 503))
+      .mockResolvedValueOnce(result({ detail: 'stale', request_id: 'req_replace_412' }, 412))
+      .mockRejectedValueOnce(new Error('network failed after stale reload'))
+      .mockRejectedValueOnce(new Error('network failed after edit'))
+      .mockResolvedValueOnce(result(success(entry({ revision: 4, etag: '"rev-4"' })), 200, { ETag: '"rev-4"' }))
+      .mockRejectedValueOnce(new Error('network failed after replace success'))
+    vi.mocked(transport.retire)
+      .mockRejectedValueOnce(new Error('network failed'))
+      .mockResolvedValueOnce(result({ detail: 'unavailable', request_id: 'req_retire_503' }, 503))
+      .mockResolvedValueOnce(result(success(entry({
+        lifecycle: 'retired', revision: 4, etag: '"rev-4"', retired_at: '2026-07-20T02:00:00.000Z',
+      })), 200, { ETag: '"rev-4"' }))
+      .mockRejectedValueOnce(new Error('network failed after retire success'))
+      .mockRejectedValueOnce(new Error('network failed after cancel'))
+    const runtime = createReferenceCodesRuntime({
+      transport,
+      canRead: () => true,
+      canManage: () => true,
+      createIdempotencyKey: nextKey,
+      now: () => '2026-07-20T02:00:00.000Z',
+    })
+    await runtime.loadSets()
+    await runtime.selectSet('example.catalog', 'service-level')
+    runtime.beginAppend(runtime.state.entries[0]!)
+    runtime.updateAppendDraft({ label: 'Retry version' })
+
+    await runtime.appendVersion()
+    await runtime.appendVersion()
+    await runtime.appendVersion()
+    await runtime.reloadStale('standard')
+    await runtime.appendVersion()
+    runtime.updateAppendDraft({ label: 'Changed version' })
+    await runtime.appendVersion()
+    await runtime.appendVersion()
+    runtime.beginAppend(runtime.state.entries[0]!)
+    runtime.updateAppendDraft({ label: 'Version after success' })
+    await runtime.appendVersion()
+
+    const replaceKeys = vi.mocked(transport.replace).mock.calls.map(call => call[3].idempotencyKey)
+    expect(replaceKeys[0]).toBe(replaceKeys[1])
+    expect(replaceKeys[1]).toBe(replaceKeys[2])
+    expect(replaceKeys[3]).not.toBe(replaceKeys[2])
+    expect(replaceKeys[4]).not.toBe(replaceKeys[3])
+    expect(replaceKeys[5]).toBe(replaceKeys[4])
+    expect(replaceKeys[6]).not.toBe(replaceKeys[5])
+
+    runtime.cancelAppend()
+    runtime.beginRetire(runtime.state.entries[0]!)
+    await runtime.retire()
+    await runtime.retire()
+    await runtime.retire()
+    runtime.beginRetire(runtime.state.entries[0]!)
+    await runtime.retire()
+    runtime.cancelRetire()
+    runtime.beginRetire(runtime.state.entries[0]!)
+    await runtime.retire()
+
+    const retireKeys = vi.mocked(transport.retire).mock.calls.map(call => call[3].idempotencyKey)
+    expect(retireKeys[0]).toBe(retireKeys[1])
+    expect(retireKeys[1]).toBe(retireKeys[2])
+    expect(retireKeys[3]).not.toBe(retireKeys[2])
+    expect(retireKeys[4]).not.toBe(retireKeys[3])
+  })
+
+  it('requeries create, replace, and retire against the current historical filtered page', async () => {
+    const transport = createTransport()
+    vi.mocked(transport.create).mockResolvedValueOnce(result(success(entry({
+      code: 'filtered-code',
+      revision: 1,
+      etag: '"rev-1"',
+      effective: { ...(entry().effective as Record<string, unknown>), revision: 1 },
+    })), 201, { ETag: '"rev-1"' }))
+    vi.mocked(transport.listCodes).mockImplementation(async (_moduleKey, _setKey, query) => (
+      query.page === 2
+        ? filteredListResult([], { asOf: query.asOf, page: query.page, pageSize: query.pageSize })
+        : filteredListResult([entry()], { asOf: query.asOf, page: query.page, pageSize: query.pageSize })
+    ))
+    const runtime = createReferenceCodesRuntime({
+      transport,
+      canRead: () => true,
+      canManage: () => true,
+      now: () => '2026-07-20T02:00:00.000Z',
+    })
+    const historicalQuery = {
+      asOf: '2020-01-01T00:00:00.000Z',
+      page: 2,
+      pageSize: 50,
+    }
+    const prepareFilteredPage = async (): Promise<void> => {
+      await runtime.selectSet('example.catalog', 'service-level')
+      runtime.state.asOf = historicalQuery.asOf
+      runtime.state.effectiveStatus = 'inactive'
+      runtime.state.includeRetired = false
+      runtime.state.page = historicalQuery.page
+    }
+    await runtime.loadSets()
+
+    await prepareFilteredPage()
+    runtime.beginCreate()
+    runtime.updateCreateDraft({ code: 'filtered-code', label: 'Filtered create' })
+    await runtime.create()
+    expect(runtime.state.entries).toEqual([])
+
+    await prepareFilteredPage()
+    runtime.beginAppend(runtime.state.entries[0]!)
+    runtime.updateAppendDraft({ label: 'Filtered replace' })
+    await runtime.appendVersion()
+    expect(runtime.state.entries).toEqual([])
+
+    await prepareFilteredPage()
+    runtime.beginRetire(runtime.state.entries[0]!)
+    await runtime.retire()
+    expect(runtime.state.entries).toEqual([])
+
+    const filteredCalls = vi.mocked(transport.listCodes).mock.calls.filter(call => call[2].page === 2)
+    expect(filteredCalls).toHaveLength(3)
+    for (const call of filteredCalls) {
+      expect(call[2]).toMatchObject({
+        asOf: historicalQuery.asOf,
+        effectiveStatus: 'inactive',
+        includeRetired: false,
+        page: 2,
+        pageSize: 50,
+      })
+    }
   })
 })

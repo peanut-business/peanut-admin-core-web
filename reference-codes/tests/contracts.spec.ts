@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import {
   createReferenceCodesFetchTransport,
+  normalizeReferenceCodeInstant,
   parseReferenceCode,
   parseReferenceCodeList,
   parseReferenceCodeSets,
@@ -29,29 +30,30 @@ const entry = (overrides: Record<string, unknown> = {}): Record<string, unknown>
   ...overrides,
 })
 
+const success = (data: unknown, requestId = 'req_reference_codes'): Record<string, unknown> => ({
+  data,
+  meta: { request_id: requestId },
+})
+
 describe('reference-code response contracts', () => {
   it('parses exact set, entry, and paginated list shapes', () => {
-    const sets = parseReferenceCodeSets({
-      data: {
-        items: [{
+    const sets = parseReferenceCodeSets(success({
+      items: [{
           module_key: 'example.catalog',
           set_key: 'service-level',
           name: 'Service level',
           description: 'Generic service levels.',
           definition_revision: 3,
         }],
-      },
-    })
-    const parsedEntry = parseReferenceCode({ data: entry() }, '"rev-2"')
-    const list = parseReferenceCodeList({
-      data: {
-        items: [entry()],
-        as_of: '2026-07-20T02:00:00.000Z',
-        page: 1,
-        page_size: 50,
-        total: 1,
-      },
-    })
+    }))
+    const parsedEntry = parseReferenceCode(success(entry()), '"rev-2"')
+    const list = parseReferenceCodeList(success({
+      items: [entry()],
+      as_of: '2026-07-20T02:00:00.000Z',
+      page: 1,
+      page_size: 50,
+      total: 1,
+    }))
 
     expect(sets[0]).toEqual({
       moduleKey: 'example.catalog',
@@ -65,21 +67,43 @@ describe('reference-code response contracts', () => {
   })
 
   it('fails closed on unknown fields, invalid scalar metadata, timestamps, and ETag mismatch', () => {
-    expect(() => parseReferenceCodeSets({
-      data: { items: [{
+    const setData = { items: [{
+      module_key: 'example.catalog', set_key: 'service-level', name: 'Service level',
+      description: 'Generic service levels.', definition_revision: 1,
+    }] }
+    for (const malformedEnvelope of [
+      { data: setData },
+      { data: setData, meta: {} },
+      { data: setData, meta: { request_id: '' } },
+      { data: setData, meta: { request_id: 'req_valid', extra: true } },
+      { data: setData, meta: { request_id: 'req_valid' }, extra: true },
+    ]) {
+      expect(() => parseReferenceCodeSets(malformedEnvelope)).toThrow('REFERENCE_CODES_RESPONSE_INVALID')
+    }
+    expect(() => parseReferenceCodeSets(success({ items: [{
         module_key: 'example.catalog', set_key: 'service-level', name: 'Service level',
         description: 'Generic service levels.', definition_revision: 1, tenant_id: 'forbidden',
-      }] },
-    })).toThrow('REFERENCE_CODES_RESPONSE_INVALID')
-    expect(() => parseReferenceCode({ data: entry({ effective: {
+      }] }))).toThrow('REFERENCE_CODES_RESPONSE_INVALID')
+    expect(() => parseReferenceCode(success(entry({ effective: {
       ...(entry().effective as Record<string, unknown>), metadata: { nested: { forbidden: true } },
-    } }) }, '"rev-2"')).toThrow('REFERENCE_CODES_RESPONSE_INVALID')
-    expect(() => parseReferenceCode({ data: entry({ updated_at: '2026-07-20T01:00:00Z' }) }, '"rev-2"'))
+    } })), '"rev-2"')).toThrow('REFERENCE_CODES_RESPONSE_INVALID')
+    expect(() => parseReferenceCode(success(entry({ updated_at: '2026-07-20T01:00:00Z' })), '"rev-2"'))
       .toThrow('REFERENCE_CODES_RESPONSE_INVALID')
-    expect(() => parseReferenceCode({ data: entry({ revision: 3 }) }))
+    expect(() => parseReferenceCode(success(entry({ revision: 3 }))))
       .toThrow('REFERENCE_CODES_RESPONSE_INVALID')
-    expect(() => parseReferenceCode({ data: entry() }, '"rev-3"'))
+    expect(() => parseReferenceCode(success(entry()), '"rev-3"'))
       .toThrow('REFERENCE_CODES_RESPONSE_ETAG_MISMATCH')
+
+    expect(normalizeReferenceCodeInstant('2026-07-20T08:30:45.123+08:00'))
+      .toBe('2026-07-20T00:30:45.123Z')
+    for (const invalidInstant of [
+      '2026-02-30T00:00:00.000Z',
+      '2026-07-20T24:00:00.000Z',
+      '2026-07-20T12:60:00.000Z',
+      '2026-07-20T12:00:60.000Z',
+    ]) {
+      expect(() => normalizeReferenceCodeInstant(invalidInstant)).toThrow('REFERENCE_CODES_INSTANT_INVALID')
+    }
   })
 })
 

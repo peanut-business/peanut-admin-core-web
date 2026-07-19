@@ -235,13 +235,26 @@ const validateCreateDraft = (draft: ReferenceCodeCreateDraft): ReferenceCodeCrea
   return { code: draft.code, ...validateDraft(draft) }
 }
 
-const entryOrder = (left: ReferenceCodeEntry, right: ReferenceCodeEntry): number => {
-  if (left.effective === null && right.effective !== null) return 1
-  if (left.effective !== null && right.effective === null) return -1
-  const sortDifference = (left.effective?.sortOrder ?? 0) - (right.effective?.sortOrder ?? 0)
-  if (sortDifference !== 0) return sortDifference
-  return left.code < right.code ? -1 : left.code > right.code ? 1 : 0
-}
+const versionFingerprint = (input: ReferenceCodeVersionInput): string => JSON.stringify({
+  label: input.label,
+  metadata: Object.fromEntries(Object.entries(input.metadata).sort(([left], [right]) => (
+    left < right ? -1 : left > right ? 1 : 0
+  ))),
+  status: input.status,
+  sort_order: input.sortOrder,
+  effective_at: input.effectiveAt,
+  expires_at: input.expiresAt,
+})
+
+const createFingerprint = (input: ReferenceCodeCreateInput): string => JSON.stringify({
+  code: input.code,
+  version: versionFingerprint(input),
+})
+
+const replaceFingerprint = (input: ReferenceCodeVersionInput, etag: string): string => JSON.stringify({
+  etag,
+  version: versionFingerprint(input),
+})
 
 export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOptions): ReferenceCodesRuntime => {
   const state = reactive<ReferenceCodesRuntimeState>({
@@ -266,6 +279,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
   const controllers = new Map<string, AbortController>()
   const resourceRequests = new Map<string, ActiveRequest>()
   const createKey = options.createIdempotencyKey ?? idempotencyKey
+  const mutationKeys = new Map<string, { fingerprint: string; key: string }>()
   const now = options.now ?? (() => new Date().toISOString())
   let collectionRequest: ActiveRequest | null = null
   let generation = 0
@@ -349,15 +363,23 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
     return entry
   }
 
-  const applyEntry = (entry: ReferenceCodeEntry): void => {
+  const assertMutationEntry = (entry: ReferenceCodeEntry, code: string): void => {
     const set = selectedSet()
-    if (entry.moduleKey !== set.moduleKey || entry.setKey !== set.setKey) {
+    if (entry.moduleKey !== set.moduleKey || entry.setKey !== set.setKey || entry.code !== code) {
       throw new Error('REFERENCE_CODES_RESPONSE_SCOPE_MISMATCH')
     }
-    const index = state.entries.findIndex(candidate => candidate.code === entry.code)
-    state.entries = index === -1
-      ? [...state.entries, entry].sort(entryOrder)
-      : state.entries.map((candidate, candidateIndex) => candidateIndex === index ? entry : candidate).sort(entryOrder)
+  }
+
+  const mutationKey = (scope: string, fingerprint: string): string => {
+    const current = mutationKeys.get(scope)
+    if (current !== undefined && current.fingerprint === fingerprint) return current.key
+    const key = createKey()
+    mutationKeys.set(scope, { fingerprint, key })
+    return key
+  }
+
+  const clearMutationKey = (scope: string): void => {
+    mutationKeys.delete(scope)
   }
 
   const applyPageError = (error: ReferenceCodeRequestError): void => {
@@ -412,6 +434,8 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
   const loadEntries = async (): Promise<void> => {
     if (!options.canRead()) throw new Error('REFERENCE_CODES_READ_FORBIDDEN')
     const set = selectedSet()
+    const staleCreateCode = state.createDraft?.code
+    const reloadsStaleCreate = staleCreateCode !== undefined && state.stale[staleCreateCode] !== undefined
     if (state.asOf === '') state.asOf = normalizeReferenceCodeInstant(now())
     const request = beginCollection('entries')
     try {
@@ -446,6 +470,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
         state.total = list.total
         state.errors = {}
         state.stale = {}
+        if (reloadsStaleCreate) clearMutationKey('create')
       } catch {
         applyPageError(protocolError(result))
       }
@@ -469,14 +494,17 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       return
     }
     const set = selectedSet()
+    const scope = 'create'
+    const fingerprint = createFingerprint(input)
     const request = beginResource('create', input.code)
+    let reload = false
     delete state.errors.create
     try {
       let result: ReferenceCodesTransportResult
       try {
         result = await options.transport.create(set.moduleKey, set.setKey, {
           input,
-          idempotencyKey: createKey(),
+          idempotencyKey: mutationKey(scope, fingerprint),
           signal: request.controller.signal,
         })
       } catch (error) {
@@ -496,16 +524,18 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       }
       try {
         const parsed = parsedMutation(result)
-        applyEntry(parsed)
+        assertMutationEntry(parsed, input.code)
         state.createDraft = null
-        state.total += 1
         delete state.stale[input.code]
+        clearMutationKey(scope)
+        reload = true
       } catch {
         setResourceError('create', protocolError(result))
       }
     } finally {
       finishResource(input.code, request)
     }
+    if (reload) await loadEntries()
   }
 
   const replaceEntry = async (): Promise<void> => {
@@ -523,7 +553,10 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       return
     }
     const set = selectedSet()
+    const scope = `replace:${draft.code}`
+    const fingerprint = replaceFingerprint(input, draft.etag)
     const request = beginResource('replace', draft.code)
+    let reload = false
     delete state.errors[draft.code]
     delete state.stale[draft.code]
     try {
@@ -532,7 +565,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
         result = await options.transport.replace(set.moduleKey, set.setKey, draft.code, {
           input,
           etag: draft.etag,
-          idempotencyKey: createKey(),
+          idempotencyKey: mutationKey(scope, fingerprint),
           signal: request.controller.signal,
         })
       } catch (error) {
@@ -551,20 +584,24 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
         return
       }
       try {
-        applyEntry(parsedMutation(result))
+        assertMutationEntry(parsedMutation(result), draft.code)
         state.appendDraft = null
+        clearMutationKey(scope)
+        reload = true
       } catch {
         setResourceError(draft.code, protocolError(result))
       }
     } finally {
       finishResource(draft.code, request)
     }
+    if (reload) await loadEntries()
   }
 
   const reloadStale = async (code: string): Promise<void> => {
-    const entry = currentEntry(code)
+    currentEntry(code)
     const set = selectedSet()
     const request = beginResource('reload', code)
+    let reload = false
     try {
       let result: ReferenceCodesTransportResult
       try {
@@ -587,16 +624,20 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       }
       try {
         const parsed = parsedMutation(result)
-        applyEntry(parsed)
-        if (state.appendDraft?.code === entry.code) state.appendDraft.etag = parsed.etag
+        assertMutationEntry(parsed, code)
+        if (state.appendDraft?.code === code) state.appendDraft.etag = parsed.etag
         delete state.stale[code]
         delete state.errors[code]
+        clearMutationKey(`replace:${code}`)
+        clearMutationKey(`retire:${code}`)
+        reload = true
       } catch {
         setResourceError(code, protocolError(result))
       }
     } finally {
       finishResource(code, request)
     }
+    if (reload) await loadEntries()
   }
 
   const retireEntry = async (): Promise<void> => {
@@ -612,7 +653,10 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       return
     }
     const set = selectedSet()
+    const scope = `retire:${code}`
+    const fingerprint = entry.etag
     const request = beginResource('retire', code)
+    let reload = false
     delete state.errors[code]
     delete state.stale[code]
     try {
@@ -620,7 +664,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       try {
         result = await options.transport.retire(set.moduleKey, set.setKey, code, {
           etag: entry.etag,
-          idempotencyKey: createKey(),
+          idempotencyKey: mutationKey(scope, fingerprint),
           signal: request.controller.signal,
         })
       } catch (error) {
@@ -639,14 +683,17 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
         return
       }
       try {
-        applyEntry(parsedMutation(result))
+        assertMutationEntry(parsedMutation(result), code)
         state.retireCode = null
+        clearMutationKey(scope)
+        reload = true
       } catch {
         setResourceError(code, protocolError(result))
       }
     } finally {
       finishResource(code, request)
     }
+    if (reload) await loadEntries()
   }
 
   const runtime: ReferenceCodesRuntime = {
@@ -665,6 +712,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       state.retireCode = null
       state.errors = {}
       state.stale = {}
+      mutationKeys.clear()
       await loadEntries()
     },
     async setAsOf(value) {
@@ -686,6 +734,9 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
     loadEntries,
     beginCreate() {
       selectedSet()
+      if (state.appendDraft !== null) clearMutationKey(`replace:${state.appendDraft.code}`)
+      if (state.retireCode !== null) clearMutationKey(`retire:${state.retireCode}`)
+      clearMutationKey('create')
       state.appendDraft = null
       state.retireCode = null
       state.createDraft = emptyDraft(state.asOf === '' ? normalizeReferenceCodeInstant(now()) : state.asOf)
@@ -693,16 +744,22 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
     },
     updateCreateDraft(changes) {
       if (state.createDraft === null) throw new Error('REFERENCE_CODE_CREATE_DRAFT_MISSING')
+      clearMutationKey('create')
       Object.assign(state.createDraft, changes)
       delete state.errors.create
     },
     cancelCreate() {
+      clearMutationKey('create')
       state.createDraft = null
       delete state.errors.create
     },
     create: createEntry,
     beginAppend(entry) {
       currentEntry(entry.code)
+      clearMutationKey('create')
+      if (state.appendDraft !== null) clearMutationKey(`replace:${state.appendDraft.code}`)
+      if (state.retireCode !== null) clearMutationKey(`retire:${state.retireCode}`)
+      clearMutationKey(`replace:${entry.code}`)
       state.createDraft = null
       state.retireCode = null
       state.appendDraft = appendDraft(entry)
@@ -710,10 +767,12 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
     },
     updateAppendDraft(changes) {
       if (state.appendDraft === null) throw new Error('REFERENCE_CODE_APPEND_DRAFT_MISSING')
+      clearMutationKey(`replace:${state.appendDraft.code}`)
       Object.assign(state.appendDraft, changes)
       delete state.errors[state.appendDraft.code]
     },
     cancelAppend() {
+      if (state.appendDraft !== null) clearMutationKey(`replace:${state.appendDraft.code}`)
       state.appendDraft = null
     },
     appendVersion: replaceEntry,
@@ -721,12 +780,17 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
     beginRetire(entry) {
       const current = currentEntry(entry.code)
       if (current.lifecycle === 'retired') throw new Error('REFERENCE_CODE_RETIRED')
+      clearMutationKey('create')
+      if (state.appendDraft !== null) clearMutationKey(`replace:${state.appendDraft.code}`)
+      if (state.retireCode !== null) clearMutationKey(`retire:${state.retireCode}`)
+      clearMutationKey(`retire:${current.code}`)
       state.createDraft = null
       state.appendDraft = null
       state.retireCode = current.code
       delete state.errors[current.code]
     },
     cancelRetire() {
+      if (state.retireCode !== null) clearMutationKey(`retire:${state.retireCode}`)
       state.retireCode = null
     },
     retire: retireEntry,
@@ -737,6 +801,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       resourceRequests.clear()
       for (const controller of controllers.values()) controller.abort()
       controllers.clear()
+      mutationKeys.clear()
       state.sets = []
       state.selectedSet = null
       state.asOf = ''

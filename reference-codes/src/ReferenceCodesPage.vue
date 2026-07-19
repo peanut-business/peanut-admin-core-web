@@ -420,6 +420,7 @@ onMounted(loadSets)
     </section>
 
     <ElDialog
+      class="reference-codes-dialog"
       :model-value="state.createDraft !== null"
       title="Create reference code"
       width="min(640px, calc(100vw - 32px))"
@@ -523,6 +524,7 @@ onMounted(loadSets)
     </ElDialog>
 
     <ElDialog
+      class="reference-codes-dialog"
       :model-value="state.appendDraft !== null"
       title="Append reference-code version"
       width="min(640px, calc(100vw - 32px))"
@@ -624,6 +626,7 @@ onMounted(loadSets)
     </ElDialog>
 
     <ElDialog
+      class="reference-codes-dialog"
       :model-value="state.retireCode !== null"
       title="Retire reference code"
       width="min(520px, calc(100vw - 32px))"
@@ -840,6 +843,17 @@ onMounted(loadSets)
   margin: 0 0 14px;
   letter-spacing: 0;
   overflow-wrap: anywhere;
+}
+
+:global(.reference-codes-dialog) {
+  display: flex;
+  max-height: calc(100dvh - 32px);
+  flex-direction: column;
+}
+
+:global(.reference-codes-dialog .el-dialog__body) {
+  min-height: 0;
+  overflow-y: auto;
 }
 
 @media (max-width: 860px) {
