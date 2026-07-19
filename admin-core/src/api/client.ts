@@ -9,6 +9,7 @@ export type ApiAudience = 'tenant' | 'platform'
 
 export interface AudienceApiClientOptions {
   baseUrl?: string
+  allowedOrigin?: string
   fetch?: (request: Request) => Promise<Response>
   getAccessToken: () => string | null
   setAccessToken: (token: string) => void
@@ -41,6 +42,73 @@ const canReplay = (request: Request): boolean => (
   || request.headers.has('Idempotency-Key')
 )
 
+const originError = (): Error => new Error('API_ORIGIN_INVALID')
+
+const parseHttpUrl = (value: string, base?: string): URL => {
+  let url: URL
+  try {
+    url = base === undefined ? new URL(value) : new URL(value, base)
+  } catch {
+    throw originError()
+  }
+
+  if (
+    !['http:', 'https:'].includes(url.protocol)
+    || url.origin === 'null'
+    || url.username !== ''
+    || url.password !== ''
+  ) {
+    throw originError()
+  }
+
+  return url
+}
+
+const browserOrigin = (): string | undefined => {
+  const origin = globalThis.location?.origin
+  if (typeof origin !== 'string' || origin === '' || origin === 'null') return undefined
+
+  return parseHttpUrl(origin).origin
+}
+
+const resolveAllowedOrigin = (options: Pick<ProtectedFetchOptions, 'allowedOrigin' | 'baseUrl'>): string => {
+  if (options.allowedOrigin !== undefined) {
+    const url = parseHttpUrl(options.allowedOrigin)
+    if (url.pathname !== '/' || url.search !== '' || url.hash !== '') throw originError()
+    return url.origin
+  }
+
+  if (options.baseUrl !== undefined && options.baseUrl !== '') {
+    try {
+      return parseHttpUrl(options.baseUrl).origin
+    } catch {
+      const fallbackOrigin = browserOrigin()
+      if (fallbackOrigin === undefined) throw originError()
+      return parseHttpUrl(options.baseUrl, fallbackOrigin).origin
+    }
+  }
+  const fallbackOrigin = browserOrigin()
+  if (fallbackOrigin !== undefined) return fallbackOrigin
+
+  throw originError()
+}
+
+const assertProtectedRequest = (
+  request: Request,
+  allowedOrigin: string,
+  isAllowedPath: (pathname: string) => boolean,
+): URL => {
+  const url = parseHttpUrl(request.url)
+  if (url.origin !== allowedOrigin) {
+    throw new Error('API_ORIGIN_MISMATCH')
+  }
+  if (!isAllowedPath(url.pathname)) {
+    throw new Error(`API_AUDIENCE_MISMATCH: protected client cannot request ${url.pathname}`)
+  }
+
+  return url
+}
+
 const withSecurityHeaders = (
   request: Request,
   token: string | null,
@@ -56,7 +124,7 @@ const withSecurityHeaders = (
     headers.set('X-Request-Id', createRequestId())
   }
 
-  return new Request(request, { headers, credentials: 'include' })
+  return new Request(request, { headers, credentials: 'include', redirect: 'manual' })
 }
 
 export interface ProtectedFetchOptions extends AudienceApiClientOptions {
@@ -67,27 +135,23 @@ export interface ProtectedFetchOptions extends AudienceApiClientOptions {
 const defaultRefreshCoordinator = createBrowserRefreshCoordinator()
 
 export const createProtectedFetch = (options: ProtectedFetchOptions): ((request: Request) => Promise<Response>) => {
+  const allowedOrigin = resolveAllowedOrigin(options)
   const fetcher = options.fetch ?? globalThis.fetch.bind(globalThis)
   const createRequestId = options.createRequestId ?? requestId
   const refreshCoordinator = options.refreshCoordinator ?? defaultRefreshCoordinator
   const credentialExchange = options.isCredentialExchange ?? isCredentialExchange
 
   const refreshOnce = async (failedToken: string | null): Promise<string | null> => {
-    const token = await refreshCoordinator.coordinate({
+    return refreshCoordinator.coordinate({
       scope: options.refreshScope,
       failedToken,
       getAccessToken: options.getAccessToken,
       refresh: options.refresh,
     })
-    if (token !== null && token !== '') options.setAccessToken(token)
-    return token
   }
 
   return async (input: Request): Promise<Response> => {
-    const url = new URL(input.url)
-    if (!options.isAllowedPath(url.pathname)) {
-      throw new Error(`API_AUDIENCE_MISMATCH: protected client cannot request ${url.pathname}`)
-    }
+    const url = assertProtectedRequest(input, allowedOrigin, options.isAllowedPath)
 
     const failedToken = options.getAccessToken()
     const firstRequest = withSecurityHeaders(input, failedToken, createRequestId)
@@ -98,9 +162,13 @@ export const createProtectedFetch = (options: ProtectedFetchOptions): ((request:
     }
 
     const refreshedToken = await refreshOnce(failedToken)
-    if (refreshedToken === null || refreshedToken === '' || !canReplay(retrySource)) {
+    if (refreshedToken === null || refreshedToken === '') {
       return response
     }
+
+    assertProtectedRequest(retrySource, allowedOrigin, options.isAllowedPath)
+    options.setAccessToken(refreshedToken)
+    if (!canReplay(retrySource)) return response
 
     return fetcher(withSecurityHeaders(retrySource, refreshedToken, createRequestId))
   }

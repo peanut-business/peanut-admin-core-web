@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import {
+  createProtectedFetch,
   createPlatformApiClient,
   createMemoryRefreshCoordinator,
   createTenantApiClient,
@@ -11,6 +12,202 @@ import {
 const json = (body: unknown, status = 200): Response => new Response(JSON.stringify(body), {
   status,
   headers: { 'Content-Type': status >= 400 ? 'application/problem+json' : 'application/json' },
+})
+
+type ProtectedFetchOptions = Parameters<typeof createProtectedFetch>[0]
+
+const protectedFetchOptions = (overrides: Partial<ProtectedFetchOptions> = {}): ProtectedFetchOptions => ({
+  allowedOrigin: 'https://example.test',
+  fetch: vi.fn(async () => json({ data: { ok: true } })),
+  getAccessToken: vi.fn(() => 'access-token'),
+  setAccessToken: vi.fn(),
+  refresh: vi.fn(async () => 'fresh-token'),
+  refreshScope: 'test-web:tenant',
+  isAllowedPath: (pathname: string) => pathname.startsWith('/api/v1/'),
+  ...overrides,
+})
+
+describe('protected fetch origin boundary', () => {
+  it('rejects invalid origin configuration synchronously', () => {
+    const missingOrigin = protectedFetchOptions()
+    delete missingOrigin.allowedOrigin
+    const credentialBaseUrl = { ...missingOrigin, baseUrl: 'https://user:secret@example.test/api' }
+    const pathOrigin = protectedFetchOptions({ allowedOrigin: 'https://example.test/api' })
+
+    expect(() => createProtectedFetch(missingOrigin)).toThrow('API_ORIGIN_INVALID')
+    expect(() => createProtectedFetch(credentialBaseUrl)).toThrow('API_ORIGIN_INVALID')
+    expect(() => createProtectedFetch(pathOrigin)).toThrow('API_ORIGIN_INVALID')
+
+    for (const allowedOrigin of [
+      'https://user:secret@example.test',
+      'https://user@example.test',
+      'https://:secret@example.test',
+    ]) {
+      const options = protectedFetchOptions({ allowedOrigin })
+      expect(() => createProtectedFetch(options)).toThrow('API_ORIGIN_INVALID')
+      expect(options.getAccessToken).not.toHaveBeenCalled()
+      expect(options.setAccessToken).not.toHaveBeenCalled()
+      expect(options.refresh).not.toHaveBeenCalled()
+      expect(options.fetch).not.toHaveBeenCalled()
+    }
+  })
+
+  it('sends a token only to the configured origin with manual redirects', async () => {
+    const redirectResponse = new Response(null, {
+      status: 302,
+      headers: { Location: 'https://other.test/next' },
+    })
+    const fetcher = vi.fn(async (request: Request) => {
+      expect(request.headers.get('Authorization')).toBe('Bearer access-token')
+      expect(request.credentials).toBe('include')
+      expect(request.redirect).toBe('manual')
+      return redirectResponse
+    })
+    const options = protectedFetchOptions({ fetch: fetcher })
+    const transport = createProtectedFetch(options)
+
+    const response = await transport(new Request('https://example.test/api/v1/items'))
+
+    expect(response).toBe(redirectResponse)
+    expect(fetcher).toHaveBeenCalledOnce()
+    expect(options.getAccessToken).toHaveBeenCalledOnce()
+  })
+
+  it.each([
+    'http://example.test/api/v1/items',
+    'https://other.test/api/v1/items',
+    'https://example.test:444/api/v1/items',
+  ])('rejects a different scheme, host, or port before security callbacks: %s', async requestUrl => {
+    const isAllowedPath = vi.fn(() => true)
+    const createRequestId = vi.fn(() => 'req_origin_test')
+    const options = protectedFetchOptions({ isAllowedPath, createRequestId })
+    const transport = createProtectedFetch(options)
+
+    await expect(transport(new Request(requestUrl))).rejects.toThrow('API_ORIGIN_MISMATCH')
+
+    expect(options.getAccessToken).not.toHaveBeenCalled()
+    expect(options.setAccessToken).not.toHaveBeenCalled()
+    expect(options.refresh).not.toHaveBeenCalled()
+    expect(options.fetch).not.toHaveBeenCalled()
+    expect(isAllowedPath).not.toHaveBeenCalled()
+    expect(createRequestId).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    ['https://example.test:443', 'https://example.test/api/v1/items'],
+    ['http://example.test:80', 'http://example.test/api/v1/items'],
+  ])('normalizes a default port in the configured origin', async (allowedOrigin, requestUrl) => {
+    const options = protectedFetchOptions()
+    delete options.allowedOrigin
+    options.baseUrl = allowedOrigin
+    const transport = createProtectedFetch(options)
+
+    await expect(transport(new Request(requestUrl))).resolves.toBeInstanceOf(Response)
+
+    expect(options.fetch).toHaveBeenCalledOnce()
+  })
+
+  it('rejects a denied path before token access or fetch', async () => {
+    const createRequestId = vi.fn(() => 'req_path_test')
+    const options = protectedFetchOptions({ createRequestId })
+    const transport = createProtectedFetch(options)
+
+    await expect(
+      transport(new Request('https://example.test/api/platform/v1/tenants')),
+    ).rejects.toThrow('API_AUDIENCE_MISMATCH')
+
+    expect(options.getAccessToken).not.toHaveBeenCalled()
+    expect(options.setAccessToken).not.toHaveBeenCalled()
+    expect(options.refresh).not.toHaveBeenCalled()
+    expect(options.fetch).not.toHaveBeenCalled()
+    expect(createRequestId).not.toHaveBeenCalled()
+  })
+
+  it('resolves an absolute base URL before consulting the browser fallback', () => {
+    vi.stubGlobal('location', { origin: 'chrome-extension://extension-id' })
+    try {
+      const absoluteOptions = protectedFetchOptions()
+      delete absoluteOptions.allowedOrigin
+      absoluteOptions.baseUrl = 'https://example.test/api'
+      expect(() => createProtectedFetch(absoluteOptions)).not.toThrow()
+
+      const relativeOptions = protectedFetchOptions()
+      delete relativeOptions.allowedOrigin
+      relativeOptions.baseUrl = '/api'
+      expect(() => createProtectedFetch(relativeOptions)).toThrow('API_ORIGIN_INVALID')
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('preserves same-origin refresh and idempotent replay', async () => {
+    let token = 'expired'
+    const requests: Request[] = []
+    const fetcher = vi.fn(async (request: Request) => {
+      requests.push(request)
+      return request.headers.get('Authorization') === 'Bearer fresh'
+        ? json({ data: { ok: true } })
+        : json({ code: 'AUTH_SESSION_EXPIRED' }, 401)
+    })
+    const refresh = vi.fn(async () => 'fresh')
+    const transport = createProtectedFetch(protectedFetchOptions({
+      fetch: fetcher,
+      getAccessToken: () => token,
+      setAccessToken: value => { token = value },
+      refresh,
+    }))
+
+    const response = await transport(new Request('https://example.test/api/v1/items'))
+
+    expect(response.ok).toBe(true)
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(refresh).toHaveBeenCalledOnce()
+    expect(token).toBe('fresh')
+    expect(requests.map(request => request.url)).toEqual([
+      'https://example.test/api/v1/items',
+      'https://example.test/api/v1/items',
+    ])
+    expect(requests[1]?.headers.get('Authorization')).toBe('Bearer fresh')
+    expect(requests[1]?.credentials).toBe('include')
+    expect(requests[1]?.redirect).toBe('manual')
+  })
+
+  it('rechecks the retry boundary before writing or attaching a refreshed token', async () => {
+    const isAllowedPath = vi.fn()
+      .mockReturnValueOnce(true)
+      .mockReturnValueOnce(false)
+    const setAccessToken = vi.fn()
+    const fetcher = vi.fn(async () => json({ code: 'AUTH_SESSION_EXPIRED' }, 401))
+    const transport = createProtectedFetch(protectedFetchOptions({
+      isAllowedPath,
+      setAccessToken,
+      fetch: fetcher,
+      refresh: vi.fn(async () => 'fresh'),
+    }))
+
+    await expect(
+      transport(new Request('https://example.test/api/v1/items')),
+    ).rejects.toThrow('API_AUDIENCE_MISMATCH')
+
+    expect(isAllowedPath).toHaveBeenCalledTimes(2)
+    expect(setAccessToken).not.toHaveBeenCalled()
+    expect(fetcher).toHaveBeenCalledOnce()
+  })
+
+  it('does not replay a non-idempotent request without an idempotency key', async () => {
+    const fetcher = vi.fn(async () => json({ code: 'AUTH_SESSION_EXPIRED' }, 401))
+    const refresh = vi.fn(async () => 'fresh')
+    const transport = createProtectedFetch(protectedFetchOptions({ fetch: fetcher, refresh }))
+
+    const response = await transport(new Request('https://example.test/api/v1/items', {
+      method: 'POST',
+      body: JSON.stringify({ name: 'test' }),
+      headers: { 'Content-Type': 'application/json' },
+    }))
+
+    expect(response.status).toBe(401)
+    expect(fetcher).toHaveBeenCalledOnce()
+  })
 })
 
 describe('audience API clients', () => {
