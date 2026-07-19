@@ -22,7 +22,8 @@ export {
 } from './auth/stores'
 export type { PlatformContextData, TenantContextData } from './auth/stores'
 export { disposeTenantState, registerTenantDisposer } from './lifecycle/tenant'
-export type { TenantDisposer } from './lifecycle/tenant'
+export { createTenantLifecycle } from './lifecycle/tenant'
+export type { TenantDisposer, TenantLifecycle, TenantLifecycleTicket } from './lifecycle/tenant'
 export { createMenuRouteRegistry, defineAdminModule } from './module/contribution'
 export type {
   AdminModuleContribution,
@@ -34,6 +35,23 @@ export type {
   AdminRouteAccess,
   MenuRouteRegistry,
 } from './module/contribution'
+export { defineAdminHostConfig } from './runtime/config'
+export type { AdminAudienceHostConfig, AdminHostConfig } from './runtime/config'
+export { mapAdminRuntimeError } from './runtime/errors'
+export type { AdminRuntimeErrorKind, AdminRuntimeErrorState } from './runtime/errors'
+export { runAdminRouteGuard } from './runtime/guard'
+export type {
+  AdminRouteGuardDependencies,
+  AdminRouteGuardInput,
+  AdminRouteGuardResult,
+} from './runtime/guard'
+export { createAdminNavigationRegistry } from './runtime/navigation'
+export type {
+  AdminNavigationMenuInput,
+  AdminNavigationRegistry,
+  AdminNavigationRegistryInput,
+  AdminNavigationRoute,
+} from './runtime/navigation'
 export { useOperationTargets } from './targets/store'
 export type {
   OperationTargetScope,

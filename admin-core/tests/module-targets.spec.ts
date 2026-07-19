@@ -86,4 +86,18 @@ describe('module and operation target state', () => {
 
     expect(dispose).toHaveBeenCalledTimes(1)
   })
+
+  it('disposes every registered store even when one disposer fails', async () => {
+    const first = vi.fn(async () => { throw new Error('STORE_DISPOSAL_FAILED') })
+    const second = vi.fn()
+    const unregisterFirst = registerTenantDisposer('example.work-item.first', first)
+    const unregisterSecond = registerTenantDisposer('example.work-item.second', second)
+
+    await expect(disposeTenantState()).rejects.toThrow('STORE_DISPOSAL_FAILED')
+    unregisterFirst()
+    unregisterSecond()
+
+    expect(first).toHaveBeenCalledOnce()
+    expect(second).toHaveBeenCalledOnce()
+  })
 })
