@@ -1,6 +1,8 @@
 export const ADMIN_SHELL_PACKAGE = '@peanut-admin/admin-shell' as const
 export const ADMIN_SHELL_VERSION = '0.1.0' as const
 
+export { defineShellHostConfig } from './config'
+export type { ShellHostConfig, ShellHostConfigInput } from './config'
 export {
   AdminShell,
   PageContent,
@@ -12,10 +14,15 @@ export {
   ShellSidebar,
   ShellTabs,
 } from './layout'
+export type { ShellBreadcrumbItem, ShellIdentity, ShellNavigationItem } from './layout'
 export {
+  ConflictState,
   EmptyState,
   ForbiddenState,
   ModuleUnavailableState,
+  NotFoundState,
+  RateLimitState,
+  ServiceUnavailableState,
   SessionExpiredState,
 } from './states'
 export { TargetScopeSummary, TargetSelector } from './targets'
