@@ -8,8 +8,10 @@ export type {
   GovernanceAuditOutcome,
 } from './audit'
 export type {
+  CreateDataPolicyDraftInput,
   DataPolicyDraftInput,
   RolePermissionDraftInput,
+  UpdateDataPolicyDraftInput,
 } from './roles'
 export type {
   GovernanceAudience,

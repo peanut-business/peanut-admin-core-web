@@ -66,8 +66,8 @@ describe('governance catalog', () => {
       audience: 'tenant', roleId: '9', currentRevision: 4, ifMatch: '"rev-4"', permissionKeys: ['platform.role.read'], availableModules: new Set(), catalog,
     })).toThrow('GOVERNANCE_PERMISSION_AUDIENCE_MISMATCH')
 
-    const draft = createDataPolicyDraft({
-      audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-7"', resourceKey: 'example.report', operation: 'list',
+    const createDraft = createDataPolicyDraft({
+      mode: 'create', audience: 'tenant', roleId: '9', resourceKey: 'example.report', operation: 'list',
       payload: {
         status: 'active', reason: 'regional access', valid_from: '2026-07-24T00:00:00.000Z', valid_until: '2026-08-24T00:00:00.000Z',
         groups: [{
@@ -76,12 +76,21 @@ describe('governance catalog', () => {
         }],
       },
     })
-    expect(draft).toMatchObject({
-      kind: 'validated-draft', audience: 'tenant', expectedRevision: 7,
+    expect(createDraft).toMatchObject({
+      kind: 'validated-draft', mode: 'create', audience: 'tenant', expectedRevision: null,
       payload: { status: 'active', groups: [{ conditions: [{ target_set: { target_resource_key: 'example.report', targets: [{ target_id: '101' }] } }] }] },
     })
+    const updateDraft = createDataPolicyDraft({
+      mode: 'update', audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-7"', resourceKey: 'example.report', operation: 'list',
+      payload: createDraft.payload,
+    })
+    expect(updateDraft).toMatchObject({ mode: 'update', expectedRevision: 7 })
     expect(() => createDataPolicyDraft({
-      audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-7"', resourceKey: 'example.report', operation: 'list',
+      mode: 'update', audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-6"', resourceKey: 'example.report', operation: 'list',
+      payload: createDraft.payload,
+    })).toThrow('REVISION_MISMATCH')
+    expect(() => createDataPolicyDraft({
+      mode: 'create', audience: 'tenant', roleId: '9', resourceKey: 'example.report', operation: 'list',
       payload: { status: 'active', groups: [] },
     })).toThrow('DATA_POLICY_GROUPS_INVALID')
   })
@@ -107,6 +116,11 @@ describe('governance catalog', () => {
       routes: [{ name: 'tenant.retired', path: '/app/retired', audience: 'tenant', permissionKeys: ['core.role.retired'], componentKey: 'core.role.list', clientKeys: ['admin-web'] }],
       icons: {},
     })).toThrow('GOVERNANCE_PERMISSION_INACTIVE')
+    expect(() => createGovernanceCatalog({
+      permissions: [{ key: 'core.role.read', moduleKey: 'core', audience: 'tenant', active: true }],
+      routes: [{ name: 'service.roles', path: '/platform/roles', audience: 'service' as never, permissionKeys: ['core.role.read'], componentKey: 'core.role.list', clientKeys: ['admin-web'] }],
+      icons: {},
+    })).toThrow('GOVERNANCE_ROUTE_INVALID')
   })
 
   it('projects audit details through a scalar metadata allowlist', () => {

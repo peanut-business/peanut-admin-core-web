@@ -48,15 +48,25 @@ type DataPolicyGroupWrite = components['schemas']['DataPolicyGroupWrite']
 type DataPolicyConditionWrite = components['schemas']['DataPolicyConditionWrite']
 type DataPolicyTargetSetWrite = components['schemas']['DataPolicyTargetSetWrite']
 
-export interface DataPolicyDraftInput {
+interface DataPolicyDraftBase {
   audience: GovernanceAudience
   roleId: string
-  currentRevision: number
-  ifMatch: string
   resourceKey: string
   operation: string
   payload: ReplaceDataPolicyRequest
 }
+
+export interface CreateDataPolicyDraftInput extends DataPolicyDraftBase {
+  mode: 'create'
+}
+
+export interface UpdateDataPolicyDraftInput extends DataPolicyDraftBase {
+  mode: 'update'
+  currentRevision: number
+  ifMatch: string
+}
+
+export type DataPolicyDraftInput = CreateDataPolicyDraftInput | UpdateDataPolicyDraftInput
 
 const text = (value: string, limit: number, code: string): string => {
   const canonical = value.trim()
@@ -115,9 +125,12 @@ export const createDataPolicyDraft = (input: DataPolicyDraftInput) => {
 
   return {
     kind: 'validated-draft' as const,
+    mode: input.mode,
     audience: 'tenant' as const,
     roleId: canonicalId(input.roleId),
-    expectedRevision: requireRevision(input.ifMatch, input.currentRevision),
+    expectedRevision: input.mode === 'create'
+      ? null
+      : requireRevision(input.ifMatch, input.currentRevision),
     resourceKey,
     operation,
     payload: {

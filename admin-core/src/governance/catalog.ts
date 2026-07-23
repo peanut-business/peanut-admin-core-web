@@ -11,6 +11,7 @@ const modulePattern = /^[a-z][a-z0-9]*(?:[.-][a-z][a-z0-9-]*)*$/
 const fail = (code: string): never => { throw new Error(code) }
 
 const canonicalRoutePath = (audience: GovernanceAudience, path: string): string => {
+  if (audience !== 'tenant' && audience !== 'platform') fail('GOVERNANCE_ROUTE_INVALID')
   const prefix = audience === 'tenant' ? '/app' : '/platform'
   if (path === ''
     || !path.startsWith('/')
