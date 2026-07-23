@@ -121,6 +121,11 @@ describe('governance catalog', () => {
       routes: [{ name: 'service.roles', path: '/platform/roles', audience: 'service' as never, permissionKeys: ['core.role.read'], componentKey: 'core.role.list', clientKeys: ['admin-web'] }],
       icons: {},
     })).toThrow('GOVERNANCE_ROUTE_INVALID')
+    expect(() => createGovernanceCatalog({
+      permissions: [{ key: 'service.role.read', moduleKey: 'service', audience: 'service' as never, active: true }],
+      routes: [],
+      icons: {},
+    })).toThrow('GOVERNANCE_PERMISSION_INVALID')
   })
 
   it('projects audit details through a scalar metadata allowlist', () => {

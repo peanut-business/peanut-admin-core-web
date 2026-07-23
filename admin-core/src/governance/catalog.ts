@@ -26,7 +26,8 @@ const canonicalRoutePath = (audience: GovernanceAudience, path: string): string 
 export const createGovernanceCatalog = (input: GovernanceCatalogInput): GovernanceCatalog => {
   const permissions = new Map<string, GovernancePermissionDefinition>()
   for (const permission of input.permissions) {
-    if (!permissionPattern.test(permission.key)
+    if (!['tenant', 'platform'].includes(permission.audience)
+      || !permissionPattern.test(permission.key)
       || !modulePattern.test(permission.moduleKey)
       || (permission.audience === 'platform') !== permission.key.startsWith('platform.')
       || permissions.has(permission.key)) fail('GOVERNANCE_PERMISSION_INVALID')
