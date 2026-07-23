@@ -33,6 +33,24 @@ export interface FileMediaTransport {
   archive: (fileKey: string, etag: string, signal: AbortSignal) => Promise<FileTransportResult>
 }
 
+export interface ImageVariant {
+  readonly variantKey: string
+  readonly width: number
+  readonly height: number
+  readonly mediaType: 'image/jpeg' | 'image/png'
+  readonly deliveryUri: string | null
+}
+
+export interface AssetCandidate {
+  readonly fileKey: string
+  readonly originalName: string
+  readonly mediaType: 'image/jpeg' | 'image/png'
+  readonly width: number
+  readonly height: number
+  readonly previewUri: string | null
+  readonly variants: readonly ImageVariant[]
+}
+
 const fileKeyPattern = /^file_[0-9a-f]{32}$/
 const shaPattern = /^[0-9a-f]{64}$/
 
@@ -47,6 +65,23 @@ const exactKeys = (value: Record<string, unknown>, keys: readonly string[]): voi
   if (actual.length !== expected.length || actual.some((key, index) => key !== expected[index])) {
     throw new Error('FILE_MEDIA_RESPONSE_INVALID')
   }
+}
+
+const deliveryUri = (value: unknown): string | null => {
+  if (value === null) return null
+  if (typeof value !== 'string' || value === '' || value.length > 2048 || value.includes('#')) {
+    throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+  }
+  if (value.startsWith('/')) {
+    if (value.startsWith('//') || !value.startsWith('/api/')) throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+    return value
+  }
+  let parsed: URL
+  try { parsed = new URL(value) } catch { throw new Error('FILE_MEDIA_RESPONSE_INVALID') }
+  if (parsed.protocol !== 'https:' || parsed.username !== '' || parsed.password !== '') {
+    throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+  }
+  return value
 }
 
 export const parseFileObject = (value: unknown): FileObject => {
@@ -107,5 +142,48 @@ export const parseFileList = (value: unknown): FileList => {
     page: meta.page as number,
     pageSize: meta.page_size as number,
     total: meta.total as number,
+  }
+}
+
+export const parseAssetCandidate = (value: unknown): AssetCandidate => {
+  const item = record(value)
+  exactKeys(item, ['file_key', 'original_name', 'media_type', 'width', 'height', 'preview_uri', 'variants'])
+  if (
+    typeof item.file_key !== 'string' || !fileKeyPattern.test(item.file_key)
+    || typeof item.original_name !== 'string' || item.original_name === '' || [...item.original_name].length > 255
+    || (item.media_type !== 'image/jpeg' && item.media_type !== 'image/png')
+    || typeof item.width !== 'number' || !Number.isSafeInteger(item.width) || item.width < 1 || item.width > 50000
+    || typeof item.height !== 'number' || !Number.isSafeInteger(item.height) || item.height < 1 || item.height > 50000
+    || item.width * item.height > 100_000_000
+    || !Array.isArray(item.variants) || item.variants.length > 16
+  ) throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+  const keys = new Set<string>()
+  const variants = item.variants.map((value): ImageVariant => {
+    const variant = record(value)
+    exactKeys(variant, ['variant_key', 'width', 'height', 'media_type', 'delivery_uri'])
+    if (
+      typeof variant.variant_key !== 'string' || !/^[a-z][a-z0-9-]{0,31}$/.test(variant.variant_key)
+      || keys.has(variant.variant_key)
+      || typeof variant.width !== 'number' || !Number.isSafeInteger(variant.width) || variant.width < 1 || variant.width > 4096
+      || typeof variant.height !== 'number' || !Number.isSafeInteger(variant.height) || variant.height < 1 || variant.height > 4096
+      || (variant.media_type !== 'image/jpeg' && variant.media_type !== 'image/png')
+    ) throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+    keys.add(variant.variant_key)
+    return {
+      variantKey: variant.variant_key,
+      width: variant.width,
+      height: variant.height,
+      mediaType: variant.media_type,
+      deliveryUri: deliveryUri(variant.delivery_uri),
+    }
+  })
+  return {
+    fileKey: item.file_key,
+    originalName: item.original_name,
+    mediaType: item.media_type,
+    width: item.width,
+    height: item.height,
+    previewUri: deliveryUri(item.preview_uri),
+    variants,
   }
 }

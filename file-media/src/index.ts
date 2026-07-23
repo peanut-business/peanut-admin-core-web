@@ -1,7 +1,8 @@
 export const FILE_MEDIA_PACKAGE = '@peanut-admin/file-media' as const
 export const FILE_MEDIA_VERSION = '0.1.0' as const
-export { parseFileList, parseFileObject, parseFileResponse } from './contracts'
-export type { FileList, FileMediaTransport, FileObject, FileStatus, FileTransportResult } from './contracts'
+export { default as FileAssetSelector } from './FileAssetSelector.vue'
+export { parseAssetCandidate, parseFileList, parseFileObject, parseFileResponse } from './contracts'
+export type { AssetCandidate, FileList, FileMediaTransport, FileObject, FileStatus, FileTransportResult, ImageVariant } from './contracts'
 export {
   createFileMediaModuleContribution,
   createFileMediaRuntime,
