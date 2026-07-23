@@ -709,6 +709,25 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/audit-events/{event_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_id: components["parameters"]["AuditEventId"];
+            };
+            cookie?: never;
+        };
+        /** getTenantAuditEvent */
+        get: operations["getTenantAuditEvent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/menus": {
         parameters: {
             query?: never;
@@ -718,6 +737,23 @@ export interface paths {
         };
         /** getTenantMenus */
         get: operations["getTenantMenus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/menu-diagnostics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** listTenantMenuDiagnostics */
+        get: operations["listTenantMenuDiagnostics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -909,6 +945,23 @@ export interface paths {
         };
         /** listDeploymentSettings */
         get: operations["listDeploymentSettings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/platform/v1/upgrade": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** getPlatformUpgradeStatus */
+        get: operations["getPlatformUpgradeStatus"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1317,6 +1370,25 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/platform/v1/audit-events/{event_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_id: components["parameters"]["AuditEventId"];
+            };
+            cookie?: never;
+        };
+        /** getPlatformAuditEvent */
+        get: operations["getPlatformAuditEvent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/platform/v1/menus": {
         parameters: {
             query?: never;
@@ -1326,6 +1398,23 @@ export interface paths {
         };
         /** getPlatformMenus */
         get: operations["getPlatformMenus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/platform/v1/menu-diagnostics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** listPlatformMenuDiagnostics */
+        get: operations["listPlatformMenuDiagnostics"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1969,18 +2058,30 @@ export interface components {
             target_set_digest?: string | null;
             request_id: string;
             operation_id?: string | null;
+            metadata?: {
+                [key: string]: boolean | number | string | null;
+            };
             created_at: string;
         };
         TenantAuditListResponse: {
             data: components["schemas"]["TenantAuditEvent"][];
             meta: components["schemas"]["PageMeta"];
         };
+        TenantAuditEventDetail: components["schemas"]["TenantAuditEvent"] & Record<string, never>;
+        TenantAuditEventResponse: {
+            data: components["schemas"]["TenantAuditEventDetail"];
+            meta: components["schemas"]["RequestMeta"];
+        };
         MenuItem: {
             key: string;
+            module_key: string;
             type: string;
             name: string;
             route_name: string | null;
             route_path: string | null;
+            component_key: string | null;
+            required_permission: string | null;
+            client_keys: string[];
             icon: string | null;
             children: components["schemas"]["MenuItem"][];
         };
@@ -1989,6 +2090,26 @@ export interface components {
             meta: components["schemas"]["RequestMeta"] & {
                 authorization_revision?: components["schemas"]["BigIntString"];
             };
+        };
+        MenuDiagnosticItem: {
+            key: string;
+            module_key: string;
+            type: string;
+            name: string;
+            route_name: string | null;
+            route_path: string | null;
+            component_key: string | null;
+            required_permission: string | null;
+            client_keys: string[];
+            icon: string | null;
+            visible: boolean;
+            /** @enum {string} */
+            reason: "visible" | "audience_mismatch" | "client_unavailable" | "deployment_module_unavailable" | "tenant_module_disabled" | "permission_not_granted" | "parent_hidden" | "empty_group";
+            trusted_route_path: string | null;
+        };
+        MenuDiagnosticListResponse: {
+            data: components["schemas"]["MenuDiagnosticItem"][];
+            meta: components["schemas"]["RequestMeta"];
         };
         TargetCandidate: {
             target_resource_key: string;
@@ -2164,6 +2285,51 @@ export interface components {
             data: components["schemas"]["PlatformContextView"];
             meta: components["schemas"]["RequestMeta"];
         };
+        UpgradeIdentity: {
+            commit: string;
+            tree: string;
+            clean: boolean;
+        };
+        UpgradeTargetIdentity: {
+            release_id: string;
+            commit: string;
+            tree: string;
+        };
+        UpgradePreflightStatus: {
+            ready: boolean;
+            code: string;
+            repository_clean: boolean;
+            source_identity_matches: boolean;
+            target_identity_matches: boolean;
+        };
+        UpgradeBackupStatus: {
+            /** @constant */
+            required: true;
+            configured: boolean;
+            valid: boolean;
+            source_identity_matches: boolean;
+        };
+        UpgradeExecutionHandoff: {
+            /** @constant */
+            mode: "operator_cli";
+            /** @constant */
+            remote_execution: false;
+            /** @constant */
+            command: "./scripts/upgrade --release-manifest <release-manifest> --backup-manifest <backup-manifest> --environment <environment>";
+        };
+        UpgradeStatus: {
+            /** @enum {string} */
+            state: "configuration_required" | "ready" | "blocked";
+            current: components["schemas"]["UpgradeIdentity"] | null;
+            target: components["schemas"]["UpgradeTargetIdentity"] | null;
+            preflight: components["schemas"]["UpgradePreflightStatus"];
+            backup: components["schemas"]["UpgradeBackupStatus"];
+            execution: components["schemas"]["UpgradeExecutionHandoff"];
+        };
+        UpgradeStatusResponse: {
+            data: components["schemas"]["UpgradeStatus"];
+            meta: components["schemas"]["RequestMeta"];
+        };
         TenantListResponse: {
             data: components["schemas"]["Tenant"][];
             meta: components["schemas"]["PageMeta"];
@@ -2305,11 +2471,19 @@ export interface components {
             target_tenant_id?: string | null;
             request_id: string;
             operation_id?: string | null;
+            metadata?: {
+                [key: string]: boolean | number | string | null;
+            };
             created_at: string;
         };
         PlatformAuditListResponse: {
             data: components["schemas"]["PlatformAuditEvent"][];
             meta: components["schemas"]["PageMeta"];
+        };
+        PlatformAuditEventDetail: components["schemas"]["PlatformAuditEvent"] & Record<string, never>;
+        PlatformAuditEventResponse: {
+            data: components["schemas"]["PlatformAuditEventDetail"];
+            meta: components["schemas"]["RequestMeta"];
         };
     };
     responses: {
@@ -2961,6 +3135,13 @@ export interface components {
     parameters: {
         Page: number;
         PageSize: number;
+        AuditEventId: components["schemas"]["BigIntString"];
+        AuditEventType: string;
+        AuditAction: string;
+        AuditOutcome: "success" | "denied" | "error";
+        AuditRequestId: string;
+        AuditTargetType: string;
+        AuditTargetId: string;
         IfMatch: string;
         IfMatchOptional: string;
         IfNoneMatchAny: "*";
@@ -9578,6 +9759,12 @@ export interface operations {
     listTenantAuditEvents: {
         parameters: {
             query?: {
+                event_type?: components["parameters"]["AuditEventType"];
+                action?: components["parameters"]["AuditAction"];
+                outcome?: components["parameters"]["AuditOutcome"];
+                request_id?: components["parameters"]["AuditRequestId"];
+                target_type?: components["parameters"]["AuditTargetType"];
+                target_id?: components["parameters"]["AuditTargetId"];
                 page?: components["parameters"]["Page"];
                 page_size?: components["parameters"]["PageSize"];
             };
@@ -9680,6 +9867,108 @@ export interface operations {
             };
         };
     };
+    getTenantAuditEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_id: components["parameters"]["AuditEventId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redacted Tenant audit event detail. */
+            200: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantAuditEventResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
     getTenantMenus: {
         parameters: {
             query?: never;
@@ -9700,6 +9989,106 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MenuListResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
+    listTenantMenuDiagnostics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-gated menu declaration diagnostics. */
+            200: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuDiagnosticListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
@@ -11256,6 +11645,106 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SettingListResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
+    getPlatformUpgradeStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Read-only operator upgrade preparation status. */
+            200: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpgradeStatusResponse"];
                 };
             };
             /** @description RFC 9457 problem response */
@@ -15230,6 +15719,12 @@ export interface operations {
     listPlatformAuditEvents: {
         parameters: {
             query?: {
+                event_type?: components["parameters"]["AuditEventType"];
+                action?: components["parameters"]["AuditAction"];
+                outcome?: components["parameters"]["AuditOutcome"];
+                request_id?: components["parameters"]["AuditRequestId"];
+                target_type?: components["parameters"]["AuditTargetType"];
+                target_id?: components["parameters"]["AuditTargetId"];
                 page?: components["parameters"]["Page"];
                 page_size?: components["parameters"]["PageSize"];
             };
@@ -15332,6 +15827,108 @@ export interface operations {
             };
         };
     };
+    getPlatformAuditEvent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_id: components["parameters"]["AuditEventId"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Redacted platform audit event detail. */
+            200: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PlatformAuditEventResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
     getPlatformMenus: {
         parameters: {
             query?: never;
@@ -15352,6 +15949,106 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MenuListResponse"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            401: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            403: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            404: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            422: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 rate limit problem response */
+            429: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    "Retry-After"?: number;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            500: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+            /** @description RFC 9457 problem response */
+            503: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["Problem"];
+                };
+            };
+        };
+    };
+    listPlatformMenuDiagnostics: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Permission-gated menu declaration diagnostics. */
+            200: {
+                headers: {
+                    "X-Request-Id"?: string;
+                    "Cache-Control"?: "no-store";
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MenuDiagnosticListResponse"];
                 };
             };
             /** @description RFC 9457 problem response */

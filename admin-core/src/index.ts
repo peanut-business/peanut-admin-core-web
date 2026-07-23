@@ -61,3 +61,31 @@ export type {
   TypedTargetSet,
 } from './targets/store'
 export type { components, operations, paths } from './generated/api'
+export {
+  createDataPolicyDraft,
+  createGovernanceCatalog,
+  createRolePermissionDraft,
+  explainMenuVisibility,
+  normalizeAuditFilter,
+  projectAuditDetail,
+  requireGovernancePermission,
+  requireRevision,
+} from './governance/index'
+export type {
+  GovernanceAuditDetailInput,
+  GovernanceAuditFilter,
+  GovernanceAuditOutcome,
+  GovernanceAudience,
+  GovernanceCatalog,
+  GovernanceCatalogInput,
+  GovernanceIconDefinition,
+  GovernanceMenuExplanation,
+  GovernanceMenuInput,
+  GovernancePermissionDefinition,
+  GovernanceRouteDefinition,
+  GovernanceVisibilityContext,
+  CreateDataPolicyDraftInput,
+  DataPolicyDraftInput,
+  RolePermissionDraftInput,
+  UpdateDataPolicyDraftInput,
+} from './governance/index'
