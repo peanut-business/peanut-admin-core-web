@@ -1,3 +1,5 @@
+import type { AdminNavigationRoute } from '../runtime/navigation'
+
 export type GovernanceAudience = 'tenant' | 'platform'
 
 export interface GovernancePermissionDefinition {
@@ -7,12 +9,12 @@ export interface GovernancePermissionDefinition {
   active: boolean
 }
 
-export interface GovernanceRouteDefinition {
-  name: string
-  path: string
+export interface GovernanceRouteDefinition extends AdminNavigationRoute {
   audience: GovernanceAudience
   moduleKey?: string
   permissionKeys: readonly string[]
+  componentKey: string
+  clientKeys: readonly string[]
 }
 
 export interface GovernanceIconDefinition {
@@ -35,15 +37,19 @@ export interface GovernanceCatalogInput {
 export interface GovernanceMenuInput {
   key: string
   type: 'group' | 'page' | 'link'
+  audience: GovernanceAudience
   routeName: string | null
   routePath: string | null
+  componentKey: string | null
   requiredPermission: string | null
   moduleKey: string
+  clientKeys: readonly string[]
   icon: string | null
 }
 
 export interface GovernanceVisibilityContext {
   audience: GovernanceAudience
+  clientKey: string
   deploymentModules: ReadonlySet<string>
   tenantModules: ReadonlySet<string>
   permissions: ReadonlySet<string>

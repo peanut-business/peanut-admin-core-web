@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 
 import {
   createGovernanceCatalog,
+  createDataPolicyDraft,
+  createRolePermissionDraft,
   explainMenuVisibility,
-  prepareDataPolicyChange,
-  prepareRolePermissionChange,
   projectAuditDetail,
 } from '../../src/governance/index'
 
@@ -16,8 +16,8 @@ describe('governance catalog', () => {
       { key: 'platform.role.read', moduleKey: 'platform', audience: 'platform', active: true },
     ],
     routes: [
-      { name: 'tenant.roles.list', path: '/app/roles', audience: 'tenant', permissionKeys: ['core.role.read'] },
-      { name: 'example.report.list', path: '/app/reports', audience: 'tenant', moduleKey: 'example.report', permissionKeys: ['example.report.read'] },
+      { name: 'tenant.roles.list', path: '/app/roles', audience: 'tenant', permissionKeys: ['core.role.read'], componentKey: 'core.role.list', clientKeys: ['admin-web'] },
+      { name: 'example.report.list', path: '/app/reports', audience: 'tenant', moduleKey: 'example.report', permissionKeys: ['example.report.read'], componentKey: 'example.report.page', clientKeys: ['admin-web'] },
     ],
     icons: {
       Shield: { label: 'Roles', glyph: 'S' },
@@ -29,37 +29,84 @@ describe('governance catalog', () => {
     expect(explainMenuVisibility({
       key: 'example.report',
       type: 'page',
+      audience: 'tenant',
       routeName: 'example.report.list',
-      routePath: '/injected',
+      routePath: '/app/reports',
+      componentKey: 'example.report.page',
       requiredPermission: 'example.report.read',
       moduleKey: 'example.report',
+      clientKeys: ['admin-web'],
       icon: 'Files',
     }, {
       audience: 'tenant',
+      clientKey: 'admin-web',
       deploymentModules: new Set(['example.report']),
       tenantModules: new Set(),
       permissions: new Set(['example.report.read']),
     }, catalog)).toMatchObject({ visible: false, reason: 'tenant_module_disabled', trustedPath: '/app/reports' })
 
     expect(() => explainMenuVisibility({
-      key: 'injected', type: 'page', routeName: 'server.injected', routePath: '/app/injected', requiredPermission: 'core.role.read', moduleKey: 'core', icon: 'Shield',
+      key: 'injected', type: 'page', audience: 'tenant', routeName: 'server.injected', routePath: '/app/injected', componentKey: 'server.injected', requiredPermission: 'core.role.read', moduleKey: 'core', clientKeys: ['admin-web'], icon: 'Shield',
     }, {
-      audience: 'tenant', deploymentModules: new Set(), tenantModules: new Set(), permissions: new Set(['core.role.read']),
+      audience: 'tenant', clientKey: 'admin-web', deploymentModules: new Set(), tenantModules: new Set(), permissions: new Set(['core.role.read']),
     }, catalog)).toThrow('GOVERNANCE_ROUTE_UNDECLARED')
+
+    expect(() => explainMenuVisibility({
+      key: 'mismatch', type: 'page', audience: 'tenant', routeName: 'tenant.roles.list', routePath: '/app/roles', componentKey: 'server.injected', requiredPermission: 'core.role.read', moduleKey: 'core', clientKeys: ['admin-web'], icon: 'Shield',
+    }, {
+      audience: 'tenant', clientKey: 'admin-web', deploymentModules: new Set(), tenantModules: new Set(), permissions: new Set(['core.role.read']),
+    }, catalog)).toThrow('GOVERNANCE_ROUTE_CONTRACT_MISMATCH')
   })
 
-  it('requires strong revisions and declared same-audience permissions and conditions', () => {
-    expect(prepareRolePermissionChange({
+  it('builds validation-only drafts aligned with the trusted role and data-policy APIs', () => {
+    expect(createRolePermissionDraft({
       audience: 'tenant', roleId: '9', currentRevision: 4, ifMatch: '"rev-4"', permissionKeys: ['core.role.read', 'core.role.read'], availableModules: new Set(), catalog,
-    }).permissionKeys).toEqual(['core.role.read'])
-    expect(() => prepareRolePermissionChange({
+    }).payload.permission_keys).toEqual(['core.role.read'])
+    expect(() => createRolePermissionDraft({
       audience: 'tenant', roleId: '9', currentRevision: 4, ifMatch: '"rev-4"', permissionKeys: ['platform.role.read'], availableModules: new Set(), catalog,
     })).toThrow('GOVERNANCE_PERMISSION_AUDIENCE_MISMATCH')
 
-    expect(prepareDataPolicyChange({
-      audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-7"', resourceKey: 'example.report', operation: 'list', conditionKeys: ['core.specified_objects'], availableModules: new Set(['example.report']),
-      operations: [{ resourceKey: 'example.report', operation: 'list', moduleKey: 'example.report', audience: 'tenant', conditionKeys: ['core.tenant_wide', 'core.specified_objects'] }],
-    }).conditionKeys).toEqual(['core.specified_objects'])
+    const draft = createDataPolicyDraft({
+      audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-7"', resourceKey: 'example.report', operation: 'list',
+      payload: {
+        status: 'active', reason: 'regional access', valid_from: '2026-07-24T00:00:00.000Z', valid_until: '2026-08-24T00:00:00.000Z',
+        groups: [{
+          name: 'east-region',
+          conditions: [{ condition_key: 'core.specified_objects', target_set: { name: 'east', target_resource_key: 'example.report', targets: [{ target_id: '101' }] } }],
+        }],
+      },
+    })
+    expect(draft).toMatchObject({
+      kind: 'validated-draft', audience: 'tenant', expectedRevision: 7,
+      payload: { status: 'active', groups: [{ conditions: [{ target_set: { target_resource_key: 'example.report', targets: [{ target_id: '101' }] } }] }] },
+    })
+    expect(() => createDataPolicyDraft({
+      audience: 'tenant', roleId: '9', currentRevision: 7, ifMatch: '"rev-7"', resourceKey: 'example.report', operation: 'list',
+      payload: { status: 'active', groups: [] },
+    })).toThrow('DATA_POLICY_GROUPS_INVALID')
+  })
+
+  it('rejects non-canonical paths, duplicate paths, and invalid route permissions', () => {
+    for (const path of ['/app/../roles', '/app/%2e%2e/roles', '/app/roles?x=1', '/app/roles#x', '/app//roles', '/app\\roles', '/app/roles/', '/platform/roles']) {
+      expect(() => createGovernanceCatalog({
+        permissions: [{ key: 'core.role.read', moduleKey: 'core', audience: 'tenant', active: true }],
+        routes: [{ name: 'tenant.invalid', path, audience: 'tenant', permissionKeys: ['core.role.read'], componentKey: 'core.role.list', clientKeys: ['admin-web'] }],
+        icons: {},
+      })).toThrow('GOVERNANCE_ROUTE_INVALID')
+    }
+    expect(() => createGovernanceCatalog({
+      permissions: [{ key: 'core.role.read', moduleKey: 'core', audience: 'tenant', active: true }],
+      routes: [
+        { name: 'tenant.roles.list', path: '/app/roles', audience: 'tenant', permissionKeys: ['core.role.read'], componentKey: 'core.role.list', clientKeys: ['admin-web'] },
+        { name: 'tenant.roles.alias', path: '/app/roles', audience: 'tenant', permissionKeys: ['core.role.read'], componentKey: 'core.role.list', clientKeys: ['admin-web'] },
+      ],
+      icons: {},
+    })).toThrow('GOVERNANCE_ROUTE_INVALID')
+    expect(() => createGovernanceCatalog({
+      permissions: [{ key: 'core.role.retired', moduleKey: 'core', audience: 'tenant', active: false }],
+      routes: [{ name: 'tenant.retired', path: '/app/retired', audience: 'tenant', permissionKeys: ['core.role.retired'], componentKey: 'core.role.list', clientKeys: ['admin-web'] }],
+      icons: {},
+    })).toThrow('GOVERNANCE_PERMISSION_INACTIVE')
   })
 
   it('projects audit details through a scalar metadata allowlist', () => {
@@ -67,5 +114,8 @@ describe('governance catalog', () => {
       id: '12', audience: 'tenant', eventType: 'tenant.role.updated', action: 'core.role.update', outcome: 'success', requestId: 'req_123', occurredAt: '2026-07-24T00:00:00.000Z',
       metadata: { revision: 7, permission_count: 3, token: 'secret', sql: 'SELECT secret', raw_target_set: ['101'] },
     }, ['revision', 'permission_count'])).toMatchObject({ metadata: { permission_count: 3, revision: 7 } })
+    expect(() => projectAuditDetail({
+      id: '12', audience: 'tenant', eventType: 'tenant.role.updated', action: 'core.role.update', outcome: 'success', requestId: 'req_123', occurredAt: '2026-07-24T00:00:00.000Z', metadata: {},
+    }, ['revision', 'raw_target_set'])).toThrow('AUDIT_METADATA_ALLOWLIST_INVALID')
   })
 })

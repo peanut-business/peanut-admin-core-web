@@ -10,11 +10,16 @@ const modulePattern = /^[a-z][a-z0-9]*(?:[.-][a-z][a-z0-9-]*)*$/
 
 const fail = (code: string): never => { throw new Error(code) }
 
-const routePathMatches = (audience: GovernanceAudience, path: string): boolean => {
+const canonicalRoutePath = (audience: GovernanceAudience, path: string): string => {
   const prefix = audience === 'tenant' ? '/app' : '/platform'
-  return (path === prefix || path.startsWith(`${prefix}/`))
-    && !path.startsWith('//')
-    && !/[\\\u0000-\u001f\u007f]/.test(path)
+  if (path === ''
+    || !path.startsWith('/')
+    || path.endsWith('/')
+    || path.includes('//')
+    || /[\\%?#\u0000-\u0020\u007f]/.test(path)
+    || path.split('/').some(segment => segment === '.' || segment === '..')
+    || (path !== prefix && !path.startsWith(`${prefix}/`))) fail('GOVERNANCE_ROUTE_INVALID')
+  return path
 }
 
 export const createGovernanceCatalog = (input: GovernanceCatalogInput): GovernanceCatalog => {
@@ -30,16 +35,29 @@ export const createGovernanceCatalog = (input: GovernanceCatalogInput): Governan
   const routes = new Map<string, GovernanceCatalogInput['routes'][number]>()
   const paths = new Set<string>()
   for (const route of input.routes) {
+    const path = canonicalRoutePath(route.audience, route.path)
     if (route.name === ''
-      || !routePathMatches(route.audience, route.path)
+      || route.componentKey === ''
+      || route.permissionKeys.length === 0
+      || route.clientKeys.length === 0
+      || new Set(route.permissionKeys).size !== route.permissionKeys.length
+      || new Set(route.clientKeys).size !== route.clientKeys.length
       || routes.has(route.name)
-      || paths.has(route.path)) fail('GOVERNANCE_ROUTE_INVALID')
+      || paths.has(path)) fail('GOVERNANCE_ROUTE_INVALID')
+    const expectedModule = route.moduleKey ?? (route.audience === 'platform' ? 'platform' : 'core')
     for (const permissionKey of route.permissionKeys) {
       const permission = permissions.get(permissionKey) ?? fail('GOVERNANCE_PERMISSION_UNDECLARED')
       if (permission.audience !== route.audience) fail('GOVERNANCE_PERMISSION_AUDIENCE_MISMATCH')
+      if (!permission.active) fail('GOVERNANCE_PERMISSION_INACTIVE')
+      if (permission.moduleKey !== expectedModule) fail('GOVERNANCE_PERMISSION_MODULE_MISMATCH')
     }
-    routes.set(route.name, { ...route, permissionKeys: [...route.permissionKeys] })
-    paths.add(route.path)
+    routes.set(route.name, {
+      ...route,
+      path,
+      permissionKeys: [...route.permissionKeys],
+      clientKeys: [...route.clientKeys],
+    })
+    paths.add(path)
   }
 
   const icons = new Map<string, GovernanceCatalogInput['icons'][string]>()

@@ -41,10 +41,11 @@ export const projectAuditDetail = (
   metadataAllowlist: readonly string[],
 ) => {
   const metadata: Record<string, boolean | number | string | null> = {}
-  const allowed = new Set(metadataAllowlist.filter(key => (
-    /^[a-z][a-z0-9_]{0,63}$/.test(key)
-    && !/token|secret|cookie|password|sql|target_set/i.test(key)
-  )))
+  if (metadataAllowlist.some(key => (
+    !/^[a-z][a-z0-9_]{0,63}$/.test(key)
+    || /token|secret|cookie|password|sql|target_set/i.test(key)
+  ))) throw new Error('AUDIT_METADATA_ALLOWLIST_INVALID')
+  const allowed = new Set(metadataAllowlist)
   for (const key of [...allowed].sort()) {
     const value = input.metadata[key]
     if (value === null || ['boolean', 'number', 'string'].includes(typeof value)) {

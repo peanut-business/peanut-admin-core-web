@@ -1,16 +1,15 @@
 export { createGovernanceCatalog, requireGovernancePermission } from './catalog'
 export { normalizeAuditFilter, projectAuditDetail } from './audit'
 export { explainMenuVisibility } from './menu'
-export { prepareDataPolicyChange, prepareRolePermissionChange, requireRevision } from './roles'
+export { createDataPolicyDraft, createRolePermissionDraft, requireRevision } from './roles'
 export type {
   GovernanceAuditDetailInput,
   GovernanceAuditFilter,
   GovernanceAuditOutcome,
 } from './audit'
 export type {
-  DataPolicyChangeInput,
-  GovernanceResourceOperation,
-  RolePermissionChangeInput,
+  DataPolicyDraftInput,
+  RolePermissionDraftInput,
 } from './roles'
 export type {
   GovernanceAudience,
