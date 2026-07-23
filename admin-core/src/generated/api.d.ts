@@ -3545,7 +3545,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/octet-stream": components["schemas"]["FileContent"];
+                    "*/*": components["schemas"]["FileContent"];
                 };
             };
             /** @description RFC 9457 problem response */
