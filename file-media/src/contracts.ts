@@ -28,6 +28,7 @@ export interface FileTransportResult {
 
 export interface FileMediaTransport {
   list: (status: FileStatus, page: number, pageSize: number, signal: AbortSignal) => Promise<FileTransportResult>
+  assets: (page: number, pageSize: number, signal: AbortSignal) => Promise<FileTransportResult>
   upload: (file: File, signal: AbortSignal) => Promise<FileTransportResult>
   download: (fileKey: string, signal: AbortSignal) => Promise<Response>
   archive: (fileKey: string, etag: string, signal: AbortSignal) => Promise<FileTransportResult>
@@ -49,6 +50,13 @@ export interface AssetCandidate {
   readonly height: number
   readonly previewUri: string | null
   readonly variants: readonly ImageVariant[]
+}
+
+export interface AssetList {
+  readonly items: readonly AssetCandidate[]
+  readonly page: number
+  readonly pageSize: number
+  readonly total: number
 }
 
 const fileKeyPattern = /^file_[0-9a-f]{32}$/
@@ -185,5 +193,28 @@ export const parseAssetCandidate = (value: unknown): AssetCandidate => {
     height: item.height,
     previewUri: deliveryUri(item.preview_uri),
     variants,
+  }
+}
+
+export const parseAssetList = (value: unknown): AssetList => {
+  const body = record(value)
+  exactKeys(body, ['data', 'meta'])
+  const data = record(body.data)
+  const meta = record(body.meta)
+  exactKeys(data, ['items'])
+  exactKeys(meta, ['request_id', 'page', 'page_size', 'total'])
+  if (!Array.isArray(data.items) || typeof meta.request_id !== 'string' || meta.request_id === '') {
+    throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+  }
+  for (const key of ['page', 'page_size', 'total'] as const) {
+    if (typeof meta[key] !== 'number' || !Number.isSafeInteger(meta[key]) || meta[key] < (key === 'total' ? 0 : 1)) {
+      throw new Error('FILE_MEDIA_RESPONSE_INVALID')
+    }
+  }
+  return {
+    items: data.items.map(parseAssetCandidate),
+    page: meta.page as number,
+    pageSize: meta.page_size as number,
+    total: meta.total as number,
   }
 }

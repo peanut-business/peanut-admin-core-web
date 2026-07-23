@@ -50,7 +50,7 @@ describe('notification response contracts', () => {
     expect(() => parseNotificationResponse(envelope(message({ attachments: [{
       file_key: 'file_0123456789abcdef0123456789abcdef', original_name: 'x', media_type: 'text/plain',
       size_bytes: 1, sha256: 'a'.repeat(64), storage_key: 'forbidden',
-    }] }))))).toThrow('NOTIFICATION_RESPONSE_INVALID')
+    }] })))).toThrow('NOTIFICATION_RESPONSE_INVALID')
     expect(() => parseNotificationList({ data: { items: [] }, meta: { page: 1, page_size: 20, total: 0 } }))
       .toThrow('NOTIFICATION_RESPONSE_INVALID')
   })

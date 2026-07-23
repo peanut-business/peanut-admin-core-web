@@ -17,6 +17,7 @@ describe('file-media page', () => {
   it('loads metadata and exposes guarded actions', async () => {
     const transport: FileMediaTransport = {
       list: vi.fn(async () => result(200, { data: { items: [item] }, meta: { request_id: 'req', page: 1, page_size: 20, total: 1 } })),
+      assets: vi.fn(async () => result(200, { data: { items: [] }, meta: { request_id: 'req', page: 1, page_size: 20, total: 0 } })),
       upload: vi.fn(), download: vi.fn(), archive: vi.fn(),
     }
     const runtime = createFileMediaRuntime({ transport, canRead: () => true, canCreate: () => true, canDelete: () => false })
@@ -31,7 +32,13 @@ describe('file-media page', () => {
     const archive = vi.fn(async () => result(200, { data: { ...item, status: 'archived', revision: 2, archived_at: '2026-07-23T00:01:00.000Z' }, meta: { request_id: 'req' } }))
     const list = vi.fn(async () => result(200, { data: { items: [item] }, meta: { request_id: 'req', page: 1, page_size: 20, total: 1 } }))
     const runtime = createFileMediaRuntime({
-      transport: { list, archive, upload: vi.fn(), download: vi.fn() },
+      transport: {
+        list,
+        assets: vi.fn(async () => result(200, { data: { items: [] }, meta: { request_id: 'req', page: 1, page_size: 20, total: 0 } })),
+        archive,
+        upload: vi.fn(),
+        download: vi.fn(),
+      },
       canRead: () => true, canCreate: () => true, canDelete: () => true,
     })
     await runtime.load()

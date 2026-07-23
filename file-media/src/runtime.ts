@@ -3,8 +3,8 @@ import { inject, reactive } from 'vue'
 import type { AdminModuleContribution } from '@peanut-admin/admin-core'
 import type { InjectionKey } from 'vue'
 
-import { parseFileList, parseFileResponse } from './contracts'
-import type { FileMediaTransport, FileObject, FileStatus, FileTransportResult } from './contracts'
+import { parseAssetList, parseFileList, parseFileResponse } from './contracts'
+import type { AssetCandidate, FileMediaTransport, FileObject, FileStatus, FileTransportResult } from './contracts'
 
 export const FILE_MEDIA_MODULE_KEY = 'peanut.file-media' as const
 export const FILE_MEDIA_ROUTE_NAME = 'peanut.file-media.list' as const
@@ -26,6 +26,9 @@ export interface FileMediaState {
   page: number
   pageSize: number
   total: number
+  assets: AssetCandidate[]
+  assetsLoading: boolean
+  assetsError: FileMediaError | null
   loading: boolean
   mutating: boolean
   error: FileMediaError | null
@@ -36,6 +39,7 @@ export interface FileMediaRuntime {
   readonly canCreate: () => boolean
   readonly canDelete: () => boolean
   load: () => Promise<void>
+  loadAssets: () => Promise<void>
   setStatus: (status: FileStatus) => Promise<void>
   upload: (file: File) => Promise<void>
   download: (file: FileObject) => Promise<void>
@@ -83,6 +87,7 @@ const defaultSave = async (response: Response, file: FileObject): Promise<void> 
 export const createFileMediaRuntime = (options: FileMediaRuntimeOptions): FileMediaRuntime => {
   const state = reactive<FileMediaState>({
     items: [], status: 'ready', page: 1, pageSize: 20, total: 0,
+    assets: [], assetsLoading: false, assetsError: null,
     loading: false, mutating: false, error: null,
   })
   const controllers = new Set<AbortController>()
@@ -116,11 +121,31 @@ export const createFileMediaRuntime = (options: FileMediaRuntimeOptions): FileMe
     }
   }
 
+  const loadAssets = async (): Promise<void> => {
+    const current = generation
+    state.assetsLoading = true
+    state.assetsError = null
+    try {
+      if (!options.canRead()) throw new Error('FILE_MEDIA_PERMISSION_DENIED')
+      const result = await run(signal => options.transport.assets(1, 50, signal))
+      if (current !== generation) return
+      if (result.status !== 200) { state.assetsError = failure(result); return }
+      state.assets = [...parseAssetList(result.body).items]
+    } catch (error) {
+      if (current === generation && !(error instanceof DOMException && error.name === 'AbortError')) {
+        state.assetsError = { message: 'The media asset service could not be reached.', requestId: null, status: null }
+      }
+    } finally {
+      if (current === generation) state.assetsLoading = false
+    }
+  }
+
   return {
     state,
     canCreate: options.canCreate,
     canDelete: options.canDelete,
     load,
+    loadAssets,
     async setStatus(status) { state.status = status; state.page = 1; await load() },
     async upload(file) {
       if (!options.canCreate() || state.mutating) return
@@ -131,7 +156,7 @@ export const createFileMediaRuntime = (options: FileMediaRuntimeOptions): FileMe
         if (result.status !== 201) { state.error = failure(result); return }
         parseFileResponse(result.body)
         state.status = 'ready'
-        await load()
+        await Promise.all([load(), loadAssets()])
       } catch { state.error = { message: 'The upload could not be completed.', requestId: null, status: null } }
       finally { state.mutating = false }
     },
@@ -160,7 +185,7 @@ export const createFileMediaRuntime = (options: FileMediaRuntimeOptions): FileMe
       } catch { state.error = { message: 'The file could not be archived.', requestId: null, status: null } }
       finally { state.mutating = false }
     },
-    dispose() { generation += 1; for (const controller of controllers) controller.abort(); controllers.clear() },
+    dispose() { generation += 1; for (const controller of controllers) controller.abort(); controllers.clear(); state.assets = [] },
   }
 }
 

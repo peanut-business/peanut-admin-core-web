@@ -2,6 +2,7 @@
 import { EmptyState, ForbiddenState, ModuleUnavailableState, PageContent, PageHeader, PageToolbar, SessionExpiredState } from '@peanut-admin/admin-shell'
 import { ElButton } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
+import FileAssetSelector from './FileAssetSelector.vue'
 import { useFileMediaRuntime } from './runtime'
 
 const runtime = useFileMediaRuntime()
@@ -9,6 +10,7 @@ const state = runtime.state
 const input = ref<HTMLInputElement | null>(null)
 const canCreate = computed(runtime.canCreate)
 const canDelete = computed(runtime.canDelete)
+const selectedAssetKey = ref<string | null>(null)
 
 const upload = async (event: Event): Promise<void> => {
   const target = event.currentTarget
@@ -18,7 +20,7 @@ const upload = async (event: Event): Promise<void> => {
   target.value = ''
 }
 
-onMounted(runtime.load)
+onMounted(() => Promise.all([runtime.load(), runtime.loadAssets()]))
 </script>
 
 <template>
@@ -35,6 +37,16 @@ onMounted(runtime.load)
       <ElButton :type="state.status === 'ready' ? 'primary' : 'default'" @click="runtime.setStatus('ready')">Ready</ElButton>
       <ElButton :type="state.status === 'archived' ? 'primary' : 'default'" @click="runtime.setStatus('archived')">Archived</ElButton>
     </PageToolbar>
+
+    <FileAssetSelector
+      :items="state.assets"
+      :selected-file-key="selectedAssetKey"
+      :loading="state.assetsLoading"
+      :error="state.assetsError?.message ?? null"
+      :disabled="state.mutating"
+      @select="selectedAssetKey = $event.fileKey"
+      @retry="runtime.loadAssets"
+    />
 
     <SessionExpiredState v-if="state.error?.status === 401" :message="state.error.message" />
     <ForbiddenState v-else-if="state.error?.status === 403" :message="state.error.message" />
