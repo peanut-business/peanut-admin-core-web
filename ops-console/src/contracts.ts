@@ -2,7 +2,8 @@ export type HealthStatus = 'healthy' | 'degraded' | 'unhealthy'
 export type UpgradeState = 'configuration_required' | 'blocked' | 'ready' | 'running' | 'succeeded' | 'failed'
 export type OpsTaskStatus = 'queued' | 'running' | 'succeeded' | 'dead' | 'cancelled'
 export type MaintenanceState = 'scheduled' | 'active' | 'closed'
-export type LogSeverity = 'debug' | 'info' | 'warning' | 'error' | 'critical'
+export const LOG_SEVERITIES = ['info', 'warning', 'error', 'critical'] as const
+export type LogSeverity = typeof LOG_SEVERITIES[number]
 
 export interface HealthCheck { readonly key: string; readonly status: 'up' | 'down'; readonly critical: boolean; readonly latencyMs: number }
 export interface OpsStatus {
@@ -131,7 +132,7 @@ export const parseRuntimeLogs = (value: unknown): RuntimeLogPage => {
   if (!Array.isArray(data.items) || data.items.length > 100 || (data.next_cursor !== null && (typeof data.next_cursor !== 'string' || !/^cursor_[A-Za-z0-9_-]{8,200}$/.test(data.next_cursor)))) return invalid()
   const items = data.items.map(value => {
     const item = record(value); exact(item, ['event_key', 'severity', 'component_key', 'message', 'occurred_at', 'request_id', 'occurrences'])
-    if (!qualifiedKey(item.event_key) || !['debug', 'info', 'warning', 'error', 'critical'].includes(String(item.severity))
+    if (!qualifiedKey(item.event_key) || !LOG_SEVERITIES.includes(item.severity as LogSeverity)
       || !qualifiedKey(item.component_key) || !safePublicText(item.message) || !instant(item.occurred_at)
       || (item.request_id !== null && (typeof item.request_id !== 'string' || !/^[A-Za-z0-9._-]{1,128}$/.test(item.request_id)))
       || !integer(item.occurrences, 1) || item.occurrences > 1_000_000) return invalid()

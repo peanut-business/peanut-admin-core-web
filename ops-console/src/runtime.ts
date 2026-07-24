@@ -1,6 +1,6 @@
 import { inject, reactive } from 'vue'
 import type { InjectionKey } from 'vue'
-import { parseMaintenance, parseOpsStatus, parseOpsTask, parseRuntimeLogs } from './contracts'
+import { LOG_SEVERITIES, parseMaintenance, parseOpsStatus, parseOpsTask, parseRuntimeLogs } from './contracts'
 import type { LogSeverity, MaintenanceScheduleInput, MaintenanceWindow, OpsConsoleTransport, OpsStatus, OpsTask, OpsTransportResult, RuntimeLogEntry } from './contracts'
 
 export const OPS_CONSOLE_STORE_KEY = 'peanut.ops-console.runtime' as const
@@ -89,6 +89,7 @@ export const createOpsConsoleRuntime = (options: OpsConsoleRuntimeOptions): OpsC
   const key = (): string => options.idempotencyKey?.() ?? `ops-${crypto.randomUUID()}`
   const invalidateLogs = (): void => {
     logGeneration += 1; logController?.abort(); logController = null; state.logsLoading = false
+    state.logs = []; state.logCursor = null; state.logNextCursor = null
   }
   const load = async (): Promise<void> => {
     const current = ++generation; state.loading = true; state.error = null
@@ -152,8 +153,8 @@ export const createOpsConsoleRuntime = (options: OpsConsoleRuntimeOptions): OpsC
     canBackup: options.canBackup, canRestore: options.canRestore, canMaintain: options.canMaintain, canReadLogs: options.canReadLogs,
     load, loadLogs,
     async setLogFilter(source, severity) {
-      if (!logSources.includes(source) || !['debug', 'info', 'warning', 'error', 'critical'].includes(severity)) { state.logsError = localError('OPS_REQUEST_INVALID', 400); return }
-      state.logSource = source; state.logSeverity = severity; state.logCursor = null; state.logNextCursor = null; await loadLogs(true)
+      if (!logSources.includes(source) || !LOG_SEVERITIES.includes(severity)) { state.logsError = localError('OPS_REQUEST_INVALID', 400); return }
+      state.logSource = source; state.logSeverity = severity; await loadLogs(true)
     },
     submitBackup(providerKey) {
       const provider = providers.find(item => item.key === providerKey && item.backup)

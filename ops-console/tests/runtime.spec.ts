@@ -60,6 +60,19 @@ describe('ops-console runtime', () => {
     expect(instance.state.logs.map(item => item.eventKey)).toEqual(['runtime.new'])
   })
 
+  it('clears old filter rows immediately and keeps them cleared when the new request fails', async () => {
+    let resolve!: (value: ReturnType<typeof result>) => void
+    const logs = vi.fn()
+      .mockResolvedValueOnce(result(200, logPage('runtime.old', null)))
+      .mockImplementationOnce(() => new Promise<ReturnType<typeof result>>(done => { resolve = done }))
+    const instance = runtime(transport({ logs }), true, ['application', 'audit'])
+    await instance.loadLogs(); expect(instance.state.logs.map(item => item.eventKey)).toEqual(['runtime.old'])
+    const filtering = instance.setLogFilter('audit', 'error')
+    expect(instance.state.logs).toEqual([]); expect(instance.state.logsLoading).toBe(true)
+    resolve(result(503, { code: 'OPS_LOGS_UNAVAILABLE' })); await filtering
+    expect(instance.state.logs).toEqual([]); expect(instance.state.logsError?.code).toBe('OPS_LOGS_UNAVAILABLE')
+  })
+
   it('serializes load-more and rejects a page that repeats its input cursor', async () => {
     let resolveMore!: (value: ReturnType<typeof result>) => void
     const logs = vi.fn()

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseMaintenance, parseOpsStatus, parseOpsTask, parseRuntimeLogs } from '../src/contracts'
+import { LOG_SEVERITIES, parseMaintenance, parseOpsStatus, parseOpsTask, parseRuntimeLogs } from '../src/contracts'
 import { envelope, maintenanceData, statusData, taskData } from './fixtures'
 
 describe('ops-console contracts', () => {
@@ -32,5 +32,18 @@ describe('ops-console contracts', () => {
         upgrade: { ...statusData.upgrade, state: 'succeeded', [field]: false },
       }))).toThrow('OPS_RESPONSE_INVALID')
     }
+  })
+
+  it('keeps status JSON and log severity semantics aligned with PHP', () => {
+    expect(LOG_SEVERITIES).toEqual(['info', 'warning', 'error', 'critical'])
+    expect(() => parseRuntimeLogs(envelope({
+      items: [{ event_key: 'runtime.failed', severity: 'debug', component_key: 'http.runtime', message: 'An operational event occurred.', occurred_at: '2026-07-24T02:00:00.000Z', request_id: null, occurrences: 1 }],
+      next_cursor: null,
+    }))).toThrow('OPS_RESPONSE_INVALID')
+    const parsed = parseOpsStatus(envelope({
+      ...statusData,
+      health: { status: 'healthy', checks: [{ latency_ms: 1, critical: true, status: 'up', key: 'database' }] },
+    }))
+    expect(parsed.health.checks[0]?.latencyMs).toBe(1)
   })
 })
