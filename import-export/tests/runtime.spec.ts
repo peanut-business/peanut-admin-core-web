@@ -41,6 +41,26 @@ describe('import/export runtime', () => {
     expect(runtime.state.status).toBe('running'); expect(runtime.state.items[0]?.status).toBe('running')
   })
 
+  it('keeps the command mutex while filters and downloads use independent read domains', async () => {
+    const command = deferred<ImportExportTransportResult>(); let commandCalls = 0; let commandSignal: AbortSignal | undefined; let downloadSignal: AbortSignal | undefined
+    const runtimeStatus = 'running' as const
+    const transport = {
+      list: async (status: typeof runtimeStatus) => listResult({ ...operation, status }),
+      submitImport: async () => { commandCalls += 1; return result(500, {}) },
+      submitExport: async (_provider: string, _key: string, signal: AbortSignal) => { commandCalls += 1; commandSignal = signal; return command.promise },
+      cancel: async () => result(500, {}), download: async (_key: string, signal: AbortSignal) => { downloadSignal = signal; return new Response('csv') },
+    } satisfies ImportExportTransport
+    const runtime = createImportExportRuntime({
+      transport, canRead: () => true, canCreate: () => true, canCancel: () => true,
+      saveDownload: async () => {},
+    })
+    const pending = runtime.submitExport('test.contacts'); expect(runtime.state.mutating).toBe(true)
+    await runtime.setStatus(runtimeStatus); await runtime.download(`file_${'e'.repeat(32)}`); await runtime.submitImport('test.contacts', `file_${'f'.repeat(32)}`, {})
+    expect(commandCalls).toBe(1); expect(commandSignal?.aborted).toBe(false); expect(downloadSignal?.aborted).toBe(false); expect(runtime.state.mutating).toBe(true)
+    command.resolve(result(201, { data: operation, meta: {} })); await pending
+    expect(runtime.state.mutating).toBe(false); expect(runtime.state.status).toBe(runtimeStatus)
+  })
+
   it('aborts and fences in-flight mutation and download work on dispose', async () => {
     const mutation = deferred<ImportExportTransportResult>(); const saved = deferred<void>(); let mutationSignal: AbortSignal | undefined; let saveSignal: AbortSignal | undefined
     const transport = {

@@ -57,56 +57,62 @@ const save = async (response: Response, fileKey: string, signal: AbortSignal): P
 
 export const createImportExportRuntime = (options: ImportExportRuntimeOptions): ImportExportRuntime => {
   const state = reactive<ImportExportState>({ items: [], status: 'queued', page: 1, pageSize: 20, total: 0, loading: false, mutating: false, error: null })
-  const controllers = new Set<AbortController>(); let generation = 0
-  const abortActive = (): void => { for (const controller of controllers) controller.abort(); controllers.clear() }
-  const begin = (): number => { abortActive(); state.loading = false; state.mutating = false; return ++generation }
-  const active = (current: number): boolean => current === generation
+  let disposeEpoch = 0; let readEpoch = 0; let downloadEpoch = 0
+  let readController: AbortController | null = null; let commandController: AbortController | null = null; let downloadController: AbortController | null = null
   const aborted = (error: unknown): boolean => error instanceof DOMException && error.name === 'AbortError'
-  const run = async <T>(current: number, operation: (signal: AbortSignal) => Promise<T>): Promise<T> => {
-    if (!active(current)) throw new DOMException('Aborted', 'AbortError')
-    const controller = new AbortController(); controllers.add(controller)
-    try { return await operation(controller.signal) } finally { controllers.delete(controller) }
-  }
-  const loadAt = async (current: number): Promise<void> => {
-    if (!active(current)) return
+  const load = async (): Promise<void> => {
+    const currentDispose = disposeEpoch; const currentRead = ++readEpoch
+    readController?.abort(); const controller = new AbortController(); readController = controller
     state.loading = true; state.error = null
     try {
       if (!options.canRead()) throw new Error('IMPORT_EXPORT_PERMISSION_DENIED')
       const status = state.status; const page = state.page; const pageSize = state.pageSize
-      const result = await run(current, signal => options.transport.list(status, page, pageSize, signal))
-      if (!active(current)) return
+      const result = await options.transport.list(status, page, pageSize, controller.signal)
+      if (currentDispose !== disposeEpoch || currentRead !== readEpoch) return
       if (result.status !== 200) { state.error = failure(result); return }
       const list = parseOperationList(result.body); state.items = [...list.items]; state.page = list.page; state.pageSize = list.pageSize; state.total = list.total
-    } catch (error) { if (active(current) && !aborted(error)) state.error = { message: 'The import/export service could not be reached.', requestId: null, status: null } }
-    finally { if (active(current)) state.loading = false }
+    } catch (error) { if (currentDispose === disposeEpoch && currentRead === readEpoch && !aborted(error)) state.error = { message: 'The import/export service could not be reached.', requestId: null, status: null } }
+    finally {
+      if (readController === controller) readController = null
+      if (currentDispose === disposeEpoch && currentRead === readEpoch) state.loading = false
+    }
   }
-  const load = (): Promise<void> => loadAt(begin())
-  const mutate = async (current: number, operation: (signal: AbortSignal) => Promise<ImportExportTransportResult>): Promise<void> => {
+  const mutate = async (operation: (signal: AbortSignal) => Promise<ImportExportTransportResult>): Promise<void> => {
+    if (state.mutating || commandController !== null) return
+    const currentDispose = disposeEpoch; const controller = new AbortController(); commandController = controller
     state.mutating = true; state.error = null
     try {
-      const result = await run(current, operation); if (!active(current)) return
+      const result = await operation(controller.signal); if (currentDispose !== disposeEpoch) return
       if (result.status !== 201 && result.status !== 200) { state.error = failure(result); return }
-      parseOperationResponse(result.body); await loadAt(current)
-    } catch (error) { if (active(current) && !aborted(error)) state.error = { message: 'The import/export request could not be completed.', requestId: null, status: null } }
-    finally { if (active(current)) state.mutating = false }
+      parseOperationResponse(result.body); await load()
+    } catch (error) { if (currentDispose === disposeEpoch && !aborted(error)) state.error = { message: 'The import/export request could not be completed.', requestId: null, status: null } }
+    finally {
+      if (commandController === controller) commandController = null
+      if (currentDispose === disposeEpoch) state.mutating = false
+    }
   }
   return {
     state, canCreate: options.canCreate, canCancel: options.canCancel, load,
     async setStatus(status) { state.status = status; state.page = 1; await load() },
-    async submitImport(providerKey, fileKey, mapping) { if (!options.canCreate()) return; const current = begin(); await mutate(current, signal => options.transport.submitImport(providerKey, fileKey, mapping, (options.idempotencyKey ?? key)(), signal)) },
-    async submitExport(providerKey) { if (!options.canCreate()) return; const current = begin(); await mutate(current, signal => options.transport.submitExport(providerKey, (options.idempotencyKey ?? key)(), signal)) },
-    async cancel(operation) { if (!options.canCancel() || !['queued', 'running'].includes(operation.status)) return; const current = begin(); await mutate(current, signal => options.transport.cancel(operation.operationKey, operation.revision, signal)) },
+    async submitImport(providerKey, fileKey, mapping) { if (!options.canCreate()) return; await mutate(signal => options.transport.submitImport(providerKey, fileKey, mapping, (options.idempotencyKey ?? key)(), signal)) },
+    async submitExport(providerKey) { if (!options.canCreate()) return; await mutate(signal => options.transport.submitExport(providerKey, (options.idempotencyKey ?? key)(), signal)) },
+    async cancel(operation) { if (!options.canCancel() || !['queued', 'running'].includes(operation.status)) return; await mutate(signal => options.transport.cancel(operation.operationKey, operation.revision, signal)) },
     async download(fileKey) {
-      const current = begin(); state.error = null
+      const currentDispose = disposeEpoch; const currentDownload = ++downloadEpoch
+      downloadController?.abort(); const controller = new AbortController(); downloadController = controller; state.error = null
       try {
-        const response = await run(current, signal => options.transport.download(fileKey, signal)); if (!active(current)) return
-        if (!response.ok) { let body: unknown = null; try { body = await response.json() } catch { body = null }; if (active(current)) state.error = failure({ status: response.status, body, headers: response.headers }); return }
-        const controller = new AbortController(); controllers.add(controller)
-        try { await (options.saveDownload ?? save)(response, fileKey, controller.signal) } finally { controllers.delete(controller) }
-      } catch (error) { if (active(current) && !aborted(error)) state.error = { message: 'The CSV file could not be downloaded.', requestId: null, status: null } }
+        const response = await options.transport.download(fileKey, controller.signal)
+        if (currentDispose !== disposeEpoch || currentDownload !== downloadEpoch) return
+        if (!response.ok) { let body: unknown = null; try { body = await response.json() } catch { body = null }; if (currentDispose === disposeEpoch && currentDownload === downloadEpoch) state.error = failure({ status: response.status, body, headers: response.headers }); return }
+        await (options.saveDownload ?? save)(response, fileKey, controller.signal)
+      } catch (error) { if (currentDispose === disposeEpoch && currentDownload === downloadEpoch && !aborted(error)) state.error = { message: 'The CSV file could not be downloaded.', requestId: null, status: null } }
+      finally { if (downloadController === controller) downloadController = null }
     },
     dispose() {
-      generation += 1; abortActive(); state.items = []; state.status = 'queued'; state.page = 1; state.pageSize = 20; state.total = 0
+      disposeEpoch += 1; readEpoch += 1; downloadEpoch += 1
+      readController?.abort(); commandController?.abort(); downloadController?.abort()
+      readController = null; commandController = null; downloadController = null
+      state.items = []; state.status = 'queued'; state.page = 1; state.pageSize = 20; state.total = 0
       state.loading = false; state.mutating = false; state.error = null
     },
   }
