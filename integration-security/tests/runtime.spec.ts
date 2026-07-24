@@ -47,6 +47,19 @@ describe('integration security runtime', () => {
     expect(api.revokeSession).toHaveBeenCalledWith(session.session_key, expect.any(AbortSignal))
   })
 
+  it('accepts redacted idempotency replays without disclosing credentials again', async () => {
+    const api = transport()
+    api.createMachine = vi.fn(async () => response(machine, 201))
+    api.rotateWebhook = vi.fn(async () => response({ ...webhook, revision: 2 }))
+    const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions() })
+    await runtime.createMachine({ name: 'Worker', scopes: ['data.export.read'], expires_at: null })
+    expect(runtime.state.machines.error).toBeNull()
+    expect(runtime.state.disclosure).toBeNull()
+    await runtime.rotateWebhook({ endpointKey: webhook.endpoint_key, name: webhook.name, url: webhook.url, events: webhook.events, status: 'active', revision: 1, createdAt: instant })
+    expect(runtime.state.webhooks.error).toBeNull()
+    expect(runtime.state.disclosure).toBeNull()
+  })
+
   it('never renders server detail and validates request ids', async () => {
     const api = transport(); api.machines = vi.fn(async () => ({ body: { code: 'MACHINE_SCOPE_DENIED', detail: 'token=secret', request_id: '<script>' }, headers: new Headers(), status: 403 }))
     const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions() }); await runtime.loadMachines()
