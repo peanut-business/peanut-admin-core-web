@@ -61,18 +61,19 @@ const safeCode = (value: unknown): value is string => typeof value === 'string' 
 
 export const parseMachine = (value: unknown): MachineIdentity => {
   const item = record(value)
+  const scopes = item.scopes
   exact(item, ['identity_key', 'name', 'scopes', 'status', 'token_prefix', 'token_last_four', 'expires_at', 'last_used_at', 'revision', 'created_at'])
   if (typeof item.identity_key !== 'string' || !/^machine_[0-9a-f]{32}$/.test(item.identity_key)
     || typeof item.name !== 'string' || item.name === '' || [...item.name].length > 120
-    || !Array.isArray(item.scopes) || item.scopes.length < 1 || item.scopes.length > 32 || item.scopes.some(scope => typeof scope !== 'string' || !qualified.test(scope))
-    || new Set(item.scopes).size !== item.scopes.length || [...item.scopes].sort().some((scope, index) => scope !== item.scopes[index])
+    || !Array.isArray(scopes) || scopes.length < 1 || scopes.length > 32 || scopes.some(scope => typeof scope !== 'string' || !qualified.test(scope))
+    || new Set(scopes).size !== scopes.length || [...scopes].sort().some((scope, index) => scope !== scopes[index])
     || !['active', 'rotated', 'revoked'].includes(String(item.status))
     || typeof item.token_prefix !== 'string' || !item.token_prefix.startsWith('pa_mi_')
     || typeof item.token_last_four !== 'string' || !/^[A-Za-z0-9_-]{4}$/.test(item.token_last_four)
     || (item.expires_at !== null && !instant(item.expires_at)) || (item.last_used_at !== null && !instant(item.last_used_at))
     || typeof item.revision !== 'number' || !Number.isSafeInteger(item.revision) || item.revision < 1 || !instant(item.created_at)
   ) throw new Error('INTEGRATION_RESPONSE_INVALID')
-  return { identityKey: item.identity_key, name: item.name, scopes: item.scopes as string[], status: item.status as MachineStatus, tokenPrefix: item.token_prefix, tokenLastFour: item.token_last_four, expiresAt: item.expires_at as string | null, lastUsedAt: item.last_used_at as string | null, revision: item.revision, createdAt: item.created_at }
+  return { identityKey: item.identity_key, name: item.name, scopes: scopes as string[], status: item.status as MachineStatus, tokenPrefix: item.token_prefix, tokenLastFour: item.token_last_four, expiresAt: item.expires_at as string | null, lastUsedAt: item.last_used_at as string | null, revision: item.revision, createdAt: item.created_at }
 }
 export const parseProvisionedMachine = (value: unknown): ProvisionedMachineIdentity => {
   const item = record(value); exact(item, ['identity', 'token'])
