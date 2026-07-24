@@ -35,7 +35,7 @@ export interface ImportExportRuntimeOptions {
   canRead(): boolean
   canCreate(): boolean
   canCancel(): boolean
-  saveDownload?: (response: Response, fileKey: string) => Promise<void>
+  saveDownload?: (response: Response, fileKey: string, signal: AbortSignal) => Promise<void>
   idempotencyKey?: () => string
 }
 
@@ -49,40 +49,66 @@ const failure = (result: ImportExportTransportResult): ImportExportError => {
   return { message: typeof body.detail === 'string' && body.detail !== '' ? body.detail : `Import/export request failed (${result.status}).`, requestId: requestId(result), status: result.status }
 }
 const key = (): string => `web-${crypto.randomUUID()}`
-const save = async (response: Response, fileKey: string): Promise<void> => {
-  const blob = await response.blob(); const url = URL.createObjectURL(blob); const anchor = document.createElement('a')
+const save = async (response: Response, fileKey: string, signal: AbortSignal): Promise<void> => {
+  const blob = await response.blob(); if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
+  const url = URL.createObjectURL(blob); const anchor = document.createElement('a')
   anchor.href = url; anchor.download = `${fileKey}.csv`; anchor.click(); URL.revokeObjectURL(url)
 }
 
 export const createImportExportRuntime = (options: ImportExportRuntimeOptions): ImportExportRuntime => {
   const state = reactive<ImportExportState>({ items: [], status: 'queued', page: 1, pageSize: 20, total: 0, loading: false, mutating: false, error: null })
   const controllers = new Set<AbortController>(); let generation = 0
-  const run = async <T>(operation: (signal: AbortSignal) => Promise<T>): Promise<T> => { const controller = new AbortController(); controllers.add(controller); try { return await operation(controller.signal) } finally { controllers.delete(controller) } }
-  const load = async (): Promise<void> => {
-    const current = ++generation; state.loading = true; state.error = null
+  const abortActive = (): void => { for (const controller of controllers) controller.abort(); controllers.clear() }
+  const begin = (): number => { abortActive(); state.loading = false; state.mutating = false; return ++generation }
+  const active = (current: number): boolean => current === generation
+  const aborted = (error: unknown): boolean => error instanceof DOMException && error.name === 'AbortError'
+  const run = async <T>(current: number, operation: (signal: AbortSignal) => Promise<T>): Promise<T> => {
+    if (!active(current)) throw new DOMException('Aborted', 'AbortError')
+    const controller = new AbortController(); controllers.add(controller)
+    try { return await operation(controller.signal) } finally { controllers.delete(controller) }
+  }
+  const loadAt = async (current: number): Promise<void> => {
+    if (!active(current)) return
+    state.loading = true; state.error = null
     try {
       if (!options.canRead()) throw new Error('IMPORT_EXPORT_PERMISSION_DENIED')
-      const result = await run(signal => options.transport.list(state.status, state.page, state.pageSize, signal))
-      if (current !== generation) return
+      const status = state.status; const page = state.page; const pageSize = state.pageSize
+      const result = await run(current, signal => options.transport.list(status, page, pageSize, signal))
+      if (!active(current)) return
       if (result.status !== 200) { state.error = failure(result); return }
       const list = parseOperationList(result.body); state.items = [...list.items]; state.page = list.page; state.pageSize = list.pageSize; state.total = list.total
-    } catch (error) { if (current === generation && !(error instanceof DOMException && error.name === 'AbortError')) state.error = { message: 'The import/export service could not be reached.', requestId: null, status: null } }
-    finally { if (current === generation) state.loading = false }
+    } catch (error) { if (active(current) && !aborted(error)) state.error = { message: 'The import/export service could not be reached.', requestId: null, status: null } }
+    finally { if (active(current)) state.loading = false }
   }
-  const mutate = async (operation: (signal: AbortSignal) => Promise<ImportExportTransportResult>): Promise<void> => {
-    if (state.mutating) return; state.mutating = true; state.error = null
-    try { const result = await run(operation); if (result.status !== 201 && result.status !== 200) { state.error = failure(result); return }; parseOperationResponse(result.body); await load() }
-    catch { state.error = { message: 'The import/export request could not be completed.', requestId: null, status: null } }
-    finally { state.mutating = false }
+  const load = (): Promise<void> => loadAt(begin())
+  const mutate = async (current: number, operation: (signal: AbortSignal) => Promise<ImportExportTransportResult>): Promise<void> => {
+    state.mutating = true; state.error = null
+    try {
+      const result = await run(current, operation); if (!active(current)) return
+      if (result.status !== 201 && result.status !== 200) { state.error = failure(result); return }
+      parseOperationResponse(result.body); await loadAt(current)
+    } catch (error) { if (active(current) && !aborted(error)) state.error = { message: 'The import/export request could not be completed.', requestId: null, status: null } }
+    finally { if (active(current)) state.mutating = false }
   }
   return {
     state, canCreate: options.canCreate, canCancel: options.canCancel, load,
     async setStatus(status) { state.status = status; state.page = 1; await load() },
-    async submitImport(providerKey, fileKey, mapping) { if (!options.canCreate()) return; await mutate(signal => options.transport.submitImport(providerKey, fileKey, mapping, (options.idempotencyKey ?? key)(), signal)) },
-    async submitExport(providerKey) { if (!options.canCreate()) return; await mutate(signal => options.transport.submitExport(providerKey, (options.idempotencyKey ?? key)(), signal)) },
-    async cancel(operation) { if (!options.canCancel() || !['queued', 'running'].includes(operation.status)) return; await mutate(signal => options.transport.cancel(operation.operationKey, operation.revision, signal)) },
-    async download(fileKey) { state.error = null; try { const response = await run(signal => options.transport.download(fileKey, signal)); if (!response.ok) { let body: unknown = null; try { body = await response.json() } catch { body = null }; state.error = failure({ status: response.status, body, headers: response.headers }); return }; await (options.saveDownload ?? save)(response, fileKey) } catch { state.error = { message: 'The CSV file could not be downloaded.', requestId: null, status: null } } },
-    dispose() { generation += 1; for (const controller of controllers) controller.abort(); controllers.clear(); state.items = [] },
+    async submitImport(providerKey, fileKey, mapping) { if (!options.canCreate()) return; const current = begin(); await mutate(current, signal => options.transport.submitImport(providerKey, fileKey, mapping, (options.idempotencyKey ?? key)(), signal)) },
+    async submitExport(providerKey) { if (!options.canCreate()) return; const current = begin(); await mutate(current, signal => options.transport.submitExport(providerKey, (options.idempotencyKey ?? key)(), signal)) },
+    async cancel(operation) { if (!options.canCancel() || !['queued', 'running'].includes(operation.status)) return; const current = begin(); await mutate(current, signal => options.transport.cancel(operation.operationKey, operation.revision, signal)) },
+    async download(fileKey) {
+      const current = begin(); state.error = null
+      try {
+        const response = await run(current, signal => options.transport.download(fileKey, signal)); if (!active(current)) return
+        if (!response.ok) { let body: unknown = null; try { body = await response.json() } catch { body = null }; if (active(current)) state.error = failure({ status: response.status, body, headers: response.headers }); return }
+        const controller = new AbortController(); controllers.add(controller)
+        try { await (options.saveDownload ?? save)(response, fileKey, controller.signal) } finally { controllers.delete(controller) }
+      } catch (error) { if (active(current) && !aborted(error)) state.error = { message: 'The CSV file could not be downloaded.', requestId: null, status: null } }
+    },
+    dispose() {
+      generation += 1; abortActive(); state.items = []; state.status = 'queued'; state.page = 1; state.pageSize = 20; state.total = 0
+      state.loading = false; state.mutating = false; state.error = null
+    },
   }
 }
 
