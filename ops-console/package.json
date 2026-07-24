@@ -1,0 +1,35 @@
+{
+  "name": "@peanut-admin/ops-console",
+  "version": "0.1.0",
+  "description": "Reusable platform operations console contracts and page runtime",
+  "type": "module",
+  "license": "Apache-2.0",
+  "sideEffects": ["*.vue"],
+  "files": ["src"],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "vitest run tests",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@peanut-admin/admin-shell": "workspace:^",
+    "element-plus": "2.14.3"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "2.4.11",
+    "happy-dom": "20.10.6",
+    "typescript": "5.9.3",
+    "vite": "8.1.4",
+    "vitest": "4.1.10",
+    "vue": "3.5.39",
+    "vue-tsc": "3.3.7"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.39"
+  }
+}
