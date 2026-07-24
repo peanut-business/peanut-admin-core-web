@@ -9,10 +9,12 @@ const runtime = useOpsConsoleRuntime(); const state = runtime.state
 const providerKey = ref(runtime.providers[0]?.key ?? '')
 const backupReferenceKey = ref(''); const restoreTargetKey = ref('')
 const reasonKey = ref(runtime.maintenanceReasons[0] ?? ''); const startsAt = ref(''); const endsAt = ref('')
+const draftLogSource = ref(state.logSource); const draftLogSeverity = ref(state.logSeverity)
 const targets = computed(() => runtime.providers.find(provider => provider.key === providerKey.value)?.restoreTargets ?? [])
 const activeMaintenance = computed(() => state.maintenance !== null && state.maintenance.state !== 'closed')
 const chooseProvider = (): void => { restoreTargetKey.value = targets.value[0] ?? '' }
 const schedule = (): Promise<void> => runtime.scheduleMaintenance({ reasonKey: reasonKey.value, startsAt: startsAt.value, endsAt: endsAt.value })
+const applyLogFilter = (): Promise<void> => runtime.setLogFilter(draftLogSource.value, draftLogSeverity.value)
 
 onMounted(async () => {
   chooseProvider(); await runtime.load()
@@ -94,7 +96,7 @@ onMounted(async () => {
           <h2 id="ops-logs-heading">Structured runtime events</h2>
           <ForbiddenState v-if="!runtime.canReadLogs()" message="You do not have permission to read runtime events." />
           <template v-else>
-            <div class="ops-controls"><label>Source<select v-model="state.logSource"><option v-for="source in runtime.logSources" :key="source" :value="source">{{ source }}</option></select></label><label>Severity<select v-model="state.logSeverity" aria-label="Severity"><option v-for="severity in LOG_SEVERITIES" :key="severity" :value="severity">{{ severity }}</option></select></label><ElButton :loading="state.logsLoading" @click="runtime.setLogFilter(state.logSource, state.logSeverity)">Apply</ElButton></div>
+            <div class="ops-controls"><label>Source<select v-model="draftLogSource" aria-label="Source"><option v-for="source in runtime.logSources" :key="source" :value="source">{{ source }}</option></select></label><label>Severity<select v-model="draftLogSeverity" aria-label="Severity"><option v-for="severity in LOG_SEVERITIES" :key="severity" :value="severity">{{ severity }}</option></select></label><ElButton :loading="state.logsLoading" @click="applyLogFilter">Apply</ElButton></div>
             <section v-if="state.logsError" role="alert" class="inline-error"><p>{{ state.logsError.message }}</p><p v-if="state.logsError.requestId">Request ID: {{ state.logsError.requestId }}</p></section>
             <EmptyState v-else-if="state.logs.length === 0 && !state.logsLoading" title="No runtime events" message="No structured events match this filter." />
             <div v-else class="table-wrap"><table><thead><tr><th>Time</th><th>Severity</th><th>Component</th><th>Event</th><th>Occurrences</th></tr></thead><tbody><tr v-for="entry in state.logs" :key="`${entry.eventKey}-${entry.occurredAt}`"><td>{{ entry.occurredAt }}</td><td>{{ entry.severity }}</td><td>{{ entry.componentKey }}</td><td>{{ entry.message }}</td><td>{{ entry.occurrences }}</td></tr></tbody></table></div>
