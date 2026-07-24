@@ -13,7 +13,12 @@ export const INTEGRATION_SECURITY_READ_PERMISSIONS = [
   'peanut.integration-security.delivery.read', 'peanut.integration-security.session.read',
 ] as const
 
-export interface RuntimeError { readonly message: string; readonly requestId: string | null; readonly status: number | null }
+export type RuntimeErrorCode =
+  | 'INTEGRATION_PERMISSION_DENIED' | 'INTEGRATION_INPUT_INVALID' | 'INTEGRATION_REVISION_CONFLICT'
+  | 'INTEGRATION_REQUEST_FAILED' | 'INTEGRATION_NETWORK_FAILED' | 'INTEGRATION_RESPONSE_INVALID' | 'INTEGRATION_MUTATION_FAILED'
+  | 'MACHINE_IDENTITY_NOT_FOUND' | 'MACHINE_TOKEN_INVALID' | 'MACHINE_TOKEN_EXPIRED' | 'MACHINE_SCOPE_DENIED'
+  | 'WEBHOOK_ENDPOINT_NOT_FOUND' | 'WEBHOOK_DESTINATION_DENIED' | 'WEBHOOK_SECRET_INVALID' | 'SESSION_DEVICE_NOT_FOUND'
+export interface RuntimeError { readonly code: RuntimeErrorCode; readonly message: string; readonly requestId: string | null; readonly status: number | null }
 export interface SurfaceState<T> { items: T[]; loading: boolean; error: RuntimeError | null }
 export interface IntegrationSecurityState {
   machines: SurfaceState<MachineIdentity>; webhooks: SurfaceState<WebhookEndpoint>
@@ -39,23 +44,34 @@ export interface IntegrationSecurityPermissions {
 }
 
 const requestIdPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/
-const messages: Readonly<Record<string, string>> = {
+const messages: Readonly<Record<RuntimeErrorCode, string>> = {
   INTEGRATION_PERMISSION_DENIED: 'You do not have permission to perform this action.',
   INTEGRATION_INPUT_INVALID: 'The submitted integration settings are invalid.',
+  INTEGRATION_REQUEST_FAILED: 'The integration security request failed.',
+  INTEGRATION_NETWORK_FAILED: 'The integration security service could not be reached.',
+  INTEGRATION_RESPONSE_INVALID: 'The integration security service returned an invalid response.',
+  INTEGRATION_MUTATION_FAILED: 'The requested integration security change could not be completed.',
   MACHINE_IDENTITY_NOT_FOUND: 'The machine identity is unavailable.',
+  MACHINE_TOKEN_INVALID: 'The machine credential is invalid.',
+  MACHINE_TOKEN_EXPIRED: 'The machine credential has expired.',
   MACHINE_SCOPE_DENIED: 'One or more machine scopes cannot be granted.',
   INTEGRATION_REVISION_CONFLICT: 'This record changed. Refresh and try again.',
   WEBHOOK_ENDPOINT_NOT_FOUND: 'The webhook endpoint is unavailable.',
   WEBHOOK_DESTINATION_DENIED: 'The webhook destination is not allowed.',
+  WEBHOOK_SECRET_INVALID: 'The webhook credential is invalid.',
   SESSION_DEVICE_NOT_FOUND: 'The session is unavailable.',
 }
+const runtimeErrorCodes = new Set<RuntimeErrorCode>(Object.keys(messages) as RuntimeErrorCode[])
 const failure = (result: TransportResult): RuntimeError => {
   const body = typeof result.body === 'object' && result.body !== null && !Array.isArray(result.body) ? result.body as Record<string, unknown> : {}
-  const code = typeof body.code === 'string' && /^[A-Z][A-Z0-9_]{2,63}$/.test(body.code) ? body.code : ''
+  const code: RuntimeErrorCode = typeof body.code === 'string' && runtimeErrorCodes.has(body.code as RuntimeErrorCode) ? body.code as RuntimeErrorCode : 'INTEGRATION_REQUEST_FAILED'
   const candidate = body.request_id ?? result.headers.get('X-Request-Id')
-  return { message: messages[code] ?? 'The integration security request failed.', requestId: typeof candidate === 'string' && requestIdPattern.test(candidate) ? candidate : null, status: result.status }
+  return { code, message: messages[code], requestId: typeof candidate === 'string' && requestIdPattern.test(candidate) ? candidate : null, status: result.status }
 }
-const localFailure = (message: string): RuntimeError => ({ message, requestId: null, status: null })
+const localFailure = (code: RuntimeErrorCode): RuntimeError => ({ code, message: messages[code], requestId: null, status: null })
+
+type SurfaceKey = 'machines' | 'webhooks' | 'deliveries' | 'attempts' | 'sessions'
+type RequestKey = SurfaceKey | 'machine-mutation' | 'webhook-mutation' | 'session-mutation'
 
 export const createIntegrationSecurityRuntime = (options: { readonly transport: IntegrationSecurityTransport; readonly permissions: IntegrationSecurityPermissions }): IntegrationSecurityRuntime => {
   const state = reactive<IntegrationSecurityState>({
@@ -64,65 +80,89 @@ export const createIntegrationSecurityRuntime = (options: { readonly transport: 
     attempts: { items: [], loading: false, error: null, deliveryKey: null },
     sessions: { items: [], loading: false, error: null }, mutating: false, disclosure: null,
   })
-  const controllers = new Set<AbortController>(); let generation = 0
-  const run = async <T>(operation: (signal: AbortSignal) => Promise<T>): Promise<T> => {
-    const controller = new AbortController(); controllers.add(controller)
-    try { return await operation(controller.signal) } finally { controllers.delete(controller) }
+  const controllers = new Map<RequestKey, AbortController>()
+  const epochs: Record<SurfaceKey, number> = { machines: 0, webhooks: 0, deliveries: 0, attempts: 0, sessions: 0 }
+  let generation = 0
+  const cancel = (key: RequestKey): void => { controllers.get(key)?.abort(); controllers.delete(key) }
+  const run = async <T>(key: RequestKey, operation: (signal: AbortSignal) => Promise<T>): Promise<T> => {
+    cancel(key)
+    const controller = new AbortController(); controllers.set(key, controller)
+    try { return await operation(controller.signal) } finally { if (controllers.get(key) === controller) controllers.delete(key) }
   }
-  const loadSurface = async <T>(surface: SurfaceState<T>, allowed: () => boolean, request: (signal: AbortSignal) => Promise<TransportResult>, parser: (body: unknown) => T[]): Promise<void> => {
-    const current = generation; surface.loading = true; surface.error = null
-    if (!allowed()) { surface.items = []; surface.loading = false; surface.error = localFailure('You do not have permission to view this section.'); return }
+  const loadSurface = async <T>(key: SurfaceKey, surface: SurfaceState<T>, allowed: () => boolean, request: (signal: AbortSignal) => Promise<TransportResult>, parser: (body: unknown) => T[]): Promise<void> => {
+    const currentGeneration = generation; const currentEpoch = ++epochs[key]
+    cancel(key); surface.loading = true; surface.error = null
+    if (!allowed()) { surface.items = []; surface.loading = false; surface.error = localFailure('INTEGRATION_PERMISSION_DENIED'); return }
+    let result: TransportResult
     try {
-      const result = await run(request)
-      if (current !== generation) return
-      if (result.status !== 200) { surface.error = failure(result); return }
-      surface.items = parser(result.body)
-    } catch { if (current === generation) surface.error = localFailure('This section could not be loaded.') }
-    finally { if (current === generation) surface.loading = false }
+      result = await run(key, request)
+    } catch {
+      if (currentGeneration === generation && currentEpoch === epochs[key]) { surface.error = localFailure('INTEGRATION_NETWORK_FAILED'); surface.loading = false }
+      return
+    }
+    if (currentGeneration !== generation || currentEpoch !== epochs[key]) return
+    if (result.status !== 200) { surface.error = failure(result); surface.loading = false; return }
+    try { surface.items = parser(result.body) } catch { surface.error = localFailure('INTEGRATION_RESPONSE_INVALID') }
+    finally { if (currentGeneration === generation && currentEpoch === epochs[key]) surface.loading = false }
   }
-  const loadMachines = () => loadSurface(state.machines, options.permissions.canReadMachines, options.transport.machines, body => parseList(body, parseMachine))
-  const loadWebhooks = () => loadSurface(state.webhooks, options.permissions.canReadWebhooks, options.transport.webhooks, body => parseList(body, parseWebhook))
-  const loadSessions = () => loadSurface(state.sessions, options.permissions.canReadSessions, options.transport.sessions, body => parseList(body, parseSession))
+  const loadMachines = () => loadSurface('machines', state.machines, options.permissions.canReadMachines, options.transport.machines, body => parseList(body, parseMachine))
+  const loadWebhooks = () => loadSurface('webhooks', state.webhooks, options.permissions.canReadWebhooks, options.transport.webhooks, body => parseList(body, parseWebhook))
+  const loadSessions = () => loadSurface('sessions', state.sessions, options.permissions.canReadSessions, options.transport.sessions, body => parseList(body, parseSession))
   const loadDeliveries = async (page = state.deliveries.page): Promise<void> => {
-    const current = generation; const surface = state.deliveries; surface.loading = true; surface.error = null
-    if (!options.permissions.canReadDeliveries()) { surface.items = []; surface.total = 0; surface.loading = false; surface.error = localFailure('You do not have permission to view this section.'); return }
+    const key: SurfaceKey = 'deliveries'; const currentGeneration = generation; const currentEpoch = ++epochs[key]
+    const surface = state.deliveries; cancel(key); surface.loading = true; surface.error = null
+    if (!options.permissions.canReadDeliveries()) { surface.items = []; surface.total = 0; surface.loading = false; surface.error = localFailure('INTEGRATION_PERMISSION_DENIED'); return }
+    let result: TransportResult
     try {
-      const result = await run(signal => options.transport.deliveries(page, surface.pageSize, signal))
-      if (current !== generation) return
-      if (result.status !== 200) { surface.error = failure(result); return }
+      result = await run(key, signal => options.transport.deliveries(page, surface.pageSize, signal))
+    } catch {
+      if (currentGeneration === generation && currentEpoch === epochs[key]) { surface.error = localFailure('INTEGRATION_NETWORK_FAILED'); surface.loading = false }
+      return
+    }
+    if (currentGeneration !== generation || currentEpoch !== epochs[key]) return
+    if (result.status !== 200) { surface.error = failure(result); surface.loading = false; return }
+    try {
       const parsed: Page<WebhookDeliveryRecord> = parsePage(result.body, parseDelivery)
       surface.items = parsed.items; surface.page = parsed.page; surface.pageSize = parsed.pageSize; surface.total = parsed.total
-    } catch { if (current === generation) surface.error = localFailure('Delivery evidence could not be loaded.') }
-    finally { if (current === generation) surface.loading = false }
+    } catch { surface.error = localFailure('INTEGRATION_RESPONSE_INVALID') }
+    finally { if (currentGeneration === generation && currentEpoch === epochs[key]) surface.loading = false }
   }
   const loadAttempts = async (deliveryKey: string): Promise<void> => {
     const surface = state.attempts; surface.deliveryKey = deliveryKey
-    await loadSurface(surface, options.permissions.canReadDeliveries, signal => options.transport.deliveryAttempts(deliveryKey, 1, 100, signal), body => parsePage(body, parseAttempt).items)
+    await loadSurface('attempts', surface, options.permissions.canReadDeliveries, signal => options.transport.deliveryAttempts(deliveryKey, 1, 100, signal), body => parsePage(body, parseAttempt).items)
   }
-  const mutate = async <T>(allowed: () => boolean, request: (signal: AbortSignal) => Promise<TransportResult>, parser: (body: unknown) => T, after: (value: T) => Promise<void>, surface: SurfaceState<unknown>): Promise<void> => {
-    if (state.mutating || !allowed()) return
+  const mutate = async <T>(key: RequestKey, allowed: () => boolean, request: (signal: AbortSignal) => Promise<TransportResult>, parser: (body: unknown) => T, after: (value: T) => Promise<void>, surface: SurfaceState<unknown>): Promise<void> => {
+    if (!allowed()) { surface.error = localFailure('INTEGRATION_PERMISSION_DENIED'); return }
+    if (state.mutating) return
     const current = generation; state.mutating = true; surface.error = null; state.disclosure = null
+    let result: TransportResult
     try {
-      const result = await run(request)
-      if (current !== generation) return
-      if (result.status < 200 || result.status >= 300) { surface.error = failure(result); return }
-      await after(parser(result.body))
-    } catch { if (current === generation) surface.error = localFailure('The requested change could not be completed.') }
+      result = await run(key, request)
+    } catch {
+      if (current === generation) { surface.error = localFailure('INTEGRATION_NETWORK_FAILED'); state.mutating = false }
+      return
+    }
+    if (current !== generation) return
+    if (result.status < 200 || result.status >= 300) { surface.error = failure(result); state.mutating = false; return }
+    let value: T
+    try { value = parser(result.body) } catch { surface.error = localFailure('INTEGRATION_RESPONSE_INVALID'); state.mutating = false; return }
+    try { await after(value) } catch { if (current === generation) surface.error = localFailure('INTEGRATION_MUTATION_FAILED') }
     finally { if (current === generation) state.mutating = false }
   }
   return {
     state, can: options.permissions, load: async () => { await Promise.allSettled([loadMachines(), loadWebhooks(), loadDeliveries(), loadSessions()]) },
     loadMachines, loadWebhooks, loadDeliveries, loadAttempts, loadSessions,
-    createMachine: input => mutate(options.permissions.canManageMachines, signal => options.transport.createMachine(input, signal), body => parseItem(body, parseProvisionedMachine), async (value: ProvisionedMachineIdentity) => { state.disclosure = { kind: 'machine-token', value: value.token }; await loadMachines() }, state.machines),
-    rotateMachine: identity => mutate(options.permissions.canManageMachines, signal => options.transport.rotateMachine(identity.identityKey, identity.revision, signal), body => parseItem(body, parseProvisionedMachine), async (value: ProvisionedMachineIdentity) => { state.disclosure = { kind: 'machine-token', value: value.token }; await loadMachines() }, state.machines),
-    revokeMachine: identity => mutate(options.permissions.canManageMachines, signal => options.transport.revokeMachine(identity.identityKey, identity.revision, signal), body => parseItem(body, parseMachine), async () => loadMachines(), state.machines),
-    createWebhook: input => mutate(options.permissions.canManageWebhooks, signal => options.transport.createWebhook(input, signal), body => parseItem(body, parseProvisionedWebhook), async (value: ProvisionedWebhookEndpoint) => { state.disclosure = { kind: 'webhook-secret', value: value.signingSecret }; await loadWebhooks() }, state.webhooks),
-    rotateWebhook: endpoint => mutate(options.permissions.canManageWebhooks, signal => options.transport.rotateWebhook(endpoint.endpointKey, endpoint.revision, signal), body => parseItem(body, parseProvisionedWebhook), async (value: ProvisionedWebhookEndpoint) => { state.disclosure = { kind: 'webhook-secret', value: value.signingSecret }; await loadWebhooks() }, state.webhooks),
-    disableWebhook: endpoint => mutate(options.permissions.canManageWebhooks, signal => options.transport.disableWebhook(endpoint.endpointKey, endpoint.revision, signal), body => parseItem(body, parseWebhook), async () => loadWebhooks(), state.webhooks),
-    revokeSession: session => mutate(options.permissions.canRevokeSession, signal => options.transport.revokeSession(session.sessionKey, signal), body => parseItem(body, parseSession), async () => loadSessions(), state.sessions),
+    createMachine: input => mutate('machine-mutation', options.permissions.canManageMachines, signal => options.transport.createMachine(input, signal), body => parseItem(body, parseProvisionedMachine), async (value: ProvisionedMachineIdentity) => { state.disclosure = { kind: 'machine-token', value: value.token }; await loadMachines() }, state.machines),
+    rotateMachine: identity => mutate('machine-mutation', options.permissions.canManageMachines, signal => options.transport.rotateMachine(identity.identityKey, identity.revision, signal), body => parseItem(body, parseProvisionedMachine), async (value: ProvisionedMachineIdentity) => { state.disclosure = { kind: 'machine-token', value: value.token }; await loadMachines() }, state.machines),
+    revokeMachine: identity => mutate('machine-mutation', options.permissions.canManageMachines, signal => options.transport.revokeMachine(identity.identityKey, identity.revision, signal), body => parseItem(body, parseMachine), async () => loadMachines(), state.machines),
+    createWebhook: input => mutate('webhook-mutation', options.permissions.canManageWebhooks, signal => options.transport.createWebhook(input, signal), body => parseItem(body, parseProvisionedWebhook), async (value: ProvisionedWebhookEndpoint) => { state.disclosure = { kind: 'webhook-secret', value: value.signingSecret }; await loadWebhooks() }, state.webhooks),
+    rotateWebhook: endpoint => mutate('webhook-mutation', options.permissions.canManageWebhooks, signal => options.transport.rotateWebhook(endpoint.endpointKey, endpoint.revision, signal), body => parseItem(body, parseProvisionedWebhook), async (value: ProvisionedWebhookEndpoint) => { state.disclosure = { kind: 'webhook-secret', value: value.signingSecret }; await loadWebhooks() }, state.webhooks),
+    disableWebhook: endpoint => mutate('webhook-mutation', options.permissions.canManageWebhooks, signal => options.transport.disableWebhook(endpoint.endpointKey, endpoint.revision, signal), body => parseItem(body, parseWebhook), async () => loadWebhooks(), state.webhooks),
+    revokeSession: session => mutate('session-mutation', options.permissions.canRevokeSession, signal => options.transport.revokeSession(session.sessionKey, signal), body => parseItem(body, parseSession), async () => loadSessions(), state.sessions),
     clearDisclosure: () => { state.disclosure = null },
     dispose() {
-      generation += 1; for (const controller of controllers) controller.abort(); controllers.clear()
+      generation += 1; for (const key of Object.keys(epochs) as SurfaceKey[]) epochs[key] += 1
+      for (const controller of controllers.values()) controller.abort(); controllers.clear()
       state.machines.items = []; state.webhooks.items = []; state.deliveries.items = []; state.attempts.items = []; state.sessions.items = []
       state.machines.loading = state.webhooks.loading = state.deliveries.loading = state.attempts.loading = state.sessions.loading = false
       state.machines.error = state.webhooks.error = state.deliveries.error = state.attempts.error = state.sessions.error = null

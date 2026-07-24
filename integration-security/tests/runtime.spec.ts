@@ -6,7 +6,7 @@ import type { IntegrationSecurityTransport, SessionDevice, TransportResult } fro
 const instant = '2026-07-24T10:00:00.000Z'
 const response = (data: unknown, status = 200): TransportResult => ({ body: { data, meta: { request_id: 'req_test' } }, headers: new Headers(), status })
 const list = (items: unknown[]): TransportResult => response({ items })
-const page = (items: unknown[]): TransportResult => response({ items, page: 1, page_size: 20, total: items.length })
+const page = (items: unknown[], currentPage = 1): TransportResult => response({ items, page: currentPage, page_size: 20, total: items.length })
 const machine = { identity_key: `machine_${'a'.repeat(32)}`, name: 'Worker', scopes: ['data.export.read'], status: 'active', token_prefix: 'pa_mi_AbCd12', token_last_four: 'Z_09', expires_at: null, last_used_at: null, revision: 1, created_at: instant }
 const webhook = { endpoint_key: `webhook_${'b'.repeat(32)}`, name: 'Receiver', url: 'https://hooks.example.com/', events: ['audit.event.created'], status: 'active', revision: 1, created_at: instant }
 const delivery = { delivery_key: `delivery_${'d'.repeat(32)}`, endpoint_key: webhook.endpoint_key, event_type: 'audit.event.created', status: 'delivered', attempt_count: 1, last_status_code: 204, last_error_code: null, created_at: instant, updated_at: instant, delivered_at: instant }
@@ -27,8 +27,14 @@ describe('integration security runtime', () => {
   it('loads each read surface independently and does not let one permission block the others', async () => {
     const api = transport(); const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions({ canReadWebhooks: false }) })
     await runtime.load()
-    expect(runtime.state.machines.items).toHaveLength(1); expect(runtime.state.webhooks.items).toEqual([]); expect(runtime.state.webhooks.error?.message).toContain('permission')
+    expect(runtime.state.machines.items).toHaveLength(1); expect(runtime.state.webhooks.items).toEqual([]); expect(runtime.state.webhooks.error?.code).toBe('INTEGRATION_PERMISSION_DENIED')
     expect(runtime.state.deliveries.items).toHaveLength(1); expect(runtime.state.sessions.items).toHaveLength(1); expect(api.webhooks).not.toHaveBeenCalled()
+  })
+
+  it('records denied mutations on the owning surface without calling transport', async () => {
+    const api = transport(); const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions({ canManageMachines: false }) })
+    await runtime.createMachine({ name: 'Denied', scopes: ['data.export.read'], expires_at: null })
+    expect(runtime.state.machines.error?.code).toBe('INTEGRATION_PERMISSION_DENIED'); expect(api.createMachine).not.toHaveBeenCalled()
   })
 
   it('supports management actions and discloses newly issued credentials once', async () => {
@@ -44,7 +50,33 @@ describe('integration security runtime', () => {
   it('never renders server detail and validates request ids', async () => {
     const api = transport(); api.machines = vi.fn(async () => ({ body: { code: 'MACHINE_SCOPE_DENIED', detail: 'token=secret', request_id: '<script>' }, headers: new Headers(), status: 403 }))
     const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions() }); await runtime.loadMachines()
-    expect(runtime.state.machines.error?.message).toBe('One or more machine scopes cannot be granted.'); expect(runtime.state.machines.error?.message).not.toContain('secret'); expect(runtime.state.machines.error?.requestId).toBeNull()
+    expect(runtime.state.machines.error?.code).toBe('MACHINE_SCOPE_DENIED'); expect(runtime.state.machines.error?.message).toBe('One or more machine scopes cannot be granted.'); expect(runtime.state.machines.error?.message).not.toContain('secret'); expect(runtime.state.machines.error?.requestId).toBeNull()
+  })
+
+  it('uses stable local codes for network and parse failures', async () => {
+    const api = transport(); api.machines = vi.fn(async () => { throw new Error('offline') })
+    const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions() }); await runtime.loadMachines()
+    expect(runtime.state.machines.error?.code).toBe('INTEGRATION_NETWORK_FAILED')
+    api.machines = vi.fn(async () => response({ items: [{ unsafe: true }] })); await runtime.loadMachines()
+    expect(runtime.state.machines.error?.code).toBe('INTEGRATION_RESPONSE_INVALID')
+  })
+
+  it('ignores stale delivery pages and stale selected-delivery attempts', async () => {
+    let resolveDeliveryOne: ((value: TransportResult) => void) | undefined; let resolveDeliveryTwo: ((value: TransportResult) => void) | undefined
+    let resolveAttemptOne: ((value: TransportResult) => void) | undefined; let resolveAttemptTwo: ((value: TransportResult) => void) | undefined
+    const api = transport()
+    api.deliveries = vi.fn((requestedPage) => new Promise<TransportResult>(resolve => { if (requestedPage === 1) resolveDeliveryOne = resolve; else resolveDeliveryTwo = resolve }))
+    api.deliveryAttempts = vi.fn((deliveryKey) => new Promise<TransportResult>(resolve => { if (deliveryKey.endsWith('1')) resolveAttemptOne = resolve; else resolveAttemptTwo = resolve }))
+    const runtime = createIntegrationSecurityRuntime({ transport: api, permissions: permissions() })
+    const oldPage = runtime.loadDeliveries(1); const newPage = runtime.loadDeliveries(2)
+    resolveDeliveryTwo?.(page([{ ...delivery, delivery_key: `delivery_${'e'.repeat(32)}` }], 2)); await newPage
+    resolveDeliveryOne?.(page([delivery], 1)); await oldPage
+    expect(runtime.state.deliveries.page).toBe(2); expect(runtime.state.deliveries.items[0]?.deliveryKey).toBe(`delivery_${'e'.repeat(32)}`)
+    const firstKey = `delivery_${'0'.repeat(31)}1`; const secondKey = `delivery_${'0'.repeat(31)}2`
+    const oldAttempts = runtime.loadAttempts(firstKey); const newAttempts = runtime.loadAttempts(secondKey)
+    resolveAttemptTwo?.(page([{ attempt_number: 2, outcome: 'delivered', response_status: 204, error_code: null, duration_ms: 8, attempted_at: instant }])); await newAttempts
+    resolveAttemptOne?.(page([{ attempt_number: 1, outcome: 'retryable', response_status: null, error_code: 'WEBHOOK_LEASE_EXPIRED', duration_ms: 0, attempted_at: instant }])); await oldAttempts
+    expect(runtime.state.attempts.deliveryKey).toBe(secondKey); expect(runtime.state.attempts.items[0]?.attemptNumber).toBe(2)
   })
 
   it('cannot rehydrate disposed Tenant state', async () => {
