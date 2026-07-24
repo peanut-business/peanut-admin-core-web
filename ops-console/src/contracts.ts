@@ -88,6 +88,9 @@ export const parseOpsStatus = (value: unknown): OpsStatus => {
       || typeof check.latency_ms !== 'number' || !Number.isFinite(check.latency_ms) || check.latency_ms < 0 || check.latency_ms > 60000) return invalid()
     return { key: check.key, status: check.status as 'up' | 'down', critical: check.critical, latencyMs: check.latency_ms }
   })
+  const criticalCheckDown = checks.some(check => check.critical && check.status === 'down')
+  if ((health.status === 'healthy' && (criticalCheckDown || migrations.drift || migrations.pending > 0))
+    || (upgrade.state === 'succeeded' && (!upgrade.repository_clean || !upgrade.backup_verified || !upgrade.source_evidence_matches))) return invalid()
   return {
     health: { status: health.status as HealthStatus, checks },
     version: { commit: version.commit, tree: version.tree, releaseKey: version.release_key as string | null, builtAt: version.built_at },

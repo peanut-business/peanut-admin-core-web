@@ -81,11 +81,15 @@ export const createOpsConsoleRuntime = (options: OpsConsoleRuntimeOptions): OpsC
     logCursor: null, logNextCursor: null, loading: false, logsLoading: false, mutating: false, error: null, logsError: null,
   })
   const controllers = new Set<AbortController>(); let generation = 0
+  let logGeneration = 0; let logController: AbortController | null = null
   const run = async <T>(operation: (signal: AbortSignal) => Promise<T>): Promise<T> => {
     const controller = new AbortController(); controllers.add(controller)
     try { return await operation(controller.signal) } finally { controllers.delete(controller) }
   }
   const key = (): string => options.idempotencyKey?.() ?? `ops-${crypto.randomUUID()}`
+  const invalidateLogs = (): void => {
+    logGeneration += 1; logController?.abort(); logController = null; state.logsLoading = false
+  }
   const load = async (): Promise<void> => {
     const current = ++generation; state.loading = true; state.error = null
     if (!options.canRead()) { state.error = localError('OPS_PERMISSION_DENIED', 403); state.loading = false; return }
@@ -101,19 +105,27 @@ export const createOpsConsoleRuntime = (options: OpsConsoleRuntimeOptions): OpsC
     finally { if (current === generation) state.loading = false }
   }
   const loadLogs = async (reset = true): Promise<void> => {
+    if (reset) invalidateLogs()
+    else if (state.logsLoading) return
     if (!options.canReadLogs()) { state.logsError = localError('OPS_PERMISSION_DENIED', 403); return }
     if (!logSources.includes(state.logSource)) { state.logsError = localError('OPS_REQUEST_INVALID', 400); return }
-    const current = generation; const cursor = reset ? null : state.logNextCursor
+    const current = logGeneration; const source = state.logSource; const severity = state.logSeverity
+    const cursor = reset ? null : state.logNextCursor
     if (!reset && cursor === null) return
+    const controller = new AbortController(); logController = controller
     state.logsLoading = true; state.logsError = null
     try {
-      const result = await run(signal => options.transport.logs(state.logSource, state.logSeverity, cursor, 50, signal))
-      if (current !== generation) return
+      const result = await options.transport.logs(source, severity, cursor, 50, controller.signal)
+      if (current !== logGeneration || logController !== controller || source !== state.logSource || severity !== state.logSeverity
+        || (!reset && cursor !== state.logNextCursor)) return
       const error = responseStatus(result, [200]); if (error !== null) { state.logsError = error; return }
       const page = parseRuntimeLogs(result.body)
+      if (page.nextCursor !== null && page.nextCursor === cursor) { state.logsError = localError('OPS_LOGS_UNAVAILABLE'); return }
       state.logs = reset ? [...page.items] : [...state.logs, ...page.items]; state.logCursor = cursor; state.logNextCursor = page.nextCursor
-    } catch { if (current === generation) state.logsError = localError('OPS_LOGS_UNAVAILABLE') }
-    finally { if (current === generation) state.logsLoading = false }
+    } catch { if (current === logGeneration && logController === controller) state.logsError = localError('OPS_LOGS_UNAVAILABLE') }
+    finally {
+      if (current === logGeneration && logController === controller) { logController = null; state.logsLoading = false }
+    }
   }
   const mutateTask = async (permission: () => boolean, operation: (signal: AbortSignal) => Promise<OpsTransportResult>): Promise<void> => {
     if (state.mutating || !permission()) { if (!permission()) state.error = localError('OPS_PERMISSION_DENIED', 403); return }
@@ -173,7 +185,7 @@ export const createOpsConsoleRuntime = (options: OpsConsoleRuntimeOptions): OpsC
       return mutateMaintenance(signal => options.transport.closeMaintenance(window.maintenanceKey, window.revision, key(), signal))
     },
     dispose() {
-      generation += 1; for (const controller of controllers) controller.abort(); controllers.clear()
+      generation += 1; invalidateLogs(); for (const controller of controllers) controller.abort(); controllers.clear()
       state.overview = null; state.maintenance = null; state.tasks = []; state.logs = []; state.logCursor = null; state.logNextCursor = null
       state.loading = false; state.logsLoading = false; state.mutating = false; state.error = null; state.logsError = null
     },

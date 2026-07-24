@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { createOpsConsoleRuntime } from '../src/runtime'
-import type { OpsConsoleTransport } from '../src/contracts'
+import type { LogSeverity, OpsConsoleTransport } from '../src/contracts'
 import { envelope, maintenanceData, result, statusData, taskData } from './fixtures'
 
 const transport = (overrides: Partial<OpsConsoleTransport> = {}): OpsConsoleTransport => ({
@@ -10,10 +10,14 @@ const transport = (overrides: Partial<OpsConsoleTransport> = {}): OpsConsoleTran
   closeMaintenance: async () => result(200, envelope({ ...maintenanceData, state: 'closed', revision: 2 })),
   logs: async () => result(200, envelope({ items: [], next_cursor: null })), ...overrides,
 })
-const runtime = (api: OpsConsoleTransport, permissions = true) => createOpsConsoleRuntime({
+const runtime = (api: OpsConsoleTransport, permissions = true, logSources = ['application']) => createOpsConsoleRuntime({
   transport: api, providers: [{ key: 'reference.mysql', backup: true, restoreTargets: ['verification'] }, { key: 'unsafe', backup: true, restoreTargets: ['production'] }],
-  maintenanceReasons: ['upgrade'], logSources: ['application'], canRead: () => permissions, canBackup: () => permissions,
+  maintenanceReasons: ['upgrade'], logSources, canRead: () => permissions, canBackup: () => permissions,
   canRestore: () => permissions, canMaintain: () => permissions, canReadLogs: () => permissions, idempotencyKey: () => 'fixed-request-0001',
+})
+const logPage = (eventKey: string, nextCursor: string | null) => envelope({
+  items: [{ event_key: eventKey, severity: 'warning', component_key: 'http.runtime', message: 'An operational event occurred.', occurred_at: '2026-07-24T02:00:00.000Z', request_id: null, occurrences: 1 }],
+  next_cursor: nextCursor,
 })
 
 describe('ops-console runtime', () => {
@@ -38,5 +42,45 @@ describe('ops-console runtime', () => {
     await instance.submitRestore('reference.mysql', 'backup_12345678', 'verification')
     expect(instance.state.error?.message).toBe('The operation provider is unavailable.'); expect(JSON.stringify(instance.state.error)).not.toContain('password=')
     expect(submitRestore).toHaveBeenCalledWith('reference.mysql', 'backup_12345678', 'verification', 'fixed-request-0001', expect.any(AbortSignal))
+  })
+
+  it('keeps log filters in an independent request generation', async () => {
+    type Pending = { resolve: (value: ReturnType<typeof result>) => void; signal: AbortSignal }
+    const pending = new Map<string, Pending>()
+    const logs = vi.fn((source: string, _severity: LogSeverity, _cursor: string | null, _pageSize: number, signal: AbortSignal) => new Promise<ReturnType<typeof result>>(resolve => {
+      pending.set(source, { resolve, signal })
+    }))
+    const instance = runtime(transport({ logs }), true, ['application', 'audit'])
+    const oldRequest = instance.loadLogs()
+    const newRequest = instance.setLogFilter('audit', 'warning')
+    expect(pending.get('application')?.signal.aborted).toBe(true)
+    pending.get('application')?.resolve(result(200, logPage('runtime.old', null)))
+    pending.get('audit')?.resolve(result(200, logPage('runtime.new', null)))
+    await Promise.all([oldRequest, newRequest])
+    expect(instance.state.logs.map(item => item.eventKey)).toEqual(['runtime.new'])
+  })
+
+  it('serializes load-more and rejects a page that repeats its input cursor', async () => {
+    let resolveMore!: (value: ReturnType<typeof result>) => void
+    const logs = vi.fn()
+      .mockResolvedValueOnce(result(200, logPage('runtime.first', 'cursor_page0001')))
+      .mockImplementationOnce(() => new Promise<ReturnType<typeof result>>(resolve => { resolveMore = resolve }))
+    const instance = runtime(transport({ logs }))
+    await instance.loadLogs()
+    const firstLoadMore = instance.loadLogs(false); const concurrentLoadMore = instance.loadLogs(false)
+    expect(logs).toHaveBeenCalledTimes(2)
+    resolveMore(result(200, logPage('runtime.duplicate', 'cursor_page0001')))
+    await Promise.all([firstLoadMore, concurrentLoadMore])
+    expect(instance.state.logs.map(item => item.eventKey)).toEqual(['runtime.first'])
+    expect(instance.state.logsError?.code).toBe('OPS_LOGS_UNAVAILABLE')
+  })
+
+  it('aborts and invalidates log requests on dispose', async () => {
+    let resolve!: (value: ReturnType<typeof result>) => void; let signal!: AbortSignal
+    const pending = new Promise<ReturnType<typeof result>>(done => { resolve = done })
+    const instance = runtime(transport({ logs: async (_source, _severity, _cursor, _pageSize, observed) => { signal = observed; return pending } }))
+    const loading = instance.loadLogs(); instance.dispose(); expect(signal.aborted).toBe(true)
+    resolve(result(200, logPage('runtime.stale', null))); await loading
+    expect(instance.state.logs).toEqual([]); expect(instance.state.logsLoading).toBe(false)
   })
 })

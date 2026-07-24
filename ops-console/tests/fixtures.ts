@@ -3,7 +3,7 @@ import type { OpsTransportResult } from '../src/contracts'
 export const statusData = {
   health: { status: 'healthy', checks: [{ key: 'database', status: 'up', critical: true, latency_ms: 1.25 }] },
   version: { commit: 'a'.repeat(40), tree: 'b'.repeat(40), release_key: 'starter-v1.stage-c', built_at: '2026-07-24T00:00:00.000Z' },
-  migrations: { applied: 10, target: 12, pending: 2, inventory_digest: 'c'.repeat(64), drift: false },
+  migrations: { applied: 12, target: 12, pending: 0, inventory_digest: 'c'.repeat(64), drift: false },
   upgrade: { state: 'ready', code: 'UPGRADE_PREFLIGHT_READY', source_commit: 'd'.repeat(40), target_commit: 'a'.repeat(40), repository_clean: true, backup_verified: true, source_evidence_matches: true },
 }
 export const taskData = {
