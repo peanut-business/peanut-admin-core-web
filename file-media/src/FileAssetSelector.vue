@@ -3,7 +3,7 @@ import { EmptyState } from '@peanut-admin/admin/shell'
 import { ElButton } from 'element-plus'
 import type { AssetCandidate } from './contracts'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   items: readonly AssetCandidate[]
   selectedFileKey?: string | null
   loading?: boolean
@@ -23,18 +23,51 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section class="asset-selector" aria-labelledby="asset-selector-title">
+  <section
+    class="asset-selector"
+    aria-labelledby="asset-selector-title"
+  >
     <header class="asset-selector__header">
-      <h2 id="asset-selector-title">Media assets</h2>
-      <ElButton :loading="loading" :disabled="disabled" @click="emit('retry')">Reload</ElButton>
+      <h2 id="asset-selector-title">
+        Media assets
+      </h2>
+      <ElButton
+        :loading="loading"
+        :disabled="disabled"
+        @click="emit('retry')"
+      >
+        Reload
+      </ElButton>
     </header>
-    <div v-if="error" class="asset-selector__error" role="alert">
+    <div
+      v-if="error"
+      class="asset-selector__error"
+      role="alert"
+    >
       <p>{{ error }}</p>
     </div>
-    <div v-else-if="loading" role="status" class="asset-selector__status">Loading media assets...</div>
-    <EmptyState v-else-if="items.length === 0" title="No media assets" message="Upload an image before selecting an asset." />
-    <ul v-else class="asset-selector__grid" aria-label="Available media assets">
-      <li v-for="asset in items" :key="asset.fileKey" class="asset-selector__item">
+    <div
+      v-else-if="loading"
+      role="status"
+      class="asset-selector__status"
+    >
+      Loading media assets...
+    </div>
+    <EmptyState
+      v-else-if="items.length === 0"
+      title="No media assets"
+      message="Upload an image before selecting an asset."
+    />
+    <ul
+      v-else
+      class="asset-selector__grid"
+      aria-label="Available media assets"
+    >
+      <li
+        v-for="asset in items"
+        :key="asset.fileKey"
+        class="asset-selector__item"
+      >
         <button
           type="button"
           class="asset-selector__choice"
@@ -43,8 +76,20 @@ const emit = defineEmits<{
           :disabled="disabled"
           @click="emit('select', asset)"
         >
-          <img v-if="asset.previewUri" :src="asset.previewUri" :alt="asset.originalName" class="asset-selector__preview" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-          <span v-else class="asset-selector__placeholder" aria-hidden="true">IMG</span>
+          <img
+            v-if="asset.previewUri"
+            :src="asset.previewUri"
+            :alt="asset.originalName"
+            class="asset-selector__preview"
+            loading="lazy"
+            decoding="async"
+            referrerpolicy="no-referrer"
+          >
+          <span
+            v-else
+            class="asset-selector__placeholder"
+            aria-hidden="true"
+          >IMG</span>
           <span class="asset-selector__name">{{ asset.originalName }}</span>
           <span class="asset-selector__meta">{{ asset.width }} x {{ asset.height }}</span>
         </button>
