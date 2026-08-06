@@ -1,0 +1,91 @@
+{
+  "name": "@peanut-admin/admin",
+  "version": "0.1.0-alpha.1",
+  "description": "Reusable Peanut Admin Web services and module contributions",
+  "type": "module",
+  "license": "Apache-2.0",
+  "sideEffects": ["*.vue"],
+  "files": [
+    "admin-core/src",
+    "admin-shell/src",
+    "settings/src",
+    "reference-codes/src",
+    "file-media/src",
+    "task-job/src",
+    "notification-sms/src",
+    "import-export/src",
+    "ops-console/src",
+    "integration-security/src",
+    "testing/src"
+  ],
+  "exports": {
+    "./core": {
+      "types": "./admin-core/src/index.ts",
+      "import": "./admin-core/src/index.ts"
+    },
+    "./shell": {
+      "types": "./admin-shell/src/index.ts",
+      "import": "./admin-shell/src/index.ts"
+    },
+    "./settings": {
+      "types": "./settings/src/index.ts",
+      "import": "./settings/src/index.ts"
+    },
+    "./reference-codes": {
+      "types": "./reference-codes/src/index.ts",
+      "import": "./reference-codes/src/index.ts"
+    },
+    "./file-media": {
+      "types": "./file-media/src/index.ts",
+      "import": "./file-media/src/index.ts"
+    },
+    "./task-job": {
+      "types": "./task-job/src/index.ts",
+      "import": "./task-job/src/index.ts"
+    },
+    "./notification-sms": {
+      "types": "./notification-sms/src/index.ts",
+      "import": "./notification-sms/src/index.ts"
+    },
+    "./import-export": {
+      "types": "./import-export/src/index.ts",
+      "import": "./import-export/src/index.ts"
+    },
+    "./ops-console": {
+      "types": "./ops-console/src/index.ts",
+      "import": "./ops-console/src/index.ts"
+    },
+    "./integration-security": {
+      "types": "./integration-security/src/index.ts",
+      "import": "./integration-security/src/index.ts"
+    },
+    "./testing": {
+      "development": {
+        "types": "./testing/src/index.ts",
+        "import": "./testing/src/index.ts"
+      }
+    }
+  },
+  "dependencies": {
+    "element-plus": "2.14.3",
+    "openapi-fetch": "0.17.0",
+    "pinia": "4.0.2",
+    "vue-router": "5.2.0"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "2.4.11",
+    "happy-dom": "20.10.6",
+    "typescript": "5.9.3",
+    "vite": "8.1.4",
+    "vitest": "4.1.10",
+    "vue": "3.5.39",
+    "vue-tsc": "3.3.7"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.39"
+  },
+  "scripts": {
+    "test": "vitest run admin-core/tests admin-shell/tests file-media/tests import-export/tests integration-security/tests notification-sms/tests ops-console/tests reference-codes/tests settings/tests testing/tests",
+    "typecheck": "tsc --noEmit -p admin-core/tsconfig.json && tsc --noEmit -p admin-shell/tsconfig.json && vue-tsc --noEmit -p file-media/tsconfig.json && vue-tsc --noEmit -p import-export/tsconfig.json && vue-tsc --noEmit -p integration-security/tsconfig.json && vue-tsc --noEmit -p notification-sms/tsconfig.json && vue-tsc --noEmit -p ops-console/tsconfig.json && vue-tsc --noEmit -p reference-codes/tsconfig.json && vue-tsc --noEmit -p settings/tsconfig.json && vue-tsc --noEmit -p task-job/tsconfig.json && tsc --noEmit -p testing/tsconfig.json"
+  }
+}

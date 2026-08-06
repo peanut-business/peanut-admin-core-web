@@ -1,4 +1,4 @@
-export const FILE_MEDIA_PACKAGE = '@peanut-admin/file-media' as const
+export const FILE_MEDIA_PACKAGE = '@peanut-admin/admin/file-media' as const
 export const FILE_MEDIA_VERSION = '0.1.0' as const
 export { default as FileAssetSelector } from './FileAssetSelector.vue'
 export { parseAssetCandidate, parseFileList, parseFileObject, parseFileResponse } from './contracts'

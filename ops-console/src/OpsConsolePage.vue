@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EmptyState, ForbiddenState, ModuleUnavailableState, PageContent, PageHeader, SessionExpiredState } from '@peanut-admin/admin-shell'
+import { EmptyState, ForbiddenState, ModuleUnavailableState, PageContent, PageHeader, SessionExpiredState } from '@peanut-admin/admin/shell'
 import { ElButton, ElDatePicker, ElInput, ElTabPane, ElTabs } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import { LOG_SEVERITIES } from './contracts'

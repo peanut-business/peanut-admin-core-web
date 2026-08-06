@@ -7,7 +7,7 @@ import {
   PageHeader,
   PageToolbar,
   SessionExpiredState,
-} from '@peanut-admin/admin-shell'
+} from '@peanut-admin/admin/shell'
 import { ElButton, ElCheckbox, ElTag } from 'element-plus'
 import { onMounted } from 'vue'
 

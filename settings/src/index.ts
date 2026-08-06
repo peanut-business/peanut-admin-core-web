@@ -1,4 +1,4 @@
-export const SETTINGS_PACKAGE = '@peanut-admin/settings' as const
+export const SETTINGS_PACKAGE = '@peanut-admin/admin/settings' as const
 export const SETTINGS_VERSION = '0.1.0' as const
 
 export {

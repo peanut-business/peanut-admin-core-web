@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EmptyState } from '@peanut-admin/admin-shell'
+import { EmptyState } from '@peanut-admin/admin/shell'
 import { ElButton } from 'element-plus'
 import type { AssetCandidate } from './contracts'
 

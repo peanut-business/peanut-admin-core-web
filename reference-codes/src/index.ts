@@ -1,4 +1,4 @@
-export const REFERENCE_CODES_PACKAGE = '@peanut-admin/reference-codes' as const
+export const REFERENCE_CODES_PACKAGE = '@peanut-admin/admin/reference-codes' as const
 export const REFERENCE_CODES_VERSION = '0.1.0' as const
 
 export {

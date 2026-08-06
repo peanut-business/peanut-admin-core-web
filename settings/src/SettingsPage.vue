@@ -7,7 +7,7 @@ import {
   PageHeader,
   PageToolbar,
   SessionExpiredState,
-} from '@peanut-admin/admin-shell'
+} from '@peanut-admin/admin/shell'
 import { ElButton, ElInput, ElInputNumber, ElSwitch } from 'element-plus'
 import { computed, onMounted } from 'vue'
 

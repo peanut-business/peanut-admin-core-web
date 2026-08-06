@@ -1,6 +1,6 @@
-import { defineAdminModule } from '@peanut-admin/admin-core'
+import { defineAdminModule } from '@peanut-admin/admin/core'
 import { inject, reactive } from 'vue'
-import type { AdminModuleContribution } from '@peanut-admin/admin-core'
+import type { AdminModuleContribution } from '@peanut-admin/admin/core'
 import type { InjectionKey } from 'vue'
 import { parseAttempt, parseDelivery, parseItem, parseList, parseMachine, parsePage, parseProvisionedMachine, parseProvisionedWebhook, parseSession, parseWebhook } from './contracts'
 import type { IntegrationSecurityTransport, MachineIdentity, Page, ProvisionedMachineIdentity, ProvisionedWebhookEndpoint, SessionDevice, TransportResult, WebhookAttemptRecord, WebhookDeliveryRecord, WebhookEndpoint } from './contracts'

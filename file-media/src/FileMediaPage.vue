@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EmptyState, ForbiddenState, ModuleUnavailableState, PageContent, PageHeader, PageToolbar, SessionExpiredState } from '@peanut-admin/admin-shell'
+import { EmptyState, ForbiddenState, ModuleUnavailableState, PageContent, PageHeader, PageToolbar, SessionExpiredState } from '@peanut-admin/admin/shell'
 import { ElButton } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import FileAssetSelector from './FileAssetSelector.vue'

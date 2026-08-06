@@ -5,8 +5,8 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["node", "vite/client"],
     "paths": {
-      "@peanut-admin/admin-core": ["../admin-core/src/index.ts"],
-      "@peanut-admin/admin-shell": ["../admin-shell/src/index.ts"]
+      "@peanut-admin/admin/core": ["../admin-core/src/index.ts"],
+      "@peanut-admin/admin/shell": ["../admin-shell/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "tests/**/*.ts", "../../../env.d.ts"]

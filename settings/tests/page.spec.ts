@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import { flushPromises, mount } from '@vue/test-utils'
-import { ForbiddenState, ModuleUnavailableState, SessionExpiredState } from '@peanut-admin/admin-shell'
+import { ForbiddenState, ModuleUnavailableState, SessionExpiredState } from '@peanut-admin/admin/shell'
 import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
