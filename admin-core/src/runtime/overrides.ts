@@ -173,8 +173,7 @@ export const createAdminOverrideRegistry = <
     if (seenOverrides.has(key)) fail('ADMIN_OVERRIDE_KEY_DUPLICATE', key)
     seenOverrides.add(key)
 
-    const slot = slots.get(key)
-    if (slot === undefined) fail('ADMIN_OVERRIDE_KEY_UNKNOWN', key)
+    const slot = slots.get(key) ?? fail('ADMIN_OVERRIDE_KEY_UNKNOWN', key)
     if (rawOverride.kind !== slot.kind) {
       fail('ADMIN_OVERRIDE_KIND_MISMATCH', key)
     }
