@@ -29,3 +29,12 @@ export { TargetScopeSummary, TargetSelector } from './targets'
 export type { TargetScopeMode } from './targets'
 export { SHELL_THEME_TOKENS } from './theme'
 export type { ShellSlotName, ShellThemeToken } from './theme'
+export {
+  ADMIN_SHELL_OVERRIDE_SLOTS,
+  resolveWorkspaceShell,
+  WORKSPACE_SHELL_OVERRIDE_KEY,
+} from './overrides'
+export type {
+  AdminShellOverrideRegistry,
+  WorkspaceShellResolver,
+} from './overrides'
