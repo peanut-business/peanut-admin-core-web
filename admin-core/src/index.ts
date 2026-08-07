@@ -52,6 +52,20 @@ export type {
   AdminNavigationRegistryInput,
   AdminNavigationRoute,
 } from './runtime/navigation'
+export {
+  createAdminOverrideRegistry,
+  defineAdminOverrideSlot,
+} from './runtime/overrides'
+export type {
+  AdminOverride,
+  AdminOverrideKind,
+  AdminOverrideRegistry,
+  AdminOverrideRegistryInput,
+  AdminOverrideResolution,
+  AdminOverrideResolutionMetadata,
+  AdminOverrideSlot,
+  AdminOverrideSource,
+} from './runtime/overrides'
 export { useOperationTargets } from './targets/store'
 export type {
   OperationTargetScope,
