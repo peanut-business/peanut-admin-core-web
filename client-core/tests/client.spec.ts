@@ -36,7 +36,7 @@ describe('client request state machine', () => {
       decoder: () => successful({ ok: true }),
     })
 
-    for (const path of ['', 'https://other.test/items', '//other.test/items', '/items\\next', '/items\nnext', '/items/./next', '/items/../next']) {
+    for (const path of ['', 'https://other.test/items', ' https://other.test/items', '//other.test/items', '/items\\next', '/items\nnext', '/items/./next', '/items/../next']) {
       await expect(client.request({ path })).rejects.toMatchObject({
         kind: 'path',
         code: 'CLIENT_PATH_INVALID',
@@ -117,6 +117,26 @@ describe('client request state machine', () => {
     expect(clear.mock.invocationCallOrder[0]).toBeLessThan(unauthorizedHook.mock.invocationCallOrder[0] ?? Infinity)
   })
 
+  it('fails closed without invoking the unauthorized hook when session clearing fails', async () => {
+    const unauthorizedHook = vi.fn()
+    const client = createClient({
+      transport: vi.fn(async () => null),
+      session: {
+        accessToken: vi.fn(() => 'token'),
+        clear: vi.fn(async () => { throw new Error('secret session failure') }),
+      },
+      decoder: () => ({ kind: 'unauthorized' }),
+      hooks: { unauthorized: unauthorizedHook },
+    })
+
+    await expect(client.request({ path: '/items' })).rejects.toMatchObject({
+      kind: 'session',
+      code: 'CLIENT_SESSION_CLEAR_ERROR',
+      message: 'The client session could not be cleared.',
+    })
+    expect(unauthorizedHook).not.toHaveBeenCalled()
+  })
+
   it('does not expose transport exceptions or malformed decoder values', async () => {
     const transportFailure = createClient({
       transport: vi.fn(async () => { throw new Error('token=secret raw response') }),
@@ -134,6 +154,16 @@ describe('client request state machine', () => {
       decoder: () => ({ kind: 'unknown' } as never),
     })
     await expect(malformed.request({ path: '/items' })).rejects.toMatchObject({
+      kind: 'decoder',
+      code: 'CLIENT_DECODER_INVALID',
+    })
+
+    const undeclaredAlias = createClient({
+      transport: vi.fn(async () => null),
+      session: session(),
+      decoder: () => ({ status: 'success', data: 'unexpected' } as never),
+    })
+    await expect(undeclaredAlias.request({ path: '/items' })).rejects.toMatchObject({
       kind: 'decoder',
       code: 'CLIENT_DECODER_INVALID',
     })

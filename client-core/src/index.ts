@@ -114,6 +114,7 @@ const assertClientPath = (path: string): void => {
   if (
     typeof path !== 'string'
     || path === ''
+    || path.trim() !== path
     || path.startsWith('//')
     || absolutePath.test(path)
     || path.includes('\\')
@@ -171,7 +172,7 @@ const safeErrorCode = (value: unknown, fallback: string): string => (
 
 const decodeKind = (value: unknown): string | null => {
   if (!isRecord(value)) return null
-  const candidate = value.kind ?? value.status ?? value.type
+  const candidate = value.kind
   return typeof candidate === 'string' ? candidate : null
 }
 
@@ -226,7 +227,7 @@ export const createClient = (options: ClientOptions): Client => {
         try {
           await options.session.clear()
         } catch {
-          // The request still fails closed and the hook remains ordered after clear.
+          throw requestError('session', 'CLIENT_SESSION_CLEAR_ERROR', 'The client session could not be cleared.')
         }
         try {
           await options.hooks?.unauthorized?.(error)

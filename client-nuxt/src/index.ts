@@ -15,8 +15,7 @@ export type NuxtClientFetch = (
 
 export interface NuxtClientTransportOptions {
   readonly baseUrl: string
-  readonly $fetch?: NuxtClientFetch
-  readonly fetch?: NuxtClientFetch
+  readonly $fetch: NuxtClientFetch
 }
 
 const isQueryMethod = (method: string): boolean => method === 'GET' || method === 'DELETE'
@@ -24,9 +23,6 @@ const isQueryMethod = (method: string): boolean => method === 'GET' || method ==
 export const createNuxtClientTransport = (
   options: NuxtClientTransportOptions,
 ): ClientTransport => {
-  const fetcher = options.$fetch ?? options.fetch
-  if (fetcher === undefined) throw new Error('CLIENT_NUXT_FETCH_MISSING')
-
   return async (request: ClientTransportRequest): Promise<unknown> => {
     const method = request.method.toUpperCase()
     const url = resolveClientUrl(options.baseUrl, request.path)
@@ -39,6 +35,6 @@ export const createNuxtClientTransport = (
           : { body: request.data }
         : {}),
     }
-    return fetcher(url, fetchOptions)
+    return options.$fetch(url, fetchOptions)
   }
 }
