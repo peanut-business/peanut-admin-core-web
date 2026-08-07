@@ -400,7 +400,7 @@ describe('reference-code Tenant page', () => {
     expect(retireKeys[4]).not.toBe(retireKeys[3])
   })
 
-  it('requeries create, replace, and retire against the current historical filtered page', async () => {
+  it('advances create while preserving historical replace and retire filters', async () => {
     const transport = createTransport()
     vi.mocked(transport.create).mockResolvedValueOnce(result(success(entry({
       code: 'filtered-code',
@@ -452,13 +452,20 @@ describe('reference-code Tenant page', () => {
 
     const filteredCalls = vi.mocked(transport.listCodes).mock.calls.filter(call => call[2].page === 2)
     expect(filteredCalls).toHaveLength(3)
-    for (const call of filteredCalls) {
+    const expectedFilters = {
+      effectiveStatus: 'inactive',
+      includeRetired: false,
+      page: 2,
+      pageSize: 50,
+    }
+    expect(filteredCalls[0]?.[2]).toMatchObject({
+      ...expectedFilters,
+      asOf: '2026-07-20T00:00:00.000Z',
+    })
+    for (const call of filteredCalls.slice(1)) {
       expect(call[2]).toMatchObject({
+        ...expectedFilters,
         asOf: historicalQuery.asOf,
-        effectiveStatus: 'inactive',
-        includeRetired: false,
-        page: 2,
-        pageSize: 50,
       })
     }
   })
