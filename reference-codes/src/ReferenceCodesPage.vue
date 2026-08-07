@@ -203,6 +203,7 @@ onMounted(loadSets)
         </div>
 
         <ElCheckbox
+          class="retired-checkbox"
           :disabled="state.selectedSet === null || hasPendingMutation"
           :model-value="state.includeRetired"
           @update:model-value="setIncludeRetired"
@@ -425,6 +426,7 @@ onMounted(loadSets)
       title="Create reference code"
       width="min(640px, calc(100vw - 32px))"
       :close-on-click-modal="false"
+      :transition="{ css: false }"
       @close="runtime.cancelCreate"
     >
       <form
@@ -529,6 +531,7 @@ onMounted(loadSets)
       title="Append reference-code version"
       width="min(640px, calc(100vw - 32px))"
       :close-on-click-modal="false"
+      :transition="{ css: false }"
       @close="runtime.cancelAppend"
     >
       <form
@@ -631,6 +634,7 @@ onMounted(loadSets)
       title="Retire reference code"
       width="min(520px, calc(100vw - 32px))"
       :close-on-click-modal="false"
+      :transition="{ css: false }"
       @close="runtime.cancelRetire"
     >
       <div
@@ -678,6 +682,22 @@ onMounted(loadSets)
 </template>
 
 <style scoped>
+.retired-checkbox {
+  position: relative;
+}
+
+.retired-checkbox :deep(.el-checkbox__original) {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.retired-checkbox.is-disabled :deep(.el-checkbox__original) {
+  cursor: not-allowed;
+}
+
 .reference-codes-page {
   min-width: 0;
 }

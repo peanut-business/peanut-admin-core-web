@@ -525,6 +525,7 @@ export const createReferenceCodesRuntime = (options: ReferenceCodesRuntimeOption
       try {
         const parsed = parsedMutation(result)
         assertMutationEntry(parsed, input.code)
+        if (Date.parse(state.asOf) < Date.parse(parsed.createdAt)) state.asOf = parsed.createdAt
         state.createDraft = null
         delete state.stale[input.code]
         clearMutationKey(scope)

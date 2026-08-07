@@ -294,14 +294,18 @@ const effectiveVersion = (value: unknown): EffectiveReferenceCodeVersion | null 
   }
 }
 
-const entryRecord = (value: unknown): ReferenceCodeEntry => {
+const entryRecord = (value: unknown, asOf?: string): ReferenceCodeEntry => {
   const record = exactRecord(value, [
     'module_key', 'set_key', 'code', 'lifecycle', 'revision', 'etag', 'effective',
     'created_at', 'updated_at', 'retired_at',
   ])
   if (record.lifecycle !== 'active' && record.lifecycle !== 'retired') return invalidResponse()
   const retiredAt = nullableInstant(record.retired_at)
-  if ((record.lifecycle === 'active') !== (retiredAt === null)) return invalidResponse()
+  if (record.lifecycle === 'retired' && retiredAt === null) return invalidResponse()
+  if (asOf !== undefined) {
+    const retiredAtSnapshot = retiredAt !== null && Date.parse(retiredAt) <= Date.parse(asOf)
+    if ((record.lifecycle === 'retired') !== retiredAtSnapshot) return invalidResponse()
+  }
   const revision = positiveInteger(record.revision)
   const etag = strongEtag(record.etag)
   if (etag !== `"rev-${revision}"`) return invalidResponse()
@@ -350,12 +354,13 @@ export const parseReferenceCode = (value: unknown, responseEtag?: string): Refer
 export const parseReferenceCodeList = (value: unknown): ReferenceCodeList => {
   const data = exactRecord(dataEnvelope(value), ['items', 'as_of', 'page', 'page_size', 'total'])
   if (!Array.isArray(data.items)) return invalidResponse()
+  const asOf = instant(data.as_of)
   const page = boundedInteger(data.page, 1, 10_000)
   const pageSize = boundedInteger(data.page_size, 1, 100)
   const total = boundedInteger(data.total, 0, Number.MAX_SAFE_INTEGER)
   return {
-    items: data.items.map(entryRecord),
-    asOf: instant(data.as_of),
+    items: data.items.map(item => entryRecord(item, asOf)),
+    asOf,
     page,
     pageSize,
     total,

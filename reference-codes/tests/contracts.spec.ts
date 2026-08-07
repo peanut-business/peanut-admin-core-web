@@ -66,6 +66,36 @@ describe('reference-code response contracts', () => {
     expect(list).toMatchObject({ asOf: '2026-07-20T02:00:00.000Z', page: 1, pageSize: 50, total: 1 })
   })
 
+  it('parses retirement lifecycle relative to the requested snapshot', () => {
+    const retiredAt = '2026-07-20T03:00:00.000Z'
+    const historicalEntry = entry({ retired_at: retiredAt })
+    const historical = parseReferenceCodeList(success({
+      items: [historicalEntry],
+      as_of: '2026-07-20T02:00:00.000Z',
+      page: 1,
+      page_size: 50,
+      total: 1,
+    }))
+
+    expect(historical.items[0]).toMatchObject({ lifecycle: 'active', retiredAt })
+    expect(parseReferenceCode(success(historicalEntry))).toMatchObject({ lifecycle: 'active', retiredAt })
+    expect(() => parseReferenceCode(success(entry({ lifecycle: 'retired' }))))
+      .toThrow('REFERENCE_CODES_RESPONSE_INVALID')
+
+    for (const inconsistent of [
+      entry({ retired_at: '2026-07-20T01:00:00.000Z' }),
+      entry({ lifecycle: 'retired', retired_at: retiredAt }),
+    ]) {
+      expect(() => parseReferenceCodeList(success({
+        items: [inconsistent],
+        as_of: '2026-07-20T02:00:00.000Z',
+        page: 1,
+        page_size: 50,
+        total: 1,
+      }))).toThrow('REFERENCE_CODES_RESPONSE_INVALID')
+    }
+  })
+
   it('fails closed on unknown fields, invalid scalar metadata, timestamps, and ETag mismatch', () => {
     const setData = { items: [{
       module_key: 'example.catalog', set_key: 'service-level', name: 'Service level',
