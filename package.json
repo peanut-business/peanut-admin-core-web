@@ -16,7 +16,10 @@
     "import-export/src",
     "ops-console/src",
     "integration-security/src",
-    "testing/src"
+    "testing/src",
+    "client-core/src",
+    "client-nuxt/src",
+    "client-uniapp/src"
   ],
   "exports": {
     "./core": {
@@ -64,6 +67,18 @@
         "types": "./testing/src/index.ts",
         "import": "./testing/src/index.ts"
       }
+    },
+    "./client": {
+      "types": "./client-core/src/index.ts",
+      "import": "./client-core/src/index.ts"
+    },
+    "./client/nuxt": {
+      "types": "./client-nuxt/src/index.ts",
+      "import": "./client-nuxt/src/index.ts"
+    },
+    "./client/uniapp": {
+      "types": "./client-uniapp/src/index.ts",
+      "import": "./client-uniapp/src/index.ts"
     }
   },
   "dependencies": {
@@ -85,7 +100,7 @@
     "vue": "^3.5.39"
   },
   "scripts": {
-    "test": "vitest run admin-core/tests admin-shell/tests file-media/tests import-export/tests integration-security/tests notification-sms/tests ops-console/tests reference-codes/tests settings/tests testing/tests",
-    "typecheck": "tsc --noEmit -p admin-core/tsconfig.json && tsc --noEmit -p admin-shell/tsconfig.json && vue-tsc --noEmit -p file-media/tsconfig.json && vue-tsc --noEmit -p import-export/tsconfig.json && vue-tsc --noEmit -p integration-security/tsconfig.json && vue-tsc --noEmit -p notification-sms/tsconfig.json && vue-tsc --noEmit -p ops-console/tsconfig.json && vue-tsc --noEmit -p reference-codes/tsconfig.json && vue-tsc --noEmit -p settings/tsconfig.json && vue-tsc --noEmit -p task-job/tsconfig.json && tsc --noEmit -p testing/tsconfig.json"
+    "test": "vitest run admin-core/tests admin-shell/tests file-media/tests import-export/tests integration-security/tests notification-sms/tests ops-console/tests reference-codes/tests settings/tests testing/tests client-core/tests client-nuxt/tests client-uniapp/tests",
+    "typecheck": "tsc --noEmit -p admin-core/tsconfig.json && tsc --noEmit -p admin-shell/tsconfig.json && vue-tsc --noEmit -p file-media/tsconfig.json && vue-tsc --noEmit -p import-export/tsconfig.json && vue-tsc --noEmit -p integration-security/tsconfig.json && vue-tsc --noEmit -p notification-sms/tsconfig.json && vue-tsc --noEmit -p ops-console/tsconfig.json && vue-tsc --noEmit -p reference-codes/tsconfig.json && vue-tsc --noEmit -p settings/tsconfig.json && vue-tsc --noEmit -p task-job/tsconfig.json && tsc --noEmit -p testing/tsconfig.json && tsc --noEmit -p client-core/tsconfig.json && tsc --noEmit -p client-nuxt/tsconfig.json && tsc --noEmit -p client-uniapp/tsconfig.json"
   }
 }
