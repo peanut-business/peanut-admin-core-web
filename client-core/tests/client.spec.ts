@@ -74,7 +74,7 @@ describe('client request state machine', () => {
       session: session(),
       decoder: vi.fn((response: unknown) => response instanceof Object && 'envelope' in response
         ? successful({ id: 'item-1' })
-        : { kind: 'business', code: 'ITEM_DENIED', message: 'Not allowed.' }),
+        : { kind: 'business' as const, code: 'ITEM_DENIED', message: 'Not allowed.' }),
       hooks: { businessError: businessHook },
     })
 
@@ -145,6 +145,7 @@ describe('client request state machine', () => {
     const transportError = await transportFailure.request({ path: '/items' }).catch(error => error)
     expect(transportError).toBeInstanceOf(ClientRequestError)
     expect(transportError).toMatchObject({ kind: 'transport', code: 'CLIENT_TRANSPORT_ERROR' })
+    if (!(transportError instanceof ClientRequestError)) throw new Error('expected ClientRequestError')
     expect(transportError.message).not.toContain('secret')
 
     const malformed = createClient({
