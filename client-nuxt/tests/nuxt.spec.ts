@@ -28,7 +28,10 @@ describe('Nuxt client transport', () => {
     const fetcher = vi.fn(async () => ({}))
     const transport = createNuxtClientTransport({ baseUrl: 'https://admin.example/', $fetch: fetcher })
 
-    await expect(transport({ path: '//other.example/items', method: 'GET', headers: new Headers() })).rejects.toThrow('CLIENT_PATH_INVALID')
+    await expect(transport({ path: '//other.example/items', method: 'GET', headers: new Headers() })).rejects.toMatchObject({
+      kind: 'path',
+      code: 'CLIENT_PATH_INVALID',
+    })
     expect(fetcher).not.toHaveBeenCalled()
   })
 })

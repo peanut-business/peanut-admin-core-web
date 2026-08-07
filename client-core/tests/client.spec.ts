@@ -107,8 +107,7 @@ describe('client request state machine', () => {
 
     const first = client.request({ path: '/first' })
     const second = client.request({ path: '/second' })
-    await Promise.resolve()
-    expect(clear).toHaveBeenCalledOnce()
+    await vi.waitFor(() => expect(clear).toHaveBeenCalledOnce())
     expect(unauthorizedHook).not.toHaveBeenCalled()
     releaseClear?.()
     await expect(first).rejects.toMatchObject({ kind: 'unauthorized', code: 'AUTH_EXPIRED' })
@@ -173,7 +172,17 @@ describe('client request state machine', () => {
 describe('client URL composition', () => {
   it('validates paths before composing an HTTP URL', () => {
     expect(resolveClientUrl('https://admin.example/base/', '/api/v1/items')).toBe('https://admin.example/api/v1/items')
-    expect(() => resolveClientUrl('https://admin.example/', 'https://other.example/items')).toThrow('CLIENT_PATH_INVALID')
-    expect(() => resolveClientUrl('https://user:secret@admin.example/', '/api')).toThrow('CLIENT_BASE_URL_INVALID')
+    try {
+      resolveClientUrl('https://admin.example/', 'https://other.example/items')
+      throw new Error('expected invalid path')
+    } catch (error) {
+      expect(error).toMatchObject({ kind: 'path', code: 'CLIENT_PATH_INVALID' })
+    }
+    try {
+      resolveClientUrl('https://user:secret@admin.example/', '/api')
+      throw new Error('expected invalid base URL')
+    } catch (error) {
+      expect(error).toMatchObject({ kind: 'path', code: 'CLIENT_BASE_URL_INVALID' })
+    }
   })
 })
