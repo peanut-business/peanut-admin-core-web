@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/admin",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Reusable Peanut Admin Web services and module contributions",
   "type": "module",
   "license": "Apache-2.0",
@@ -79,6 +79,24 @@
     "./client/uniapp": {
       "types": "./client-uniapp/src/index.ts",
       "import": "./client-uniapp/src/index.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "core": ["admin-core/src/index.ts"],
+      "shell": ["admin-shell/src/index.ts"],
+      "settings": ["settings/src/index.ts"],
+      "reference-codes": ["reference-codes/src/index.ts"],
+      "file-media": ["file-media/src/index.ts"],
+      "task-job": ["task-job/src/index.ts"],
+      "notification-sms": ["notification-sms/src/index.ts"],
+      "import-export": ["import-export/src/index.ts"],
+      "ops-console": ["ops-console/src/index.ts"],
+      "integration-security": ["integration-security/src/index.ts"],
+      "testing": ["testing/src/index.ts"],
+      "client": ["client-core/src/index.ts"],
+      "client/nuxt": ["client-nuxt/src/index.ts"],
+      "client/uniapp": ["client-uniapp/src/index.ts"]
     }
   },
   "dependencies": {

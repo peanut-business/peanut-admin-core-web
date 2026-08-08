@@ -23,7 +23,7 @@ export type AudienceApiClient = Client<paths>
 
 const requestId = (): string => {
   if (typeof globalThis.crypto?.randomUUID === 'function') {
-    return `req_${globalThis.crypto.randomUUID().replaceAll('-', '')}`
+    return `req_${globalThis.crypto.randomUUID().replace(/-/g, '')}`
   }
 
   return `req_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`
