@@ -1,5 +1,5 @@
 import { resolveClientUrl } from '@peanut-admin/admin/client'
-import type { ClientTransport, ClientTransportRequest } from '@peanut-admin/admin/client'
+import type { ClientHeaders, ClientTransport, ClientTransportRequest } from '@peanut-admin/admin/client'
 
 export interface UniAppClientResponse {
   readonly data: unknown
@@ -23,7 +23,7 @@ export interface UniAppClientTransportOptions {
   readonly request: UniAppClientRequest
 }
 
-const headersRecord = (headers: Headers): Record<string, string> => {
+const headersRecord = (headers: ClientHeaders): Record<string, string> => {
   const result: Record<string, string> = {}
   headers.forEach((value, key) => {
     result[key] = value

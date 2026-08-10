@@ -7,11 +7,27 @@ export type ClientRequestMethod =
   | 'POST'
   | 'PUT'
 
+export interface ClientHeaderSource {
+  forEach: (callback: (value: string, key: string) => void) => void
+}
+
+export type ClientRequestHeaders =
+  | Readonly<Record<string, string>>
+  | ReadonlyArray<readonly [string, string]>
+  | ClientHeaderSource
+
+export interface ClientHeaders extends ClientHeaderSource {
+  delete: (name: string) => void
+  get: (name: string) => string | null
+  has: (name: string) => boolean
+  set: (name: string, value: string) => void
+}
+
 export interface ClientRequest<TData = unknown> {
   readonly path: string
   readonly method?: ClientRequestMethod
   readonly data?: TData
-  readonly headers?: HeadersInit
+  readonly headers?: ClientRequestHeaders
   readonly auth?: boolean
 }
 
@@ -19,7 +35,7 @@ export interface ClientTransportRequest<TData = unknown> {
   readonly path: string
   readonly method: ClientRequestMethod
   readonly data?: TData
-  readonly headers: Headers
+  readonly headers: ClientHeaders
 }
 
 export type ClientTransport = (request: ClientTransportRequest) => Promise<unknown>
@@ -96,6 +112,9 @@ const pathControlCharacters = /[\u0000-\u001f\u007f]/
 const controlCharacters = /[\u0000-\u001f\u007f]/g
 const encodedUnsafePathSegment = /%(?:2e|2f|5c)/i
 const absolutePath = /^[A-Za-z][A-Za-z0-9+.-]*:/
+const httpBaseUrl = /^(https?):\/\/([^/?#]+)(\/[^?#]*)?$/i
+const validHeaderName = /^[!#$%&'*+.^_`|~0-9A-Za-z-]+$/
+const invalidHeaderValue = /[\u0000\r\n]/
 const safeCode = /^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$/
 const defaultUnauthorizedCode = 'CLIENT_UNAUTHORIZED'
 const defaultBusinessCode = 'CLIENT_BUSINESS_ERROR'
@@ -130,34 +149,49 @@ const assertClientPath = (path: string): void => {
   }
 }
 
-const validBaseUrl = (baseUrl: string): URL => {
-  let url: URL
-  try {
-    url = new URL(baseUrl)
-  } catch {
-    throw new ClientRequestError('path', 'CLIENT_BASE_URL_INVALID', 'The client base URL is invalid.')
-  }
+const invalidBaseUrl = (): ClientRequestError => (
+  new ClientRequestError('path', 'CLIENT_BASE_URL_INVALID', 'The client base URL is invalid.')
+)
 
+const validBaseUrl = (baseUrl: string): { origin: string; pathname: string } => {
   if (
-    !['http:', 'https:'].includes(url.protocol)
-    || url.username !== ''
-    || url.password !== ''
-    || url.search !== ''
-    || url.hash !== ''
+    typeof baseUrl !== 'string'
+    || baseUrl.trim() !== baseUrl
+    || pathControlCharacters.test(baseUrl)
+    || baseUrl.includes('\\')
   ) {
-    throw new ClientRequestError('path', 'CLIENT_BASE_URL_INVALID', 'The client base URL is invalid.')
+    throw invalidBaseUrl()
   }
 
-  return url
+  const match = httpBaseUrl.exec(baseUrl)
+  const protocol = match?.[1]
+  const authority = match?.[2]
+  const pathname = match?.[3] ?? '/'
+  if (
+    protocol === undefined
+    || authority === undefined
+    || authority === ''
+    || authority.includes('@')
+    || /\s/.test(authority)
+    || encodedUnsafePathSegment.test(pathname)
+    || pathname.split('/').some(segment => segment === '.' || segment === '..')
+  ) {
+    throw invalidBaseUrl()
+  }
+
+  return {
+    origin: `${protocol.toLowerCase()}://${authority}`,
+    pathname,
+  }
 }
 
 export const resolveClientUrl = (baseUrl: string, path: string): string => {
   assertClientPath(path)
   const base = validBaseUrl(baseUrl)
   const basePath = base.pathname.endsWith('/') ? base.pathname : `${base.pathname}/`
-  const root = new URL(base.origin)
-  root.pathname = basePath
-  return new URL(path, root).toString()
+  return path.startsWith('/')
+    ? `${base.origin}${path}`
+    : `${base.origin}${basePath}${path}`
 }
 
 const safeMessage = (value: unknown, fallback: string): string => {
@@ -203,9 +237,66 @@ const normalizedDecodedResult = (value: ClientDecodeResult): ClientDecodeResult 
   }
 }
 
-const requestHeaders = (headers: HeadersInit | undefined): Headers => {
-  const result = new Headers(headers)
-  // Headers is case-insensitive and delete removes all values for this name.
+const isHeaderSource = (value: unknown): value is ClientHeaderSource => (
+  typeof value === 'object'
+  && value !== null
+  && typeof (value as { forEach?: unknown }).forEach === 'function'
+)
+
+class PortableClientHeaders implements ClientHeaders {
+  private readonly values = new Map<string, string>()
+
+  constructor(headers?: ClientRequestHeaders) {
+    if (headers === undefined) return
+
+    if (Array.isArray(headers)) {
+      for (const entry of headers) {
+        if (!Array.isArray(entry) || entry.length !== 2) throw new TypeError('invalid header entry')
+        this.set(entry[0], entry[1])
+      }
+      return
+    }
+
+    if (isHeaderSource(headers)) {
+      headers.forEach((value, key) => this.set(key, value))
+      return
+    }
+
+    if (typeof headers === 'object' && headers !== null) {
+      for (const [key, value] of Object.entries(headers)) this.set(key, value)
+      return
+    }
+
+    throw new TypeError('invalid headers')
+  }
+
+  delete(name: string): void {
+    this.values.delete(name.toLowerCase())
+  }
+
+  get(name: string): string | null {
+    return this.values.get(name.toLowerCase()) ?? null
+  }
+
+  has(name: string): boolean {
+    return this.values.has(name.toLowerCase())
+  }
+
+  set(name: string, value: string): void {
+    if (!validHeaderName.test(name) || typeof value !== 'string' || invalidHeaderValue.test(value)) {
+      throw new TypeError('invalid header')
+    }
+    this.values.set(name.toLowerCase(), value.trim())
+  }
+
+  forEach(callback: (value: string, key: string) => void): void {
+    this.values.forEach((value, key) => callback(value, key))
+  }
+}
+
+const requestHeaders = (headers: ClientRequestHeaders | undefined): ClientHeaders => {
+  const result = new PortableClientHeaders(headers)
+  // Header names are normalized, so delete removes every caller spelling.
   result.delete('Authorization')
   return result
 }
@@ -251,7 +342,7 @@ export const createClient = (options: ClientOptions): Client => {
     }
 
     const method = methodOf(input.method)
-    let headers: Headers
+    let headers: ClientHeaders
     try {
       headers = requestHeaders(input.headers)
     } catch {
@@ -322,4 +413,3 @@ export const createClient = (options: ClientOptions): Client => {
 export type ClientResult<TData = unknown> = ClientDecodeResult<TData>
 export type ClientRequestResult<TData = unknown> = Promise<TData>
 export type ClientHook = (error: ClientRequestError) => void | Promise<void>
-export type ClientRequestHeaders = HeadersInit

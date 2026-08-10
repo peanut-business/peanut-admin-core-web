@@ -186,4 +186,27 @@ describe('client URL composition', () => {
       expect(error).toMatchObject({ kind: 'path', code: 'CLIENT_BASE_URL_INVALID' })
     }
   })
+
+  it('does not require browser Headers or URL globals', async () => {
+    vi.stubGlobal('Headers', undefined)
+    vi.stubGlobal('URL', undefined)
+    try {
+      const transport = vi.fn(async () => ({ ok: true }))
+      const client = createClient({
+        transport,
+        session: session('portable-token'),
+        decoder: () => successful({ ok: true }),
+      })
+
+      await client.request({ path: '/items', headers: { 'X-Client': 'uniapp' } })
+      const request = transportRequest(transport)
+      expect(request.headers.get('authorization')).toBe('Bearer portable-token')
+      expect(request.headers.get('x-client')).toBe('uniapp')
+      expect(resolveClientUrl('https://admin.example/base/', 'items')).toBe(
+        'https://admin.example/base/items',
+      )
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
 })
