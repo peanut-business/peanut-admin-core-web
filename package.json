@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/admin",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "Reusable Peanut Admin Web services and module contributions",
   "type": "module",
   "license": "Apache-2.0",
@@ -100,22 +100,32 @@
     }
   },
   "dependencies": {
-    "element-plus": "2.14.3",
-    "openapi-fetch": "0.17.0",
-    "pinia": "4.0.2",
-    "vue-router": "5.2.0"
+    "openapi-fetch": "0.17.0"
   },
   "devDependencies": {
     "@vue/test-utils": "2.4.11",
+    "element-plus": "2.14.3",
     "happy-dom": "20.10.6",
+    "pinia": "4.0.2",
     "typescript": "5.9.3",
     "vite": "8.1.4",
     "vitest": "4.1.10",
     "vue": "3.5.39",
+    "vue-router": "5.2.0",
     "vue-tsc": "3.3.7"
   },
   "peerDependencies": {
-    "vue": "^3.5.39"
+    "element-plus": "^2.14.3",
+    "pinia": ">=2.0.23 <5",
+    "vue": "^3.4.21"
+  },
+  "peerDependenciesMeta": {
+    "element-plus": {
+      "optional": true
+    },
+    "pinia": {
+      "optional": true
+    }
   },
   "scripts": {
     "test": "vitest run admin-core/tests admin-shell/tests file-media/tests import-export/tests integration-security/tests notification-sms/tests ops-console/tests reference-codes/tests settings/tests testing/tests client-core/tests client-nuxt/tests client-uniapp/tests",
