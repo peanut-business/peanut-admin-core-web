@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/admin",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.6",
   "description": "Reusable Peanut Admin Web services and module contributions",
   "type": "module",
   "license": "Apache-2.0",
@@ -117,7 +117,8 @@
   "peerDependencies": {
     "element-plus": "^2.14.3",
     "pinia": ">=2.0.23 <5",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "vue-router": ">=4.0.0 <6"
   },
   "peerDependenciesMeta": {
     "element-plus": {
