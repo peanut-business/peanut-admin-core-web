@@ -29,6 +29,10 @@ export { TargetScopeSummary, TargetSelector } from './targets'
 export type { TargetScopeMode } from './targets'
 export { SHELL_THEME_TOKENS } from './theme'
 export type { ShellSlotName, ShellThemeToken } from './theme'
+export { allowsInstanceTools, deploymentMode, routesForDeployment } from './deployment-mode'
+export type { DeploymentMode, DeploymentRoute } from './deployment-mode'
+export { tabFromRoute } from './tabs'
+export type { ShellTab, ShellTabRoute, ShellTabState } from './tabs'
 export {
   ADMIN_SHELL_OVERRIDE_SLOTS,
   resolveWorkspaceShell,
