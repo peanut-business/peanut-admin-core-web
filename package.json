@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/admin",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "Reusable Peanut Admin Web services and module contributions",
   "type": "module",
   "license": "Apache-2.0",
