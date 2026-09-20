@@ -2,6 +2,9 @@
 /.pnpm-store/
 /.npm/
 /dist/
+/artifacts/
+/packages/*/dist/
+/packages/*/node_modules/
 /coverage/
 /.cache/
 .DS_Store
