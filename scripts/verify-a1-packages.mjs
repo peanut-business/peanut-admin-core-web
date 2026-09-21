@@ -5,6 +5,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { verifyConsumer } from './consumer-verification.mjs'
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const artifacts = join(root, 'artifacts')
@@ -78,7 +79,7 @@ writeFileSync(join(consumer, 'index.js'), [
   'console.log(Boolean(createClient && defineAdminModule && AdminShell && createNuxtClientTransport && createUniAppClientTransport && mockAccessState))',
 ].join('\n'))
 
-try {
+verifyConsumer(consumer, () => {
   run('npm', [
     'install', '--ignore-scripts', '--no-audit', '--no-fund',
     'vite@7.3.6', 'vue@3.5.39', 'pinia@4.0.2', 'element-plus@2.14.3',
@@ -92,9 +93,4 @@ try {
     packageCount: tgzs.length,
     cleanConsumer: 'passed',
   }))
-} catch (error) {
-  console.error(`Clean consumer retained for diagnosis: ${consumer}`)
-  throw error
-} finally {
-  if (process.exitCode === undefined) rmSync(consumer, { recursive: true, force: true })
-}
+})

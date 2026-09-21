@@ -21,6 +21,7 @@
     "build": "pnpm --recursive --workspace-concurrency=1 run build",
     "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck",
     "test": "vitest run packages/*/tests",
+    "test:tooling": "node --test scripts/tests/*.test.mjs",
     "pack:candidates": "pnpm --recursive --workspace-concurrency=1 run pack:candidate",
     "verify:a1": "node scripts/verify-a1-packages.mjs"
   }
