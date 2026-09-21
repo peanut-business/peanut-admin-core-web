@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { createUniAppClientTransport } from '../src/index'
-import type { ClientHeaders } from '../../client-core/src/index'
+import type { ClientHeaders } from '../../client/src/index'
 import type { UniAppClientRequestOptions } from '../src/index'
 
 const headers = (values: Record<string, string> = {}): ClientHeaders => {

@@ -29,9 +29,10 @@ const output = (command, args, options = {}) => execFileSync(command, args, {
 })
 
 const packageManifest = (name) => JSON.parse(readFileSync(join(root, 'packages', name, 'package.json'), 'utf8'))
+const expectedVersion = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version
 for (const name of packages) {
   const manifest = packageManifest(name)
-  if (manifest.name !== `@peanut-admin/${name}` || manifest.version !== '4.0.0-dev.0') {
+  if (manifest.name !== `@peanut-admin/${name}` || manifest.version !== expectedVersion) {
     throw new Error(`Unexpected package identity for ${name}`)
   }
   if (manifest.exports?.['.']?.import !== './dist/index.js'

@@ -31,6 +31,16 @@ export type {
 export { disposeTenantState, registerTenantDisposer } from './lifecycle/tenant'
 export { createTenantLifecycle } from './lifecycle/tenant'
 export type { TenantDisposer, TenantLifecycle, TenantLifecycleTicket } from './lifecycle/tenant'
+export { useAsyncAction, useAsyncList } from './data/async-state'
+export type {
+  AsyncActionResult,
+  AsyncActionState,
+  AsyncListOptions,
+  AsyncListPage,
+  AsyncListPagination,
+  AsyncListQuery,
+  AsyncListState,
+} from './data/async-state'
 export { createMenuRouteRegistry, defineAdminModule } from './module/contribution'
 export { collectPluginContributions, routesForTenantModules } from './module/plugin-contribution-policy'
 export { enabledTenantModulesFromRoutes } from './module/tenant-modules'

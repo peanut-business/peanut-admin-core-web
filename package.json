@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/web-workspace",
-  "version": "4.0.0-dev.0",
+  "version": "4.0.0-dev.1",
   "private": true,
   "description": "Peanut Admin reusable web client, framework adapters, UI, and test tooling",
   "license": "Apache-2.0",

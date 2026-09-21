@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { createNuxtClientTransport } from '../src/index'
-import type { ClientHeaders } from '../../client-core/src/index'
+import { createNuxtClientTransport, createNuxtSsrForwardHeaders } from '../src/index'
+import type { ClientHeaders } from '../../client/src/index'
 
 const headers = (values: Record<string, string> = {}): ClientHeaders => {
   const normalized = new Map(
@@ -47,5 +47,44 @@ describe('Nuxt client transport', () => {
       code: 'CLIENT_PATH_INVALID',
     })
     expect(fetcher).not.toHaveBeenCalled()
+  })
+
+  it('forwards only normalized trusted SSR authority and cookie context', async () => {
+    const fetcher = vi.fn(async () => ({}))
+    const forwardHeaders = createNuxtSsrForwardHeaders({
+      requestHost: 'Tenant-A.Example.test:8443',
+      cookie: 'member_session=opaque',
+      forwardedProto: 'https',
+      trustedHosts: ['*.example.test'],
+    })
+    const transport = createNuxtClientTransport({
+      baseUrl: 'http://internal-gateway/',
+      $fetch: fetcher,
+      forwardHeaders,
+    })
+
+    await transport({ path: '/api/articles', method: 'GET', headers: headers({ Host: 'attacker.test' }) })
+
+    expect(fetcher).toHaveBeenCalledWith('http://internal-gateway/api/articles', expect.objectContaining({
+      headers: expect.objectContaining({
+        host: 'tenant-a.example.test:8443',
+        cookie: 'member_session=opaque',
+        'x-forwarded-host': 'tenant-a.example.test:8443',
+        'x-forwarded-proto': 'https',
+      }),
+    }))
+  })
+
+  it('rejects untrusted or malformed SSR forwarding context', () => {
+    expect(() => createNuxtSsrForwardHeaders({
+      requestHost: 'tenant.example.test',
+      forwardedProto: 'https',
+      trustedHosts: ['*.trusted.test'],
+    })).toThrow('NUXT_SSR_FORWARD_CONTEXT_INVALID')
+    expect(() => createNuxtSsrForwardHeaders({
+      requestHost: 'tenant.example.test',
+      cookie: 'session=ok\r\nX-Leak: value',
+      forwardedProto: 'https',
+    })).toThrow('NUXT_SSR_FORWARD_CONTEXT_INVALID')
   })
 })
