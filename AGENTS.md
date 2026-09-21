@@ -1,13 +1,15 @@
-# Peanut Admin Web Core development entry
+# peanut-admin-core-web development entry
 
-This repository owns framework-neutral client facilities, generic UI, Vue/Nuxt/UniApp integration, and shared testing support. Complete business pages, business state and product/module API SDKs belong to their owning modules in the application repository, not Web Core.
+Framework-neutral client, generic UI, Vue/Nuxt/UniApp adapters and testing support. Business pages, state and module SDKs stay in Code.
 
 ## Mandatory documented rules
 
-The single project rule source is the authorized `peanut-business/peanut-admin-project` checkout. Before edits, resolve its actual path and read `AGENTS.md`, `project-rules/document-execution.md`, `project-rules/execution.md`, `project-rules/rule-index.json`, and applicable source sections. Linked worktrees need verified Git common-directory/workspace mapping; `../` may not identify Project.
+Resolve the actual authorized peanut-admin-project checkout; worktrees need Git common-dir/workspace mapping, not a guessed ../ path. Read its AGENTS, project-rules/document-execution.md, execution.md and applicable indexed sections. Missing authoritative rules means report and safe read-only inspection, not guessed implementation.
 
-Use Project's `scripts/docs-governance check` / `plan` and completed-receipt `verify` as documented. Do not copy private project documents or customer data into this public repository. If the source is unavailable, report it and limit work to safe read-only inspection rather than guessing requirements.
+Use Project `python3 scripts/docs-governance check`; optional `read --areas <areas>` locates sources. State relevant rules, changes, actual tests and untested items in the task/commit. No mandatory JSON reading attestations or self-certified compliance receipts. Real behavior is verified by tests and review, not metadata.
 
-Report any suspected error or conflict in an effective rule to the user with evidence and a proposed change BEFORE changing the rule or implementing a conflicting result. Pause only the affected slice. Do not weaken requirements or tests to make code appear compliant. `reviewed_not_rejected` proposals are not implementation approvals; removal candidates need explicit confirmation.
+Effective rules suspected wrong must be reported to the user BEFORE changing them or implementing conflicting behavior. Pause affected work only. APP-R01—APP-R17 remain reviewed but not approved as a group; declaration-style xxClass is a design, not an existing resolver.
 
-Preserve the client/Vue/UI/Nuxt/UniApp/testing boundaries and per-request SSR identity isolation. Develop in isolated feature worktrees and integrate validated changes into `dev` without force pushes. `main`, package publication, releases, production and customer-data operations require separate authorization. Docs-only rule entry changes do not imply a package release, dependency lock update or product validation.
+User authorized confirmed obsolete/duplicate documentation and unused one-time tool cleanup after useful rules/open issues are absorbed. Delete originals and dead links, not history/redirect stubs. Preserve licenses, database migrations, live test fixtures, customer data and others' worktrees. Never weaken tests to hide regressions.
+
+Develop on isolated worktrees, integrate validated slices to dev without force and verify remote refs. main, tags, formal packages, production and customer data require separate authorization. Do not copy private Project rules into public repositories. Documentation-only commits do not require repinning runtime dependencies or unrelated product tests.
