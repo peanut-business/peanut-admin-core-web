@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { appendFileSync, mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -42,7 +42,26 @@ for (const name of packages) {
 }
 
 run('pnpm', ['run', 'build'])
+const testInventory = join(tmpdir(), `peanut-web-core-tests-${process.pid}.json`)
+let vitestTestCount = 0
+try {
+  run('pnpm', ['exec', 'vitest', 'list', `--json=${testInventory}`])
+  const discovered = JSON.parse(readFileSync(testInventory, 'utf8'))
+  if (!Array.isArray(discovered) || discovered.length === 0) {
+    throw new Error('Vitest discovery selected zero tests')
+  }
+  vitestTestCount = discovered.length
+} finally {
+  rmSync(testInventory, { force: true })
+}
 run('pnpm', ['run', 'test'])
+const toolingOutput = output('pnpm', ['run', 'test:tooling'])
+process.stdout.write(toolingOutput)
+const toolingCounts = [...toolingOutput.matchAll(/^# tests ([0-9]+)$/gm)]
+const toolingTestCount = Number(toolingCounts.at(-1)?.[1] || 0)
+if (!Number.isInteger(toolingTestCount) || toolingTestCount <= 0) {
+  throw new Error('Node tooling discovery selected zero tests')
+}
 rmSync(artifacts, { recursive: true, force: true })
 mkdirSync(artifacts, { recursive: true })
 run('pnpm', ['run', 'pack:candidates'])
@@ -92,6 +111,20 @@ verifyConsumer(consumer, () => {
     sourceCommit: output('git', ['rev-parse', 'HEAD']).trim(),
     sourceDirty: output('git', ['status', '--porcelain']).trim() !== '',
     packageCount: tgzs.length,
+    vitestTests: vitestTestCount,
+    toolingTests: toolingTestCount,
     cleanConsumer: 'passed',
   }))
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+      '## Web Core qualification',
+      '',
+      `- Candidate: \`${output('git', ['rev-parse', 'HEAD']).trim()}\``,
+      `- Vitest tests discovered: ${vitestTestCount}`,
+      `- Node tooling tests: ${toolingTestCount}`,
+      `- Candidate packages: ${tgzs.length}`,
+      '- Clean package consumer: **passed**',
+      '',
+    ].join('\n'))
+  }
 })
