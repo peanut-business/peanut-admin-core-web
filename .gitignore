@@ -7,5 +7,7 @@
 /packages/*/node_modules/
 /coverage/
 /.cache/
+/.local/
+/.worktrees/
 .DS_Store
 *.log

@@ -4,6 +4,8 @@
 
 开发使用 pnpm workspace。所有包输出 `dist` JavaScript 和声明文件，并通过明确的根导出消费。仓内 `scripts/verify-a1-packages.mjs` 在 Node 22（至少 22.12）下构建、测试、生成六个本地候选 tgz，再在干净临时目录安装并用 Vite 构建。候选 tgz 只用于本地资格验证，不代表已经发布到 npm。
 
+常规验证：Node 22 与 `packageManager` 固定的 pnpm 下运行 `pnpm install --frozen-lockfile && pnpm test`。测试先构建当前 workspace 的包间导出，再仅发现当前 `packages/*/tests`；不会加载 `.worktrees` 中其他分支。`pnpm test:tooling` 验证打包/诊断工具；真实应用 SSR、浏览器和数据库资格由应用仓另验，不把包级单元测试外推为整站通过。
+
 日常开发使用 `dev`；`main` 只承载已批准的发布版本。该仓在 2026-09-17 从原 Core 单体仓的 `packages/web` 拆出，初始开发提交为 `46c17de0ebac8b3b43ba05c7c765b07df751b82b`。
 
 发布工作流尚待从旧仓迁移和资格确认。在此之前，npm 的既有发布版本仍是历史事实，不应将本仓的开发分支视为已发布包。
