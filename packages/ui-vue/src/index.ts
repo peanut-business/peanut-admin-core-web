@@ -1,5 +1,5 @@
 export const PEANUT_ADMIN_UI_VUE_PACKAGE = '@peanut-admin/ui-vue' as const
-export const PEANUT_ADMIN_UI_VUE_VERSION = '4.0.0-dev.0' as const
+export const PEANUT_ADMIN_UI_VUE_VERSION = '4.0.0-dev.1' as const
 
 export { defineShellHostConfig } from './config'
 export type { ShellHostConfig, ShellHostConfigInput } from './config'

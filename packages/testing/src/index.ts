@@ -5,7 +5,7 @@ import type {
 } from '@peanut-admin/vue'
 
 export const WEB_TESTING_PACKAGE = '@peanut-admin/testing' as const
-export const WEB_TESTING_VERSION = '4.0.0-dev.0' as const
+export const WEB_TESTING_VERSION = '4.0.0-dev.1' as const
 
 export const mockTenantContext = (
   overrides: Partial<TenantContextData> = {},

@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
+
+const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 
 import {
   PEANUT_ADMIN_UI_VUE_PACKAGE,
@@ -22,7 +25,7 @@ const validConfig = {
 describe('@peanut-admin/ui-vue', () => {
   it('exposes a stable package identity', () => {
     expect(PEANUT_ADMIN_UI_VUE_PACKAGE).toBe('@peanut-admin/ui-vue')
-    expect(PEANUT_ADMIN_UI_VUE_VERSION).toBe('4.0.0-dev.0')
+    expect(PEANUT_ADMIN_UI_VUE_VERSION).toBe(manifest.version)
     expect(SHELL_THEME_TOKENS.headerHeight).toBe('--pa-shell-header-height')
   })
 
