@@ -1,1 +1,1 @@
-export type ApiAudience = 'tenant' | 'platform'
+export type ApiAudience = 'tenant' | 'platform';

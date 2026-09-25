@@ -2,13 +2,13 @@ import type {
   PlatformContextData,
   ProblemDetails,
   TenantContextData,
-} from '@peanut-admin/vue'
+} from '@peanut-admin/vue';
 
-export const WEB_TESTING_PACKAGE = '@peanut-admin/testing' as const
-export const WEB_TESTING_VERSION = '4.0.0-dev.1' as const
+export const WEB_TESTING_PACKAGE = '@peanut-admin/testing' as const;
+export const WEB_TESTING_VERSION = '4.0.0-dev.1' as const;
 
 export const mockTenantContext = (
-  overrides: Partial<TenantContextData> = {},
+  overrides: Partial<TenantContextData> = {}
 ): TenantContextData => ({
   audience: 'tenant',
   accountId: '1',
@@ -18,10 +18,10 @@ export const mockTenantContext = (
   permissionKeys: ['core.member.read'],
   authorizationRevision: '1',
   ...overrides,
-})
+});
 
 export const mockPlatformContext = (
-  overrides: Partial<PlatformContextData> = {},
+  overrides: Partial<PlatformContextData> = {}
 ): PlatformContextData => ({
   audience: 'platform',
   accountId: '1',
@@ -29,15 +29,17 @@ export const mockPlatformContext = (
   permissionKeys: ['platform.tenant.read'],
   authorizationRevision: '1',
   ...overrides,
-})
+});
 
 export interface MockProblemOptions extends Partial<ProblemDetails> {
-  code: string
-  status: number
+  code: string;
+  status: number;
 }
 
-export const mockProblemDetails = (options: MockProblemOptions): ProblemDetails => {
-  const { code, status, ...overrides } = options
+export const mockProblemDetails = (
+  options: MockProblemOptions
+): ProblemDetails => {
+  const { code, status, ...overrides } = options;
 
   return {
     type: `/docs/problems/${code.toLowerCase().replaceAll('_', '-')}`,
@@ -47,95 +49,104 @@ export const mockProblemDetails = (options: MockProblemOptions): ProblemDetails 
     code,
     request_id: 'req_web_testing_fixture',
     ...overrides,
-  }
-}
+  };
+};
 
 export interface MockAccessState {
-  permissionKeys: ReadonlySet<string>
-  moduleKeys: ReadonlySet<string>
-  hasPermission: (permission: string) => boolean
-  hasModule: (moduleKey: string) => boolean
+  permissionKeys: ReadonlySet<string>;
+  moduleKeys: ReadonlySet<string>;
+  hasPermission: (permission: string) => boolean;
+  hasModule: (moduleKey: string) => boolean;
 }
 
-export const mockAccessState = (options: {
-  permissionKeys?: readonly string[]
-  moduleKeys?: readonly string[]
-} = {}): MockAccessState => {
-  const permissionKeys = new Set(options.permissionKeys ?? [])
-  const moduleKeys = new Set(options.moduleKeys ?? [])
+export const mockAccessState = (
+  options: {
+    permissionKeys?: readonly string[];
+    moduleKeys?: readonly string[];
+  } = {}
+): MockAccessState => {
+  const permissionKeys = new Set(options.permissionKeys ?? []);
+  const moduleKeys = new Set(options.moduleKeys ?? []);
 
   return {
     permissionKeys,
     moduleKeys,
-    hasPermission: permission => permission !== '*' && permissionKeys.has(permission),
-    hasModule: moduleKey => moduleKeys.has(moduleKey),
-  }
-}
+    hasPermission: (permission) =>
+      permission !== '*' && permissionKeys.has(permission),
+    hasModule: (moduleKey) => moduleKeys.has(moduleKey),
+  };
+};
 
-export type GuardResult = boolean | Promise<boolean>
-export type AudienceGuard = (path: string) => GuardResult
+export type GuardResult = boolean | Promise<boolean>;
+export type AudienceGuard = (path: string) => GuardResult;
 
 export interface RouteGuardHarness {
-  navigate: (path: string) => Promise<'allowed' | 'denied'>
+  navigate: (path: string) => Promise<'allowed' | 'denied'>;
 }
 
 export const createRouteGuardHarness = (guards: {
-  tenant: AudienceGuard
-  platform: AudienceGuard
+  tenant: AudienceGuard;
+  platform: AudienceGuard;
 }): RouteGuardHarness => ({
   async navigate(path) {
-    const pathname = new URL(path, 'https://peanut-admin.test').pathname
+    const pathname = new URL(path, 'https://peanut-admin.test').pathname;
     if (pathname === '/app' || pathname.startsWith('/app/')) {
-      return await guards.tenant(pathname) ? 'allowed' : 'denied'
+      return (await guards.tenant(pathname)) ? 'allowed' : 'denied';
     }
     if (pathname === '/platform' || pathname.startsWith('/platform/')) {
-      return await guards.platform(pathname) ? 'allowed' : 'denied'
+      return (await guards.platform(pathname)) ? 'allowed' : 'denied';
     }
 
-    return 'allowed'
+    return 'allowed';
   },
-})
+});
 
 const containsTenantState = (value: unknown): boolean => {
-  if (value === null || value === undefined || value === false || value === '' || value === 0) {
-    return false
+  if (
+    value === null ||
+    value === undefined ||
+    value === false ||
+    value === '' ||
+    value === 0
+  ) {
+    return false;
   }
   if (Array.isArray(value)) {
-    return value.length > 0
+    return value.length > 0;
   }
   if (value instanceof Map || value instanceof Set) {
-    return value.size > 0
+    return value.size > 0;
   }
   if (typeof value === 'object') {
-    return Object.values(value).some(containsTenantState)
+    return Object.values(value).some(containsTenantState);
   }
 
-  return true
-}
+  return true;
+};
 
 export const assertTenantStateDisposed = async (
   inspect: () => unknown,
-  switchTenant: () => void | Promise<void>,
+  switchTenant: () => void | Promise<void>
 ): Promise<void> => {
-  await switchTenant()
+  await switchTenant();
   if (containsTenantState(inspect())) {
-    throw new Error('TENANT_STATE_LEAK')
+    throw new Error('TENANT_STATE_LEAK');
   }
-}
+};
 
 export interface Deferred<T> {
-  promise: Promise<T>
-  resolve: (value: T | PromiseLike<T>) => void
-  reject: (reason?: unknown) => void
+  promise: Promise<T>;
+  resolve: (value: T | PromiseLike<T>) => void;
+  reject: (reason?: unknown) => void;
 }
 
 export const createDeferred = <T>(): Deferred<T> => {
-  let resolve!: Deferred<T>['resolve']
-  let reject!: Deferred<T>['reject']
+  let resolve!: Deferred<T>['resolve'];
+  let reject!: Deferred<T>['reject'];
   const promise = new Promise<T>((resolvePromise, rejectPromise) => {
-    resolve = resolvePromise
-    reject = rejectPromise
-  })
+    resolve = resolvePromise;
+    reject = rejectPromise;
+  });
 
-  return { promise, resolve, reject }
-}
+  return { promise, resolve, reject };
+};

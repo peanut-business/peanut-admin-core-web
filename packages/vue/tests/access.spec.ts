@@ -1,18 +1,18 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it } from 'vitest';
+import { createPinia, setActivePinia } from 'pinia';
 
 import {
   hasAllPermissions,
   hasPermission,
   useAccess,
   useTenantContext,
-} from '../src/index'
+} from '../src/index';
 
 describe('permission hints', () => {
-  beforeEach(() => setActivePinia(createPinia()))
+  beforeEach(() => setActivePinia(createPinia()));
 
   it('uses a set and never treats frontend hints as wildcard authority', () => {
-    const context = useTenantContext()
+    const context = useTenantContext();
     context.replace({
       audience: 'tenant',
       accountId: '1',
@@ -21,11 +21,13 @@ describe('permission hints', () => {
       moduleKeys: ['core'],
       permissionKeys: ['core.member.read'],
       authorizationRevision: '3',
-    })
+    });
 
-    expect(hasPermission(context.permissionSet, 'core.member.read')).toBe(true)
-    expect(hasPermission(context.permissionSet, '*')).toBe(false)
-    expect(hasAllPermissions(context.permissionSet, ['core.member.read'])).toBe(true)
-    expect(useAccess().can('core.member.update')).toBe(false)
-  })
-})
+    expect(hasPermission(context.permissionSet, 'core.member.read')).toBe(true);
+    expect(hasPermission(context.permissionSet, '*')).toBe(false);
+    expect(hasAllPermissions(context.permissionSet, ['core.member.read'])).toBe(
+      true
+    );
+    expect(useAccess().can('core.member.update')).toBe(false);
+  });
+});

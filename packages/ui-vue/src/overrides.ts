@@ -1,35 +1,32 @@
-import {
-  defineAdminOverrideSlot,
-} from '@peanut-admin/vue'
-import type {
-  AdminOverrideRegistry,
-  ApiAudience,
-} from '@peanut-admin/vue'
-import type { Component } from 'vue'
+import { defineAdminOverrideSlot } from '@peanut-admin/vue';
+import type { AdminOverrideRegistry, ApiAudience } from '@peanut-admin/vue';
+import type { Component } from 'vue';
 
-import { AdminShell, PlatformShell } from './layout'
+import { AdminShell, PlatformShell } from './layout';
 
-export const WORKSPACE_SHELL_OVERRIDE_KEY = 'peanut.shell.service.workspace-component' as const
+export const WORKSPACE_SHELL_OVERRIDE_KEY =
+  'peanut.shell.service.workspace-component' as const;
 
-export type WorkspaceShellResolver = (audience: ApiAudience) => Component
+export type WorkspaceShellResolver = (audience: ApiAudience) => Component;
 
-const defaultWorkspaceShell: WorkspaceShellResolver = audience => (
-  audience === 'tenant' ? AdminShell : PlatformShell
-)
+const defaultWorkspaceShell: WorkspaceShellResolver = (audience) =>
+  audience === 'tenant' ? AdminShell : PlatformShell;
 
-const isWorkspaceShellResolver = (value: unknown): value is WorkspaceShellResolver => (
-  typeof value === 'function'
-)
+const isWorkspaceShellResolver = (
+  value: unknown
+): value is WorkspaceShellResolver => typeof value === 'function';
 
 const isVueComponent = (value: unknown): value is Component => {
-  if (typeof value === 'function') return true
-  if (typeof value !== 'object' || value === null) return false
-  const component = value as Record<string, unknown>
-  return typeof component.setup === 'function'
-    || typeof component.render === 'function'
-    || typeof component.template === 'string'
-    || typeof component.__asyncLoader === 'function'
-}
+  if (typeof value === 'function') return true;
+  if (typeof value !== 'object' || value === null) return false;
+  const component = value as Record<string, unknown>;
+  return (
+    typeof component.setup === 'function' ||
+    typeof component.render === 'function' ||
+    typeof component.template === 'string' ||
+    typeof component.__asyncLoader === 'function'
+  );
+};
 
 export const ADMIN_SHELL_OVERRIDE_SLOTS = [
   defineAdminOverrideSlot({
@@ -39,15 +36,18 @@ export const ADMIN_SHELL_OVERRIDE_SLOTS = [
     defaultValue: defaultWorkspaceShell,
     validate: isWorkspaceShellResolver,
   }),
-] as const
+] as const;
 
-export type AdminShellOverrideRegistry = AdminOverrideRegistry<typeof ADMIN_SHELL_OVERRIDE_SLOTS>
+export type AdminShellOverrideRegistry = AdminOverrideRegistry<
+  typeof ADMIN_SHELL_OVERRIDE_SLOTS
+>;
 
 export const resolveWorkspaceShell = (
   registry: AdminShellOverrideRegistry,
-  audience: ApiAudience,
+  audience: ApiAudience
 ): Component => {
-  const component = registry.get(WORKSPACE_SHELL_OVERRIDE_KEY)(audience)
-  if (!isVueComponent(component)) throw new Error('ADMIN_SHELL_OVERRIDE_RESULT_INVALID')
-  return component
-}
+  const component = registry.get(WORKSPACE_SHELL_OVERRIDE_KEY)(audience);
+  if (!isVueComponent(component))
+    throw new Error('ADMIN_SHELL_OVERRIDE_RESULT_INVALID');
+  return component;
+};
