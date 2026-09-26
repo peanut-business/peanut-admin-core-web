@@ -5,9 +5,9 @@ import {
   shallowRef,
   type Ref,
   type ShallowRef,
-} from 'vue';
+} from "vue";
 
-import { createTenantLifecycle } from '../lifecycle/tenant';
+import { createTenantLifecycle } from "../lifecycle/tenant.js";
 
 export interface AsyncListQuery<TFilters extends Record<string, unknown>> {
   readonly filters: Readonly<TFilters>;
@@ -149,10 +149,10 @@ export const useAsyncList = <TItem, TFilters extends Record<string, unknown>>(
 };
 
 export type AsyncActionResult<TData> =
-  | { readonly status: 'completed'; readonly data: TData }
-  | { readonly status: 'cancelled' }
-  | { readonly status: 'failed'; readonly error: string }
-  | { readonly status: 'busy' };
+  | { readonly status: "completed"; readonly data: TData }
+  | { readonly status: "cancelled" }
+  | { readonly status: "failed"; readonly error: string }
+  | { readonly status: "busy" };
 
 export interface AsyncActionState {
   readonly loading: Ref<boolean>;
@@ -180,7 +180,7 @@ export const useAsyncAction = (
   const run = async <TData>(
     action: (context: { readonly signal: AbortSignal }) => Promise<TData>
   ): Promise<AsyncActionResult<TData>> => {
-    if (loading.value) return { status: 'busy' };
+    if (loading.value) return { status: "busy" };
 
     lifecycle.invalidate();
     const ticket = lifecycle.capture();
@@ -190,13 +190,13 @@ export const useAsyncAction = (
     try {
       const data = await action({ signal: ticket.signal });
       return ticket.isCurrent()
-        ? { status: 'completed', data }
-        : { status: 'cancelled' };
+        ? { status: "completed", data }
+        : { status: "cancelled" };
     } catch (cause) {
-      if (!ticket.isCurrent()) return { status: 'cancelled' };
+      if (!ticket.isCurrent()) return { status: "cancelled" };
       const message = errorMessage(cause);
       error.value = message;
-      return { status: 'failed', error: message };
+      return { status: "failed", error: message };
     } finally {
       if (ticket.isCurrent()) loading.value = false;
     }

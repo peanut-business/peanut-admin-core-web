@@ -1,5 +1,5 @@
-import { hasPermission } from './access';
-import { defineAdminOverrideSlot } from '../runtime/overrides';
+import { hasPermission } from "./access.js";
+import { defineAdminOverrideSlot } from "../runtime/overrides.js";
 
 export type PermissionEvaluator = (
   permissions: ReadonlySet<string>,
@@ -7,16 +7,16 @@ export type PermissionEvaluator = (
 ) => boolean;
 
 export const PERMISSION_EVALUATOR_OVERRIDE_KEY =
-  'authorization.permission.service.evaluator' as const;
+  "authorization.permission.service.evaluator" as const;
 
 const isPermissionEvaluator = (
   candidate: unknown
-): candidate is PermissionEvaluator => typeof candidate === 'function';
+): candidate is PermissionEvaluator => typeof candidate === "function";
 
 export const permissionEvaluatorSlot = defineAdminOverrideSlot({
   key: PERMISSION_EVALUATOR_OVERRIDE_KEY,
-  kind: 'service' as const,
-  contractVersion: '1.0.0',
+  kind: "service" as const,
+  contractVersion: "1.0.0",
   defaultValue: hasPermission as PermissionEvaluator,
   validate: isPermissionEvaluator,
 });
@@ -35,9 +35,9 @@ export const evaluateRequiredPermissions = (
 
   const permissionSet = new Set(grantedPermissions);
   return (
-    permissionSet.has('*') ||
+    permissionSet.has("*") ||
     required.some(
-      (permission) => permission !== '*' && evaluator(permissionSet, permission)
+      (permission) => permission !== "*" && evaluator(permissionSet, permission)
     )
   );
 };

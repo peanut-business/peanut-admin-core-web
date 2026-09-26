@@ -1,5 +1,5 @@
-import type { PermissionEvaluator } from '../access/permission-policy';
-import { evaluateRequiredPermissions } from '../access/permission-policy';
+import type { PermissionEvaluator } from "../access/permission-policy.js";
+import { evaluateRequiredPermissions } from "../access/permission-policy.js";
 
 /**
  * Minimal router contract shared by host applications without coupling to a
@@ -31,7 +31,7 @@ export const collectPluginContributions = (
     .map((path) => modules[path]?.default)
     .filter(
       (contribution): contribution is PluginFrontendContribution =>
-        typeof contribution?.moduleKey === 'string' &&
+        typeof contribution?.moduleKey === "string" &&
         contribution.moduleKey.length > 0 &&
         Array.isArray(contribution.routes)
     );
@@ -49,7 +49,7 @@ export const routesForTenantModules = <T extends PluginFrontendRoute>(
     return contribution.routes.filter((route) => {
       const required = route.meta?.requiredPermissions;
       return (
-        (typeof required === 'string' || Array.isArray(required)) &&
+        (typeof required === "string" || Array.isArray(required)) &&
         evaluateRequiredPermissions(required, grantedPermissions, evaluator)
       );
     });

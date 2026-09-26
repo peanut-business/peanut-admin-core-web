@@ -1,10 +1,10 @@
-import { usePlatformContext, useTenantContext } from '../auth/stores';
-import type { ApiAudience } from '../api/audience';
+import { usePlatformContext, useTenantContext } from "../auth/stores.js";
+import type { ApiAudience } from "../api/audience.js";
 
 export const hasPermission = (
   permissions: ReadonlySet<string>,
   permission: string
-): boolean => permission !== '*' && permissions.has(permission);
+): boolean => permission !== "*" && permissions.has(permission);
 
 export const hasAllPermissions = (
   permissions: ReadonlySet<string>,
@@ -17,9 +17,9 @@ export interface AccessHints {
   canAll: (permissions: readonly string[]) => boolean;
 }
 
-export const useAccess = (audience: ApiAudience = 'tenant'): AccessHints => {
+export const useAccess = (audience: ApiAudience = "tenant"): AccessHints => {
   const permissions =
-    audience === 'tenant'
+    audience === "tenant"
       ? useTenantContext().permissionSet
       : usePlatformContext().permissionSet;
 

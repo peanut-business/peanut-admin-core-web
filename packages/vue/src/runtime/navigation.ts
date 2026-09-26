@@ -1,6 +1,6 @@
-import type { ApiAudience } from '../api/audience';
-import type { AdminModuleContribution } from '../module/contribution';
-import { defineAdminModule } from '../module/contribution';
+import type { ApiAudience } from "../api/audience.js";
+import type { AdminModuleContribution } from "../module/contribution.js";
+import { defineAdminModule } from "../module/contribution.js";
 
 export interface AdminNavigationRoute {
   name: string;
@@ -35,9 +35,9 @@ const throwRegistryConflict = (name: string): never => {
 };
 
 const matchesAudience = (route: AdminNavigationRoute): boolean =>
-  route.audience === 'tenant'
-    ? route.path === '/app' || route.path.startsWith('/app/')
-    : route.path === '/platform' || route.path.startsWith('/platform/');
+  route.audience === "tenant"
+    ? route.path === "/app" || route.path.startsWith("/app/")
+    : route.path === "/platform" || route.path.startsWith("/platform/");
 
 const runDisposers = async (
   disposers: readonly (() => void | Promise<void>)[]
@@ -46,7 +46,7 @@ const runDisposers = async (
     disposers.map(async (dispose) => dispose())
   );
   const failure = results.find(
-    (result): result is PromiseRejectedResult => result.status === 'rejected'
+    (result): result is PromiseRejectedResult => result.status === "rejected"
   );
   if (failure !== undefined) throw failure.reason;
 };
@@ -61,7 +61,7 @@ export const createAdminNavigationRegistry = (
 
   const registerRoute = (route: AdminNavigationRoute): void => {
     if (
-      route.name === '' ||
+      route.name === "" ||
       !matchesAudience(route) ||
       routeMap.has(route.name) ||
       paths.has(route.path)
@@ -86,7 +86,7 @@ export const createAdminNavigationRegistry = (
       registerRoute({
         name: route.name,
         path: route.path,
-        audience: 'tenant',
+        audience: "tenant",
         moduleKey: module.key,
         permissionKeys: route.access.permissionKeys,
       });
@@ -102,7 +102,7 @@ export const createAdminNavigationRegistry = (
 
   return {
     resolveMenu(menu) {
-      if (typeof menu.route_name !== 'string') return null;
+      if (typeof menu.route_name !== "string") return null;
       const route = routeMap.get(menu.route_name);
       if (route === undefined) {
         unknownRoutes.add(menu.route_name);
