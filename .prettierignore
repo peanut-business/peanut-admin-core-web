@@ -1,0 +1,12 @@
+# Derived artifacts and intentional negative inputs keep their original bytes.
+**/generated/**
+**/fixtures/**
+**/__snapshots__/**
+**/node_modules/**
+**/vendor/**
+**/.local/**
+**/dist/**
+**/.nuxt/**
+**/.output/**
+**/pnpm-lock.yaml
+**/package-lock.json
