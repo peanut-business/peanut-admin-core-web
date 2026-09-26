@@ -1,14 +1,14 @@
-import type { ApiAudience } from "../api/audience.js";
-import type { ProblemDetails } from "../api/problem.js";
+import type { ApiAudience } from '../api/audience.js';
+import type { ProblemDetails } from '../api/problem.js';
 
 export type AdminRuntimeErrorKind =
-  | "login"
-  | "forbidden"
-  | "not-found"
-  | "conflict"
-  | "rate-limited"
-  | "unavailable"
-  | "configuration";
+  | 'login'
+  | 'forbidden'
+  | 'not-found'
+  | 'conflict'
+  | 'rate-limited'
+  | 'unavailable'
+  | 'configuration';
 
 export interface AdminRuntimeErrorState {
   kind: AdminRuntimeErrorKind;
@@ -24,31 +24,31 @@ interface ProblemErrorSource {
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null;
+  typeof value === 'object' && value !== null;
 
 const problemSource = (value: unknown): ProblemErrorSource | null => {
   if (!isRecord(value) || !isRecord(value.problem)) return null;
   const problem = value.problem;
   if (
-    typeof problem.status !== "number" ||
-    typeof problem.code !== "string" ||
-    typeof problem.request_id !== "string"
+    typeof problem.status !== 'number' ||
+    typeof problem.code !== 'string' ||
+    typeof problem.request_id !== 'string'
   )
     return null;
 
   return {
     problem: problem as unknown as ProblemDetails,
-    retryAfter: typeof value.retryAfter === "string" ? value.retryAfter : null,
+    retryAfter: typeof value.retryAfter === 'string' ? value.retryAfter : null,
   };
 };
 
 const kindForStatus = (status: number): AdminRuntimeErrorKind => {
-  if (status === 401) return "login";
-  if (status === 403) return "forbidden";
-  if (status === 404) return "not-found";
-  if (status === 409 || status === 412) return "conflict";
-  if (status === 429) return "rate-limited";
-  return "unavailable";
+  if (status === 401) return 'login';
+  if (status === 403) return 'forbidden';
+  if (status === 404) return 'not-found';
+  if (status === 409 || status === 412) return 'conflict';
+  if (status === 429) return 'rate-limited';
+  return 'unavailable';
 };
 
 export const mapAdminRuntimeError = (
@@ -66,14 +66,14 @@ export const mapAdminRuntimeError = (
     };
   }
 
-  const code = error instanceof Error ? error.message : "CLIENT_BOOT_FAILED";
+  const code = error instanceof Error ? error.message : 'CLIENT_BOOT_FAILED';
   if (
-    code === "API_ORIGIN_INVALID" ||
-    code === "API_ORIGIN_MISMATCH" ||
-    code.startsWith("API_AUDIENCE_MISMATCH")
+    code === 'API_ORIGIN_INVALID' ||
+    code === 'API_ORIGIN_MISMATCH' ||
+    code.startsWith('API_AUDIENCE_MISMATCH')
   ) {
     return {
-      kind: "configuration",
+      kind: 'configuration',
       audience,
       code,
       requestId: null,
@@ -82,9 +82,9 @@ export const mapAdminRuntimeError = (
   }
 
   return {
-    kind: "unavailable",
+    kind: 'unavailable',
     audience,
-    code: code === "" ? "CLIENT_BOOT_FAILED" : code,
+    code: code === '' ? 'CLIENT_BOOT_FAILED' : code,
     requestId: null,
     retryAfter: null,
   };

@@ -1,4 +1,4 @@
-import type { ApiAudience } from "../api/audience.js";
+import type { ApiAudience } from '../api/audience.js';
 
 export interface AdminRouteGuardInput {
   audience: ApiAudience;
@@ -15,9 +15,9 @@ export interface AdminRouteGuardDependencies {
 }
 
 export type AdminRouteGuardResult =
-  | { status: "allowed" }
-  | { status: "module-unavailable"; code: "MODULE_TENANT_DISABLED" }
-  | { status: "forbidden"; code: "AUTHZ_FUNCTIONAL_DENIED" };
+  | { status: 'allowed' }
+  | { status: 'module-unavailable'; code: 'MODULE_TENANT_DISABLED' }
+  | { status: 'forbidden'; code: 'AUTHZ_FUNCTIONAL_DENIED' };
 
 export const runAdminRouteGuard = async (
   route: AdminRouteGuardInput,
@@ -31,15 +31,15 @@ export const runAdminRouteGuard = async (
     route.moduleKey !== undefined &&
     !dependencies.hasModule(route.moduleKey)
   ) {
-    return { status: "module-unavailable", code: "MODULE_TENANT_DISABLED" };
+    return { status: 'module-unavailable', code: 'MODULE_TENANT_DISABLED' };
   }
   if (
     route.permissionKeys !== undefined &&
     route.permissionKeys.length > 0 &&
     !dependencies.hasPermissions(route.permissionKeys)
   ) {
-    return { status: "forbidden", code: "AUTHZ_FUNCTIONAL_DENIED" };
+    return { status: 'forbidden', code: 'AUTHZ_FUNCTIONAL_DENIED' };
   }
 
-  return { status: "allowed" };
+  return { status: 'allowed' };
 };
