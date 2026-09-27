@@ -2,7 +2,7 @@ import { defineAdminOverrideSlot } from '@peanut-admin/vue';
 import type { AdminOverrideRegistry, ApiAudience } from '@peanut-admin/vue';
 import type { Component } from 'vue';
 
-import { AdminShell, PlatformShell } from './layout';
+import { AdminShell, PlatformShell } from './layout.js';
 
 export const WORKSPACE_SHELL_OVERRIDE_KEY =
   'peanut.shell.service.workspace-component' as const;

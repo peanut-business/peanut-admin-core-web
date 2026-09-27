@@ -4,7 +4,7 @@ import { ElButton, ElDrawer } from 'element-plus';
 import { defineComponent, h, onBeforeUnmount, onMounted } from 'vue';
 import type { Component, PropType, VNodeChild } from 'vue';
 
-import type { ShellHostConfig } from './config';
+import type { ShellHostConfig } from './config.js';
 
 export interface ShellIdentity {
   accountLabel: string;
