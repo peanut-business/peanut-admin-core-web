@@ -9,12 +9,9 @@ export {
 export type { RefreshAttempt, RefreshCoordinator } from './api/refresh.js';
 export { isProblemCode, parseProblemDetails } from './api/problem.js';
 export type { ProblemDetails, ProblemFieldError } from './api/problem.js';
-export {
-  hasAllPermissions,
-  hasPermission,
-  useAccess,
-} from './access/access.js';
-export type { AccessHints } from './access/access.js';
+export { hasAllPermissions, hasPermission } from './access/access.js';
+export { useAccess } from './access/useAccess.js';
+export type { AccessHints } from './access/useAccess.js';
 export {
   evaluateRequiredPermissions,
   permissionEvaluatorSlot,
@@ -48,16 +45,19 @@ export type {
   TenantLifecycle,
   TenantLifecycleTicket,
 } from './lifecycle/tenant.js';
-export { useAsyncAction, useAsyncList } from './data/async-state.js';
+export { useAsyncAction } from './data/useAsyncAction.js';
 export type {
   AsyncActionResult,
   AsyncActionState,
+} from './data/useAsyncAction.js';
+export { useAsyncList } from './data/useAsyncList.js';
+export type {
   AsyncListOptions,
   AsyncListPage,
   AsyncListPagination,
   AsyncListQuery,
   AsyncListState,
-} from './data/async-state.js';
+} from './data/useAsyncList.js';
 export {
   createMenuRouteRegistry,
   defineAdminModule,
