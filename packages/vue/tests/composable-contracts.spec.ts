@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createPinia, setActivePinia } from 'pinia';
-import { effectScope } from 'vue';
+import { computed, effectScope } from 'vue';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import {
@@ -26,18 +26,23 @@ describe('composable source contracts', () => {
     { directory: 'access', name: 'useAccess' },
     { directory: 'data', name: 'useAsyncList' },
     { directory: 'data', name: 'useAsyncAction' },
-  ])('uses an exact $name.ts entry', ({ directory, name }) => {
+  ])('uses the exact composable entry for $name', ({ directory, name }) => {
     const parent = new URL(`../src/${directory}/`, import.meta.url);
     // Check directory entries, not case-insensitive filesystem resolution.
     expect(readdirSync(parent)).toContain(`${name}.ts`);
     const source = readFileSync(new URL(`${name}.ts`, parent), 'utf8');
     expect(source).toMatch(new RegExp(`export const ${name}\\b`));
-    const entry = readFileSync(new URL('../src/index.ts', import.meta.url), 'utf8');
+    const entry = readFileSync(
+      new URL('../src/index.ts', import.meta.url),
+      'utf8'
+    );
     expect(entry).toContain(`'./${directory}/${name}.js'`);
   });
 
   it('does not retain the obsolete combined async module', () => {
-    expect(existsSync(new URL('../src/data/async-state.ts', import.meta.url))).toBe(false);
+    expect(
+      existsSync(new URL('../src/data/async-state.ts', import.meta.url))
+    ).toBe(false);
   });
 });
 
@@ -47,6 +52,8 @@ describe('live permission hints', () => {
   it('reflects tenant grants, replacement and logout without recreating hints', () => {
     const context = useTenantContext();
     const hints = useAccess();
+    const canRead = computed(() => hints.can('core.member.read'));
+    expect(canRead.value).toBe(false);
     expect(hints.can('core.member.read')).toBe(false);
     context.replace({
       audience: 'tenant',
@@ -57,6 +64,7 @@ describe('live permission hints', () => {
       permissionKeys: ['core.member.read'],
       authorizationRevision: '1',
     });
+    expect(canRead.value).toBe(true);
     expect(hints.can('core.member.read')).toBe(true);
     expect(hints.canAll(['core.member.read'])).toBe(true);
     context.replace({
@@ -64,12 +72,36 @@ describe('live permission hints', () => {
       permissionKeys: ['core.member.update'],
       authorizationRevision: '2',
     });
+    expect(canRead.value).toBe(false);
     expect(hints.can('core.member.read')).toBe(false);
     expect(hints.can('core.member.update')).toBe(true);
-    expect(hints.canAll(['core.member.read', 'core.member.update'])).toBe(false);
+    expect(hints.canAll(['core.member.read', 'core.member.update'])).toBe(
+      false
+    );
     context.clear();
     expect(hints.can('core.member.update')).toBe(false);
     expect(hints.can('*')).toBe(false);
+  });
+
+  it('keeps existing hints bound to their own Pinia context', () => {
+    const firstContext = useTenantContext();
+    firstContext.replace({
+      audience: 'tenant',
+      accountId: '1',
+      tenantId: '10',
+      memberId: '20',
+      moduleKeys: ['core'],
+      permissionKeys: ['core.member.read'],
+      authorizationRevision: '1',
+    });
+    const firstHints = useAccess();
+    setActivePinia(createPinia());
+    const secondHints = useAccess();
+    expect(secondHints.can('core.member.read')).toBe(false);
+    expect(firstHints.can('core.member.read')).toBe(true);
+    firstContext.clear();
+    expect(firstHints.can('core.member.read')).toBe(false);
+    expect(secondHints.can('core.member.read')).toBe(false);
   });
 
   it('reflects platform revocation without reading tenant permissions', () => {
@@ -109,15 +141,17 @@ describe('migrated async composable behavior', () => {
     }>();
     let signal: AbortSignal | undefined;
     const scope = effectScope();
-    const state = scope.run(() => useAsyncList({
-      initialFilters: {},
-      initialPageSize: 10,
-      load: (query) => {
-        signal = query.signal;
-        return pending.promise;
-      },
-      errorMessage: () => 'LOAD_FAILED',
-    }))!;
+    const state = scope.run(() =>
+      useAsyncList({
+        initialFilters: {},
+        initialPageSize: 10,
+        load: (query) => {
+          signal = query.signal;
+          return pending.promise;
+        },
+        errorMessage: () => 'LOAD_FAILED',
+      })
+    )!;
     const request = state.load();
     scope.stop();
     expect(signal?.aborted).toBe(true);
@@ -130,12 +164,16 @@ describe('migrated async composable behavior', () => {
   it('keeps a list failure distinct from an empty successful result', async () => {
     const scope = effectScope();
     try {
-      const state = scope.run(() => useAsyncList({
-        initialFilters: {},
-        initialPageSize: 10,
-        load: async () => { throw new Error('private upstream detail'); },
-        errorMessage: () => 'LOAD_FAILED',
-      }))!;
+      const state = scope.run(() =>
+        useAsyncList({
+          initialFilters: {},
+          initialPageSize: 10,
+          load: async () => {
+            throw new Error('private upstream detail');
+          },
+          errorMessage: () => 'LOAD_FAILED',
+        })
+      )!;
       await expect(state.load()).resolves.toBe(false);
       expect(state.error.value).toBe('LOAD_FAILED');
       expect(state.loading.value).toBe(false);
@@ -152,7 +190,8 @@ describe('migrated async composable behavior', () => {
       const request = state.run(() => pending.promise);
       state.cancel();
       await expect(state.run(async () => 'fresh')).resolves.toEqual({
-        status: 'completed', data: 'fresh',
+        status: 'completed',
+        data: 'fresh',
       });
       pending.reject(new Error('late private upstream detail'));
       await expect(request).resolves.toEqual({ status: 'cancelled' });

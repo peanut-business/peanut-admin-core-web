@@ -55,6 +55,20 @@ test('compiled public entry loads without a source alias or bundler', () => {
   });
 });
 
+test('native ESM keeps all migrated composables on the public entry', () => {
+  const output = consume(
+    importEntry +
+      '\nconsole.log(JSON.stringify([api.useAccess, api.useAsyncList, api.useAsyncAction, api.hasPermission, api.hasAllPermissions].map(value => typeof value)));'
+  );
+  assert.deepEqual(JSON.parse(output), [
+    'function',
+    'function',
+    'function',
+    'function',
+    'function',
+  ]);
+});
+
 test('native ESM consumer preserves independent refresh scopes', () => {
   const output = consume(
     importEntry +
