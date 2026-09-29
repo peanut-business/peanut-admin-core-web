@@ -85,9 +85,41 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
+          completed=()
+          current='before package processing'
+          report_failure() {
+            local status="$1"
+            if [[ "$status" -ne 0 ]]; then
+              echo "Release stopped at: $current" | tee -a "$GITHUB_STEP_SUMMARY" >&2
+              if ((${#completed[@]})); then
+                printf 'Completed before failure: %s\n' "${completed[@]}" | tee -a "$GITHUB_STEP_SUMMARY" >&2
+              else
+                echo 'Completed before failure: none' | tee -a "$GITHUB_STEP_SUMMARY" >&2
+              fi
+            fi
+          }
+          trap 'report_failure "$?"' EXIT
+          lookup_integrity() {
+            local output
+            if output="$(npm view "$1" dist.integrity --json --registry=https://registry.npmjs.org/ 2> "$RUNNER_TEMP/npm-view-error.log")"; then
+              node -e '
+                const value = JSON.parse(process.argv[1]);
+                if (typeof value !== "string" || !value) throw new Error("Missing dist.integrity");
+                process.stdout.write(value);
+              ' "$output" || return 1
+              return 0
+            fi
+            if grep -Eq '^npm error code E404$' "$RUNNER_TEMP/npm-view-error.log"; then
+              return 4
+            fi
+            cat "$RUNNER_TEMP/npm-view-error.log" >&2
+            echo "npm view failed for $1; only explicit E404 means the version is absent" >&2
+            return 1
+          }
           for directory in client vue ui-vue nuxt uniapp testing; do
             name="@peanut-admin/$directory"
             version="${GITHUB_REF_NAME#v}"
+            current="$name@$version (pack)"
             npm pack "packages/$directory" --json --pack-destination "$RUNNER_TEMP" \
               > "$RUNNER_TEMP/$directory-pack.json"
             read -r filename integrity < <(node -e '
@@ -95,26 +127,42 @@ jobs:
               process.stdout.write(`${p.filename} ${p.integrity}\n`);
             ' "$RUNNER_TEMP/$directory-pack.json")
             [[ -n "$filename" && -n "$integrity" ]] || exit 1
-            if published="$(npm view "$name@$version" dist.integrity --json 2>/dev/null)"; then
-              published="${published#\"}"; published="${published%\"}"
+            current="$name@$version (registry lookup)"
+            if published="$(lookup_integrity "$name@$version")"; then
               [[ "$published" == "$integrity" ]] || {
                 echo "Published $name@$version differs from this tag; refusing to continue" >&2
                 exit 1
               }
-              echo "Already published with matching integrity: $name@$version" | tee -a "$GITHUB_STEP_SUMMARY"
+              completed+=("$name@$version $integrity (already matched)")
+              echo "Already published with matching integrity: $name@$version $integrity" | tee -a "$GITHUB_STEP_SUMMARY"
               continue
+            else
+              lookup_status=$?
+              [[ "$lookup_status" -eq 4 ]] || exit "$lookup_status"
             fi
+            current="$name@$version (npm publish)"
             npm publish "$RUNNER_TEMP/$filename" --access public --registry=https://registry.npmjs.org/
+            completed+=("$name@$version $integrity (published; registry verification pending)")
+            current="$name@$version (registry verification)"
             verified=false
             for attempt in {1..12}; do
-              published="$(npm view "$name@$version" dist.integrity --json 2>/dev/null || true)"
-              published="${published#\"}"; published="${published%\"}"
-              if [[ "$published" == "$integrity" ]]; then verified=true; break; fi
+              if published="$(lookup_integrity "$name@$version")"; then
+                [[ "$published" == "$integrity" ]] || {
+                  echo "Published $name@$version has different integrity; refusing to continue" >&2
+                  exit 1
+                }
+                verified=true
+                break
+              else
+                lookup_status=$?
+                [[ "$lookup_status" -eq 4 ]] || exit "$lookup_status"
+              fi
               if [[ "$attempt" -lt 12 ]]; then sleep 10; fi
             done
             [[ "$verified" == true ]] || {
               echo "Registry did not expose the published package with matching integrity: $name@$version" >&2
               exit 1
             }
-            echo "Published and verified: $name@$version" | tee -a "$GITHUB_STEP_SUMMARY"
+            completed[$((${#completed[@]} - 1))]="$name@$version $integrity (published and verified)"
+            echo "Published and verified: $name@$version $integrity" | tee -a "$GITHUB_STEP_SUMMARY"
           done
