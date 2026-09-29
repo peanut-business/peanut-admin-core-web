@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 concurrency:
@@ -26,8 +26,8 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          [[ "$GITHUB_REF_NAME" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || {
-            echo 'Expected a stable vX.Y.Z tag' >&2
+          [[ "$GITHUB_REF_NAME" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-rc\.([1-9][0-9]*))?$ ]] || {
+            echo 'Expected a vX.Y.Z or vX.Y.Z-rc.N tag' >&2
             exit 1
           }
           [[ "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" == tag ]] || {
@@ -80,7 +80,8 @@ jobs:
           HUSKY: '0'
         run: |
           pnpm install --frozen-lockfile
-          pnpm run verify:a1
+          mkdir -p .local/tmp
+          TMPDIR="$PWD/.local/tmp" pnpm run verify:a1
       - name: Publish six packages in dependency order
         shell: bash
         run: |
@@ -141,7 +142,11 @@ jobs:
               [[ "$lookup_status" -eq 4 ]] || exit "$lookup_status"
             fi
             current="$name@$version (npm publish)"
-            npm publish "$RUNNER_TEMP/$filename" --access public --registry=https://registry.npmjs.org/
+            if [[ "$version" == *-rc.* ]]; then
+              npm publish "$RUNNER_TEMP/$filename" --access public --tag rc --registry=https://registry.npmjs.org/
+            else
+              npm publish "$RUNNER_TEMP/$filename" --access public --registry=https://registry.npmjs.org/
+            fi
             completed+=("$name@$version $integrity (published; registry verification pending)")
             current="$name@$version (registry verification)"
             verified=false
@@ -166,3 +171,23 @@ jobs:
             completed[$((${#completed[@]} - 1))]="$name@$version $integrity (published and verified)"
             echo "Published and verified: $name@$version $integrity" | tee -a "$GITHUB_STEP_SUMMARY"
           done
+      - name: Publish GitHub Release after registry verification
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -Eeuo pipefail
+          release_flags=()
+          if [[ "$GITHUB_REF_NAME" == *-rc.* ]]; then release_flags+=(--prerelease); fi
+          if gh release view "$GITHUB_REF_NAME" --json tagName,isDraft,isPrerelease \
+            > "$RUNNER_TEMP/release.json" 2>/dev/null; then
+            expected_prerelease=false
+            if [[ "$GITHUB_REF_NAME" == *-rc.* ]]; then expected_prerelease=true; fi
+            jq -e --arg tag "$GITHUB_REF_NAME" --argjson prerelease "$expected_prerelease" \
+              '.tagName == $tag and .isDraft == false and .isPrerelease == $prerelease' \
+              "$RUNNER_TEMP/release.json" >/dev/null
+            exit 0
+          fi
+          gh release create "$GITHUB_REF_NAME" --verify-tag "${release_flags[@]}" \
+            --title "Peanut Admin Web Core $GITHUB_REF_NAME" --generate-notes

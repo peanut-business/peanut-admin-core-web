@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/ui-vue",
-  "version": "4.0.0",
+  "version": "4.0.0-rc.1",
   "description": "Reusable Vue UI components for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
     "pack:candidate": "pnpm pack --pack-destination ../../artifacts"
   },
   "peerDependencies": {
-    "@peanut-admin/vue": "4.0.0",
+    "@peanut-admin/vue": "4.0.0-rc.1",
     "element-plus": "^2.14.3",
     "vue": "^3.4.21"
   },
