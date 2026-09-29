@@ -1,0 +1,120 @@
+name: Web Core release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: web-core-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.repository == 'peanut-business/peanut-admin-core-web'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require an annotated release tag on the current main commit
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          [[ "$GITHUB_REF_NAME" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || {
+            echo 'Expected a stable vX.Y.Z tag' >&2
+            exit 1
+          }
+          [[ "$(git cat-file -t "refs/tags/$GITHUB_REF_NAME")" == tag ]] || {
+            echo 'Release tag must be annotated' >&2
+            exit 1
+          }
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          tag_commit="$(git rev-parse "refs/tags/$GITHUB_REF_NAME^{commit}")"
+          main_commit="$(git rev-parse refs/remotes/origin/main^{commit})"
+          [[ "$tag_commit" == "$main_commit" && "$tag_commit" == "$GITHUB_SHA" ]] || {
+            echo 'Release tag must point to the current main commit' >&2
+            exit 1
+          }
+          VERSION="${GITHUB_REF_NAME#v}" node <<'NODE'
+          const fs = require('node:fs');
+          const version = process.env.VERSION;
+          const root = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          if (root.version !== version || root.private !== true) {
+            throw new Error('Workspace version or private flag does not match the tag');
+          }
+          for (const directory of ['client', 'vue', 'ui-vue', 'nuxt', 'uniapp', 'testing']) {
+            const pkg = JSON.parse(fs.readFileSync(`packages/${directory}/package.json`, 'utf8'));
+            if (pkg.name !== `@peanut-admin/${directory}` || pkg.version !== version || pkg.private) {
+              throw new Error(`Package identity differs from the tag: ${directory}`);
+            }
+            if (pkg.repository?.url !== 'git+https://github.com/peanut-business/peanut-admin-core-web.git'
+              || pkg.repository?.directory !== `packages/${directory}`) {
+              throw new Error(`Package source is not this repository: ${directory}`);
+            }
+            for (const [name, required] of Object.entries({...pkg.dependencies, ...pkg.peerDependencies})) {
+              if (name.startsWith('@peanut-admin/') && required !== version) {
+                throw new Error(`Internal package version differs: ${pkg.name} -> ${name}`);
+              }
+            }
+          }
+          NODE
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+          run_install: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22.23.2'
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Use npm with trusted publishing support
+        run: npm install --global npm@11.5.1
+      - name: Qualify tagged packages
+        env:
+          HUSKY: '0'
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run verify:a1
+      - name: Publish six packages in dependency order
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          for directory in client vue ui-vue nuxt uniapp testing; do
+            name="@peanut-admin/$directory"
+            version="${GITHUB_REF_NAME#v}"
+            npm pack "packages/$directory" --json --pack-destination "$RUNNER_TEMP" \
+              > "$RUNNER_TEMP/$directory-pack.json"
+            read -r filename integrity < <(node -e '
+              const p=require(process.argv[1])[0];
+              process.stdout.write(`${p.filename} ${p.integrity}\n`);
+            ' "$RUNNER_TEMP/$directory-pack.json")
+            [[ -n "$filename" && -n "$integrity" ]] || exit 1
+            if published="$(npm view "$name@$version" dist.integrity --json 2>/dev/null)"; then
+              published="${published#\"}"; published="${published%\"}"
+              [[ "$published" == "$integrity" ]] || {
+                echo "Published $name@$version differs from this tag; refusing to continue" >&2
+                exit 1
+              }
+              echo "Already published with matching integrity: $name@$version" | tee -a "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+            npm publish "$RUNNER_TEMP/$filename" --access public --registry=https://registry.npmjs.org/
+            verified=false
+            for attempt in {1..12}; do
+              published="$(npm view "$name@$version" dist.integrity --json 2>/dev/null || true)"
+              published="${published#\"}"; published="${published%\"}"
+              if [[ "$published" == "$integrity" ]]; then verified=true; break; fi
+              if [[ "$attempt" -lt 12 ]]; then sleep 10; fi
+            done
+            [[ "$verified" == true ]] || {
+              echo "Registry did not expose the published package with matching integrity: $name@$version" >&2
+              exit 1
+            }
+            echo "Published and verified: $name@$version" | tee -a "$GITHUB_STEP_SUMMARY"
+          done
