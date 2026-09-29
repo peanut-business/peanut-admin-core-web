@@ -1,8 +1,14 @@
 {
   "name": "@peanut-admin/testing",
   "version": "4.0.0-dev.1",
+  "description": "Reusable testing helpers for Peanut Admin Vue clients",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peanut-business/peanut-admin-core-web.git",
+    "directory": "packages/testing"
+  },
   "files": [
     "dist",
     "LICENSE"

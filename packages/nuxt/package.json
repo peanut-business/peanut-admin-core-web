@@ -1,8 +1,14 @@
 {
   "name": "@peanut-admin/nuxt",
   "version": "4.0.0-dev.1",
+  "description": "Nuxt transport adapter for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peanut-business/peanut-admin-core-web.git",
+    "directory": "packages/nuxt"
+  },
   "files": [
     "dist",
     "LICENSE"

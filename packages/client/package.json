@@ -1,8 +1,14 @@
 {
   "name": "@peanut-admin/client",
   "version": "4.0.0-dev.1",
+  "description": "Framework-neutral client primitives for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peanut-business/peanut-admin-core-web.git",
+    "directory": "packages/client"
+  },
   "files": [
     "dist",
     "LICENSE"
