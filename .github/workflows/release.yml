@@ -156,7 +156,7 @@ jobs:
             completed+=("$name@$version $integrity (published; registry verification pending)")
             current="$name@$version (registry verification)"
             verified=false
-            for attempt in {1..12}; do
+            for attempt in {1..30}; do
               if published="$(lookup_integrity "$name@$version")"; then
                 [[ "$published" == "$integrity" ]] || {
                   echo "Published $name@$version has different integrity; refusing to continue" >&2
@@ -168,7 +168,7 @@ jobs:
                 lookup_status=$?
                 [[ "$lookup_status" -eq 4 ]] || exit "$lookup_status"
               fi
-              if [[ "$attempt" -lt 12 ]]; then sleep 10; fi
+              if [[ "$attempt" -lt 30 ]]; then sleep 10; fi
             done
             [[ "$verified" == true ]] || {
               echo "Registry did not expose the published package with matching integrity: $name@$version" >&2
