@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/testing",
-  "version": "4.0.0-rc.4",
+  "version": "4.0.0",
   "description": "Reusable testing helpers for Peanut Admin Vue clients",
   "type": "module",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
     "pack:candidate": "pnpm pack --pack-destination ../../artifacts"
   },
   "peerDependencies": {
-    "@peanut-admin/vue": "4.0.0-rc.4"
+    "@peanut-admin/vue": "4.0.0"
   },
   "devDependencies": {
     "@peanut-admin/vue": "workspace:*"
