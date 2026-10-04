@@ -101,7 +101,9 @@ jobs:
           HUSKY: '0'
         run: pnpm install --frozen-lockfile
       - name: Build, test, pack and consume public packages
-        run: pnpm run verify:a1
+        run: |
+          mkdir -p .local/tmp
+          TMPDIR="$PWD/.local/tmp" pnpm run verify:a1
 
   docs:
     name: Documentation hygiene
