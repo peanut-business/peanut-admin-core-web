@@ -29,6 +29,7 @@ export interface ClientRequest<TData = unknown> {
   readonly data?: TData;
   readonly headers?: ClientRequestHeaders;
   readonly auth?: boolean;
+  readonly signal?: AbortSignal;
 }
 
 export interface ClientTransportRequest<TData = unknown> {
@@ -36,6 +37,7 @@ export interface ClientTransportRequest<TData = unknown> {
   readonly method: ClientRequestMethod;
   readonly data?: TData;
   readonly headers: ClientHeaders;
+  readonly signal?: AbortSignal;
 }
 
 export type ClientTransport = (
@@ -339,6 +341,43 @@ const requestError = (
     safeMessage(message, 'The request could not be completed.')
   );
 
+export const clientAbortError = (): Error => {
+  const error = new Error('The request was aborted.');
+  error.name = 'AbortError';
+  return error;
+};
+
+const isAbortError = (error: unknown): boolean =>
+  error instanceof Error && error.name === 'AbortError';
+
+const awaitWithSignal = async <T>(
+  value: Promise<T>,
+  signal?: AbortSignal
+): Promise<T> => {
+  if (signal === undefined) return value;
+  return new Promise<T>((resolve, reject) => {
+    const abort = () => {
+      cleanup();
+      reject(clientAbortError());
+    };
+    const cleanup = () => signal.removeEventListener('abort', abort);
+    signal.addEventListener('abort', abort, { once: true });
+    if (signal.aborted) abort();
+    value.then(
+      (result) => {
+        cleanup();
+        if (signal.aborted) reject(clientAbortError());
+        else resolve(result);
+      },
+      (error) => {
+        cleanup();
+        if (signal.aborted) reject(clientAbortError());
+        else reject(error);
+      }
+    );
+  });
+};
+
 export const createClient = (options: ClientOptions): Client => {
   let unauthorizedHandling: Promise<void> | null = null;
 
@@ -372,6 +411,7 @@ export const createClient = (options: ClientOptions): Client => {
   const request = async <TData = unknown>(
     input: ClientRequest
   ): Promise<TData> => {
+    if (input.signal?.aborted) throw clientAbortError();
     try {
       assertClientPath(input.path);
     } catch (error) {
@@ -411,12 +451,18 @@ export const createClient = (options: ClientOptions): Client => {
       method,
       ...(input.data !== undefined ? { data: input.data } : {}),
       headers,
+      ...(input.signal !== undefined ? { signal: input.signal } : {}),
     };
 
     let response: unknown;
     try {
-      response = await options.transport(transportRequest);
-    } catch {
+      if (input.signal?.aborted) throw clientAbortError();
+      response = await awaitWithSignal(
+        options.transport(transportRequest),
+        input.signal
+      );
+    } catch (error) {
+      if (input.signal?.aborted || isAbortError(error)) throw clientAbortError();
       throw requestError(
         'transport',
         'CLIENT_TRANSPORT_ERROR',
@@ -426,10 +472,14 @@ export const createClient = (options: ClientOptions): Client => {
 
     let decoded: ClientDecodeResult;
     try {
-      decoded = await options.decoder(response, transportRequest);
+      decoded = await awaitWithSignal(
+        Promise.resolve(options.decoder(response, transportRequest)),
+        input.signal
+      );
       if (!isDecodedResult(decoded)) throw new Error('invalid decoder result');
       decoded = normalizedDecodedResult(decoded);
-    } catch {
+    } catch (error) {
+      if (input.signal?.aborted || isAbortError(error)) throw clientAbortError();
       throw requestError(
         'decoder',
         'CLIENT_DECODER_INVALID',
@@ -437,6 +487,7 @@ export const createClient = (options: ClientOptions): Client => {
       );
     }
 
+    if (input.signal?.aborted) throw clientAbortError();
     if (decoded.kind === 'success') return decoded.data as TData;
 
     if (decoded.kind === 'unauthorized') {

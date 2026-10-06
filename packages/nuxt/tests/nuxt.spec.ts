@@ -25,6 +25,18 @@ const headers = (values: Record<string, string> = {}): ClientHeaders => {
 };
 
 describe('Nuxt client transport', () => {
+  it('forwards the signal and skips fetch for an already aborted request', async () => {
+    const fetcher = vi.fn(async () => ({ ok: true }));
+    const transport = createNuxtClientTransport({ baseUrl: 'https://admin.example/', $fetch: fetcher });
+    const controller = new AbortController();
+    await transport({ path: '/items', method: 'GET', headers: headers(), signal: controller.signal });
+    expect(fetcher).toHaveBeenCalledWith('https://admin.example/items', expect.objectContaining({ signal: controller.signal }));
+    controller.abort();
+    await expect(transport({ path: '/items', method: 'GET', headers: headers(), signal: controller.signal }))
+      .rejects.toMatchObject({ name: 'AbortError' });
+    expect(fetcher).toHaveBeenCalledOnce();
+  });
+
   it('maps GET and DELETE data to query and other methods to body', async () => {
     const calls: Array<{ url: string; options?: unknown }> = [];
     const fetcher = vi.fn(async (url: string, options?: unknown) => {

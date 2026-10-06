@@ -32,6 +32,31 @@ const transportRequest = (
 };
 
 describe('client request state machine', () => {
+  it('stops an aborted request before transport and rejects a late transport result', async () => {
+    const preAborted = new AbortController();
+    preAborted.abort();
+    const transport = vi.fn(async () => ({ ok: true }));
+    const clientSession = session();
+    const client = createClient({
+      transport,
+      session: clientSession,
+      decoder: () => successful({ ok: true }),
+    });
+    await expect(client.request({ path: '/items', signal: preAborted.signal }))
+      .rejects.toMatchObject({ name: 'AbortError' });
+    expect(transport).not.toHaveBeenCalled();
+    expect(clientSession.accessToken).not.toHaveBeenCalled();
+
+    let release: ((value: unknown) => void) | undefined;
+    transport.mockImplementationOnce(() => new Promise((resolve) => { release = resolve; }));
+    const controller = new AbortController();
+    const pending = client.request({ path: '/items', signal: controller.signal });
+    expect(transportRequest(transport).signal).toBe(controller.signal);
+    controller.abort();
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    release?.({ ok: true });
+  });
+
   it('rejects unsafe paths before reading the session token', async () => {
     const clientSession = session();
     const transport = vi.fn(async () => ({ ok: true }));

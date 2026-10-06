@@ -23,6 +23,28 @@ const headers = (values: Record<string, string> = {}): ClientHeaders => {
 };
 
 describe('UniApp client transport', () => {
+  it('aborts the native request and ignores its late callback', async () => {
+    let callbacks: UniAppClientRequestOptions | undefined;
+    const abort = vi.fn();
+    const request = vi.fn((options: UniAppClientRequestOptions) => {
+      callbacks = options;
+      return { abort };
+    });
+    const transport = createUniAppClientTransport({ baseUrl: 'https://admin.example/', request });
+    const controller = new AbortController();
+    const pending = transport({ path: '/items', method: 'GET', headers: headers(), signal: controller.signal });
+    controller.abort();
+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    expect(abort).toHaveBeenCalledOnce();
+    callbacks?.success?.({ data: { tooLate: true } });
+
+    const preAborted = new AbortController();
+    preAborted.abort();
+    await expect(transport({ path: '/items', method: 'GET', headers: headers(), signal: preAborted.signal }))
+      .rejects.toMatchObject({ name: 'AbortError' });
+    expect(request).toHaveBeenCalledOnce();
+  });
+
   it('maps the request shape and resolves success.data', async () => {
     let requestOptions: UniAppClientRequestOptions | undefined;
     const request = vi.fn((options: UniAppClientRequestOptions) => {
