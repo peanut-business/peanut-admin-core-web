@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/client",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Framework-neutral client primitives for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
