@@ -1,4 +1,4 @@
-import { resolveClientUrl } from '@peanut-admin/client';
+import { clientAbortError, resolveClientUrl } from '@peanut-admin/client';
 import type {
   ClientHeaders,
   ClientTransport,
@@ -10,6 +10,7 @@ export interface NuxtClientFetchOptions {
   readonly query?: unknown;
   readonly body?: unknown;
   readonly headers?: Record<string, string>;
+  readonly signal?: AbortSignal;
 }
 
 export type NuxtClientFetch = (
@@ -133,10 +134,12 @@ export const createNuxtClientTransport = (
   options: NuxtClientTransportOptions
 ): ClientTransport => {
   return async (request: ClientTransportRequest): Promise<unknown> => {
+    if (request.signal?.aborted) throw clientAbortError();
     const method = request.method.toUpperCase();
     const url = resolveClientUrl(options.baseUrl, request.path);
     const fetchOptions: NuxtClientFetchOptions = {
       method,
+      ...(request.signal !== undefined ? { signal: request.signal } : {}),
       headers: {
         ...headersRecord(request.headers),
         ...options.forwardHeaders,

@@ -1,4 +1,4 @@
-import { resolveClientUrl } from '@peanut-admin/client';
+import { clientAbortError, resolveClientUrl } from '@peanut-admin/client';
 import type {
   ClientHeaders,
   ClientTransport,
@@ -18,7 +18,13 @@ export interface UniAppClientRequestOptions {
   readonly fail?: (error: unknown) => void;
 }
 
-export type UniAppClientRequest = (options: UniAppClientRequestOptions) => void;
+export interface UniAppRequestTask {
+  abort: () => void;
+}
+
+export type UniAppClientRequest = (
+  options: UniAppClientRequestOptions
+) => UniAppRequestTask;
 
 export interface UniAppClientTransportOptions {
   readonly baseUrl: string;
@@ -37,15 +43,51 @@ export const createUniAppClientTransport =
   (options: UniAppClientTransportOptions): ClientTransport =>
   async (request: ClientTransportRequest): Promise<unknown> =>
     new Promise<unknown>((resolve, reject) => {
+      if (request.signal?.aborted) {
+        reject(clientAbortError());
+        return;
+      }
+      let settled = false;
+      let task: UniAppRequestTask | undefined;
+      let abortRequested = false;
+      const abortTask = () => {
+        try {
+          task?.abort();
+        } catch {
+          // An aborting task cannot replace the cancellation result.
+        }
+      };
+      const finish = (outcome: () => void) => {
+        if (settled) return;
+        settled = true;
+        request.signal?.removeEventListener('abort', abort);
+        outcome();
+      };
+      const abort = () => {
+        if (settled) return;
+        abortRequested = true;
+        finish(() => reject(clientAbortError()));
+        abortTask();
+      };
       const method = request.method.toUpperCase();
       const requestOptions: UniAppClientRequestOptions = {
         url: resolveClientUrl(options.baseUrl, request.path),
         method,
         ...(request.data !== undefined ? { data: request.data } : {}),
         header: headersRecord(request.headers),
-        success: (response) => resolve(response.data),
-        fail: (error) => reject(error),
+        success: (response) => finish(() => resolve(response.data)),
+        fail: (error) => finish(() => reject(error)),
       };
 
-      options.request(requestOptions);
+      request.signal?.addEventListener('abort', abort, { once: true });
+      if (request.signal?.aborted) {
+        abort();
+        return;
+      }
+      try {
+        task = options.request(requestOptions);
+        if (abortRequested) abortTask();
+      } catch (error) {
+        finish(() => reject(error));
+      }
     });
