@@ -6,6 +6,8 @@
 
 Client 请求支持可选标准 `AbortSignal`，Nuxt transport 传给 fetch，UniApp transport 连接 `RequestTask.abort()`。预取消不发送请求；在途取消返回 `AbortError`，完成/失败/取消后清理监听，不把取消解码为业务错误或认证失败。Vue async action/list 的 generation 和 scope dispose 继续负责晚到结果与作用域清理；应用按组件/任务传 signal，不能用全局取消中断其他租户或请求。该能力不创建业务事件总线或共享登录态；SSR Client 与业务 runtime 仍按 app/请求创建。
 
+5.0.1 的六包使用统一版本。Client 的认证请求绑定发送时的令牌；会话令牌变化后，晚到的成功、业务失败或认证失败均返回 `CLIENT_SESSION_CHANGED`，不触发旧会话的错误 hook。并发认证失败按令牌合并清理；session 的异步 `clear(expectedToken)` 必须在提交清理前重新比对当前令牌，避免清掉新登录。清理期间切换会话时不触发旧会话的 unauthorized hook；`auth: false` 请求的认证失败不清理登录态或触发全局 unauthorized hook。历史 5.0.0 发行物保留，本次修复使用新的版本身份。
+
 常规验证：Node 22 与 `packageManager` 固定的 pnpm 下运行 `pnpm install --frozen-lockfile && pnpm test`。测试先构建当前 workspace 的包间导出，再仅发现当前 `packages/*/tests`；不会加载 `.worktrees` 中其他分支。`pnpm test:tooling` 验证打包/诊断工具；真实应用 SSR、浏览器和数据库资格由应用仓另验，不把包级单元测试外推为整站通过。
 
 日常开发使用 `dev`；`main` 只承载已批准的发布版本。该仓在 2026-09-17 从原 Core 单体仓的 `packages/web` 拆出，初始开发提交为 `46c17de0ebac8b3b43ba05c7c765b07df751b82b`。

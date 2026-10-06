@@ -46,7 +46,8 @@ export type ClientTransport = (
 
 export interface ClientSession {
   accessToken: () => string | null | undefined;
-  clear: () => void | Promise<void>;
+  /** Asynchronous cleanup must recheck expectedToken before committing. */
+  clear: (expectedToken?: string | null) => void | Promise<void>;
 }
 
 export interface ClientDecodeSuccess<TData = unknown> {
@@ -379,15 +380,21 @@ const awaitWithSignal = async <T>(
 };
 
 export const createClient = (options: ClientOptions): Client => {
-  let unauthorizedHandling: Promise<void> | null = null;
+  const unauthorizedHandling = new Map<string | null, Promise<void>>();
 
   const invokeUnauthorized = async (
-    error: ClientRequestError
+    error: ClientRequestError,
+    requestToken: string | null
   ): Promise<void> => {
-    if (unauthorizedHandling === null) {
-      unauthorizedHandling = (async () => {
+    const identityKey = requestToken;
+    let handling = unauthorizedHandling.get(identityKey);
+    if (handling === undefined) {
+      handling = (async () => {
         try {
-          await options.session.clear();
+          if ((options.session.accessToken() || null) !== requestToken) return;
+          await options.session.clear(requestToken);
+          const tokenAfterClear = options.session.accessToken() || null;
+          if (tokenAfterClear !== null && tokenAfterClear !== requestToken) return;
         } catch {
           throw requestError(
             'session',
@@ -401,11 +408,22 @@ export const createClient = (options: ClientOptions): Client => {
           // Hook failures cannot turn an unauthorized response into success.
         }
       })().finally(() => {
-        unauthorizedHandling = null;
+        unauthorizedHandling.delete(identityKey);
       });
+      unauthorizedHandling.set(identityKey, handling);
     }
 
-    await unauthorizedHandling;
+    await handling;
+  };
+
+  const isRequestSessionCurrent = (
+    requestToken: string | null
+  ): boolean => {
+    try {
+      return (options.session.accessToken() || null) === requestToken;
+    } catch {
+      return false;
+    }
   };
 
   const request = async <TData = unknown>(
@@ -420,6 +438,7 @@ export const createClient = (options: ClientOptions): Client => {
     }
 
     const method = methodOf(input.method);
+    let requestToken: string | null = null;
     let headers: ClientHeaders;
     try {
       headers = requestHeaders(input.headers);
@@ -432,9 +451,8 @@ export const createClient = (options: ClientOptions): Client => {
     }
 
     if (input.auth !== false) {
-      let token: string | null | undefined;
       try {
-        token = options.session.accessToken();
+        requestToken = options.session.accessToken() || null;
       } catch {
         throw requestError(
           'session',
@@ -442,8 +460,8 @@ export const createClient = (options: ClientOptions): Client => {
           'The client session is unavailable.'
         );
       }
-      if (typeof token === 'string' && token !== '')
-        headers.set('Authorization', `Bearer ${token}`);
+      if (typeof requestToken === 'string' && requestToken !== '')
+        headers.set('Authorization', `Bearer ${requestToken}`);
     }
 
     const transportRequest: ClientTransportRequest = {
@@ -488,6 +506,16 @@ export const createClient = (options: ClientOptions): Client => {
     }
 
     if (input.signal?.aborted) throw clientAbortError();
+    if (
+      input.auth !== false &&
+      !isRequestSessionCurrent(requestToken)
+    ) {
+      throw requestError(
+        'session',
+        'CLIENT_SESSION_CHANGED',
+        'The request session has changed.'
+      );
+    }
     if (decoded.kind === 'success') return decoded.data as TData;
 
     if (decoded.kind === 'unauthorized') {
@@ -496,7 +524,9 @@ export const createClient = (options: ClientOptions): Client => {
         safeErrorCode(decoded.code, defaultUnauthorizedCode),
         safeMessage(decoded.message, genericUnauthorizedMessage)
       );
-      await invokeUnauthorized(error);
+      if (input.auth !== false) {
+        await invokeUnauthorized(error, requestToken);
+      }
       throw error;
     }
 
