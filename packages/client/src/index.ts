@@ -393,6 +393,8 @@ export const createClient = (options: ClientOptions): Client => {
         try {
           if ((options.session.accessToken() || null) !== requestToken) return;
           await options.session.clear(requestToken);
+          const tokenAfterClear = options.session.accessToken() || null;
+          if (tokenAfterClear !== null && tokenAfterClear !== requestToken) return;
         } catch {
           throw requestError(
             'session',
@@ -400,8 +402,6 @@ export const createClient = (options: ClientOptions): Client => {
             'The client session could not be cleared.'
           );
         }
-        const tokenAfterClear = options.session.accessToken() || null;
-        if (tokenAfterClear !== null && tokenAfterClear !== requestToken) return;
         try {
           await options.hooks?.unauthorized?.(error);
         } catch {

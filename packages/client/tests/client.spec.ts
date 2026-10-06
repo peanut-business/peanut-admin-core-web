@@ -270,14 +270,21 @@ describe('client request state machine', () => {
     expect(unauthorized).not.toHaveBeenCalled();
   });
 
-  it('fails closed without invoking the unauthorized hook when session clearing fails', async () => {
+  it.each(['clear', 'token after clear'])(
+    'fails closed without invoking the unauthorized hook when session %s fails',
+    async (failure) => {
     const unauthorizedHook = vi.fn();
+    let cleared = false;
     const client = createClient({
       transport: vi.fn(async () => null),
       session: {
-        accessToken: vi.fn(() => 'token'),
+        accessToken: vi.fn(() => {
+          if (cleared) throw new Error('secret session failure');
+          return 'token';
+        }),
         clear: vi.fn(async () => {
-          throw new Error('secret session failure');
+          if (failure === 'clear') throw new Error('secret session failure');
+          cleared = true;
         }),
       },
       decoder: () => ({ kind: 'unauthorized' }),
@@ -290,7 +297,8 @@ describe('client request state machine', () => {
       message: 'The client session could not be cleared.',
     });
     expect(unauthorizedHook).not.toHaveBeenCalled();
-  });
+    }
+  );
 
   it('does not expose transport exceptions or malformed decoder values', async () => {
     const transportFailure = createClient({
