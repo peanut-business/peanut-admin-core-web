@@ -194,6 +194,82 @@ describe('client request state machine', () => {
     );
   });
 
+  it.each(['success', 'business', 'unauthorized'] as const)(
+    'rejects a late %s response after the request session changes',
+    async (kind) => {
+      let token: string | null = 'old-token';
+      let release: ((value: unknown) => void) | undefined;
+      const clear = vi.fn();
+      const unauthorized = vi.fn();
+      const businessError = vi.fn();
+      const client = createClient({
+        transport: () => new Promise((resolve) => { release = resolve; }),
+        session: { accessToken: () => token, clear },
+        decoder: () => kind === 'success'
+          ? successful({ tenant: 'old-tenant' })
+          : { kind },
+        hooks: { unauthorized, businessError },
+      });
+      const pending = client.request({ path: '/items' });
+      token = 'new-token';
+      release?.({});
+      await expect(pending).rejects.toMatchObject({
+        kind: 'session', code: 'CLIENT_SESSION_CHANGED',
+      });
+      expect(clear).not.toHaveBeenCalled();
+      expect(unauthorized).not.toHaveBeenCalled();
+      expect(businessError).not.toHaveBeenCalled();
+      expect(token).toBe('new-token');
+    }
+  );
+
+  it('preserves a new login during asynchronous clearing and handles its own unauthorized response', async () => {
+    let token: string | null = 'old-token';
+    let releaseClear: (() => void) | undefined;
+    const clear = vi.fn(async (expectedToken?: string | null) => {
+      if (expectedToken === 'old-token') {
+        await new Promise<void>((resolve) => { releaseClear = resolve; });
+      }
+      if (token === expectedToken) token = null;
+    });
+    const unauthorized = vi.fn();
+    const client = createClient({
+      transport: async () => null,
+      session: { accessToken: () => token, clear },
+      decoder: () => ({ kind: 'unauthorized' }),
+      hooks: { unauthorized },
+    });
+    const oldRequest = client.request({ path: '/old' });
+    await vi.waitFor(() => expect(clear).toHaveBeenCalledWith('old-token'));
+    token = 'new-token';
+    releaseClear?.();
+    await expect(oldRequest).rejects.toMatchObject({ kind: 'unauthorized' });
+    expect(token).toBe('new-token');
+    expect(unauthorized).not.toHaveBeenCalled();
+
+    await expect(client.request({ path: '/new' }))
+      .rejects.toMatchObject({ kind: 'unauthorized' });
+    expect(clear).toHaveBeenCalledWith('new-token');
+    expect(token).toBeNull();
+    expect(unauthorized).toHaveBeenCalledOnce();
+  });
+
+  it('does not clear or invoke the global unauthorized hook for a public request', async () => {
+    const clientSession = session();
+    const unauthorized = vi.fn();
+    const client = createClient({
+      transport: async () => null,
+      session: clientSession,
+      decoder: () => ({ kind: 'unauthorized' }),
+      hooks: { unauthorized },
+    });
+    await expect(client.request({ path: '/public', auth: false }))
+      .rejects.toMatchObject({ kind: 'unauthorized' });
+    expect(clientSession.accessToken).not.toHaveBeenCalled();
+    expect(clientSession.clear).not.toHaveBeenCalled();
+    expect(unauthorized).not.toHaveBeenCalled();
+  });
+
   it('fails closed without invoking the unauthorized hook when session clearing fails', async () => {
     const unauthorizedHook = vi.fn();
     const client = createClient({

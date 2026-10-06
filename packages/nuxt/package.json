@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/nuxt",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Nuxt transport adapter for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
     "pack:candidate": "pnpm pack --pack-destination ../../artifacts"
   },
   "peerDependencies": {
-    "@peanut-admin/client": "5.0.0"
+    "@peanut-admin/client": "5.0.1"
   },
   "devDependencies": {
     "@peanut-admin/client": "workspace:*"
