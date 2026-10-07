@@ -19,6 +19,10 @@ export type AdminRouteGuardResult =
   | { status: 'module-unavailable'; code: 'MODULE_TENANT_DISABLED' }
   | { status: 'forbidden'; code: 'AUTHZ_FUNCTIONAL_DENIED' };
 
+/**
+ * Loads audience context and navigation before module and permission gates.
+ * This is a client navigation check, not a substitute for API authorization.
+ */
 export const runAdminRouteGuard = async (
   route: AdminRouteGuardInput,
   dependencies: AdminRouteGuardDependencies

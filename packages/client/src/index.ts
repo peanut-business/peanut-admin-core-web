@@ -24,10 +24,17 @@ export interface ClientHeaders extends ClientHeaderSource {
 }
 
 export interface ClientRequest<TData = unknown> {
+  /**
+   * Safe request path; absolute URLs and traversal segments are rejected.
+   */
   readonly path: string;
   readonly method?: ClientRequestMethod;
   readonly data?: TData;
+  /**
+   * The session supplies the bearer token; caller Authorization is discarded.
+   */
   readonly headers?: ClientRequestHeaders;
+  /** Disables bearer injection and unauthorized-session cleanup. */
   readonly auth?: boolean;
   readonly signal?: AbortSignal;
 }
@@ -40,6 +47,7 @@ export interface ClientTransportRequest<TData = unknown> {
   readonly signal?: AbortSignal;
 }
 
+/** Performs I/O only; the configured decoder owns protocol validation. */
 export type ClientTransport = (
   request: ClientTransportRequest
 ) => Promise<unknown>;
@@ -72,6 +80,7 @@ export type ClientDecodeResult<TData = unknown> =
   | ClientDecodeUnauthorized
   | ClientDecodeBusiness;
 
+/** Validates an untrusted response and classifies API outcomes. */
 export type ClientDecoder<TData = unknown> = (
   response: unknown,
   request: ClientTransportRequest
@@ -379,6 +388,9 @@ const awaitWithSignal = async <T>(
   });
 };
 
+/**
+ * Centralizes bearer injection, response decoding and request error hooks.
+ */
 export const createClient = (options: ClientOptions): Client => {
   const unauthorizedHandling = new Map<string | null, Promise<void>>();
 

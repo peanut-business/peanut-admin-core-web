@@ -39,6 +39,9 @@ const headersRecord = (headers: ClientHeaders): Record<string, string> => {
   return result;
 };
 
+/**
+ * Bridges the shared request contract to uni.request, including cancellation.
+ */
 export const createUniAppClientTransport =
   (options: UniAppClientTransportOptions): ClientTransport =>
   async (request: ClientTransportRequest): Promise<unknown> =>
