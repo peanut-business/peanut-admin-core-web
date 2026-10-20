@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/web-workspace",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "private": true,
   "description": "Peanut Admin reusable web client, framework adapters, UI, and test tooling",
   "license": "Apache-2.0",
@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "pnpm --recursive --workspace-concurrency=1 run build",
+    "watch": "pnpm run build && pnpm --recursive --parallel run watch",
     "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck",
     "test": "pnpm run build && vitest run",
     "test:tooling": "node --test scripts/tests/*.test.mjs",

@@ -14,6 +14,7 @@ export interface TenantLifecycle {
 
 const tenantDisposers = new Map<string, TenantDisposer>();
 
+/** Registers a unique callback for discarding tenant-owned state. */
 export const registerTenantDisposer = (
   key: string,
   disposer: TenantDisposer
@@ -30,6 +31,7 @@ export const registerTenantDisposer = (
   };
 };
 
+/** Runs all registered cleanups, then propagates the first failure, if any. */
 export const disposeTenantState = async (): Promise<void> => {
   const disposers = [...tenantDisposers.values()];
   const results = await Promise.allSettled(
@@ -41,6 +43,9 @@ export const disposeTenantState = async (): Promise<void> => {
   if (failure !== undefined) throw failure.reason;
 };
 
+/**
+ * Creates generation tickets that reject late results after tenant changes.
+ */
 export const createTenantLifecycle = (): TenantLifecycle => {
   let generation = 0;
   let controller = new AbortController();

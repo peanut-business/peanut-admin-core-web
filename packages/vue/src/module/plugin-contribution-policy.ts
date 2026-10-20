@@ -36,7 +36,10 @@ export const collectPluginContributions = (
         Array.isArray(contribution.routes)
     );
 
-/** Deployment presence alone never exposes a Tenant Module route. */
+/**
+ * Requires an enabled module plus at least one granted route permission.
+ * Routes with no permission declaration remain hidden.
+ */
 export const routesForTenantModules = <T extends PluginFrontendRoute>(
   contributions: PluginFrontendContribution<T>[],
   enabledModules: readonly string[],

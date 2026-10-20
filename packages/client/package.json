@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/client",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Framework-neutral client primitives for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -23,7 +23,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "pack:candidate": "pnpm pack --pack-destination ../../artifacts"
+    "pack:candidate": "pnpm pack --pack-destination ../../artifacts",
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "engines": {
     "node": ">=22.12.0 <23"

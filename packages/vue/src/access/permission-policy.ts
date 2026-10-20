@@ -21,6 +21,9 @@ export const permissionEvaluatorSlot = defineAdminOverrideSlot({
   validate: isPermissionEvaluator,
 });
 
+/**
+ * Applies any-of semantics; empty lists are public, and a granted `*` opens it.
+ */
 export const evaluateRequiredPermissions = (
   requiredPermissions: string | string[],
   grantedPermissions: readonly string[],

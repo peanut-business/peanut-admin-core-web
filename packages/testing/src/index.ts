@@ -5,7 +5,7 @@ import type {
 } from '@peanut-admin/vue';
 
 export const WEB_TESTING_PACKAGE = '@peanut-admin/testing' as const;
-export const WEB_TESTING_VERSION = '5.0.1' as const;
+export const WEB_TESTING_VERSION = '5.0.2' as const;
 
 export const mockTenantContext = (
   overrides: Partial<TenantContextData> = {}
@@ -36,6 +36,7 @@ export interface MockProblemOptions extends Partial<ProblemDetails> {
   status: number;
 }
 
+/** Builds deterministic problem details for client and route tests. */
 export const mockProblemDetails = (
   options: MockProblemOptions
 ): ProblemDetails => {
@@ -84,6 +85,9 @@ export interface RouteGuardHarness {
   navigate: (path: string) => Promise<'allowed' | 'denied'>;
 }
 
+/**
+ * Applies audience guards by path and leaves unrelated test routes available.
+ */
 export const createRouteGuardHarness = (guards: {
   tenant: AudienceGuard;
   platform: AudienceGuard;

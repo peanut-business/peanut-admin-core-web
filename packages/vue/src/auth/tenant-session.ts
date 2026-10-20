@@ -30,5 +30,8 @@ export type TenantSessionOutcome = TenantSelection | TenantAuthentication;
 export const isMultiTenantDeployment = (value: unknown): boolean =>
   value === 'multi-tenant';
 
+/**
+ * Checks the protocol prefix only; token claims are not decoded or validated.
+ */
 export const isTenantAccessToken = (token: string | null): boolean =>
   token?.startsWith('pa_tat_') === true;

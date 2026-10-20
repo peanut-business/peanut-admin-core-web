@@ -130,6 +130,10 @@ export const createNuxtSsrForwardHeaders = (
   };
 };
 
+/**
+ * Uses the configured upstream URL and forwards normalized request headers
+ * plus explicitly trusted server-side headers.
+ */
 export const createNuxtClientTransport = (
   options: NuxtClientTransportOptions
 ): ClientTransport => {

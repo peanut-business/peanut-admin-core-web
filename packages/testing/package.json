@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/testing",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Reusable testing helpers for Peanut Admin Vue clients",
   "type": "module",
   "license": "Apache-2.0",
@@ -23,10 +23,11 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "pack:candidate": "pnpm pack --pack-destination ../../artifacts"
+    "pack:candidate": "pnpm pack --pack-destination ../../artifacts",
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
-    "@peanut-admin/vue": "5.0.1"
+    "@peanut-admin/vue": "5.0.2"
   },
   "devDependencies": {
     "@peanut-admin/vue": "workspace:*"

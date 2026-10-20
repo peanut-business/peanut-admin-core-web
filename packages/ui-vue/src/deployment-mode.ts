@@ -13,12 +13,17 @@ export interface DeploymentRoute {
   children?: DeploymentRoute[];
 }
 
+/** Falls back to standalone when the server mode is unrecognized. */
 export const deploymentMode = (value: unknown): DeploymentMode =>
   value === 'multi-tenant' ? 'multi-tenant' : 'standalone';
 
 export const allowsInstanceTools = (value: unknown): boolean =>
   value === 'standalone';
 
+/**
+ * Excludes control-plane routes in standalone mode and instance tools when
+ * disallowed.
+ */
 export const routesForDeployment = <T extends DeploymentRoute>(
   routes: T[],
   mode: DeploymentMode,

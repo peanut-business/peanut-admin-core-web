@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/vue",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Vue integration primitives for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -23,7 +23,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "pack:candidate": "pnpm pack --pack-destination ../../artifacts"
+    "pack:candidate": "pnpm pack --pack-destination ../../artifacts",
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
     "pinia": ">=2.0.23 <5",

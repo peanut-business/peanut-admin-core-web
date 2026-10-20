@@ -58,6 +58,7 @@ const displayValue = (
   return normalized;
 };
 
+/** Rejects unknown fields and returns an immutable normalized config. */
 export const defineShellHostConfig = (
   input: ShellHostConfigInput
 ): ShellHostConfig => {
