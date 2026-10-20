@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "pnpm --recursive --workspace-concurrency=1 run build",
-    "watch": "tsc --watch --preserveWatchOutput",
+    "watch": "pnpm run build && pnpm --recursive --parallel run watch",
     "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck",
     "test": "pnpm run build && vitest run",
     "test:tooling": "node --test scripts/tests/*.test.mjs",
