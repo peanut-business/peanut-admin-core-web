@@ -20,8 +20,8 @@
     "vue-router": "5.2.0"
   },
   "scripts": {
-    "build": "pnpm --recursive --workspace-concurrency=1 run build",
-    "watch": "pnpm run build && pnpm --recursive --parallel run watch",
+    "build": "node scripts/local-core-writer.mjs --packages all --operation build -- pnpm --recursive --workspace-concurrency=1 run build",
+    "watch": "node scripts/local-core-writer.mjs --packages all --operation watch -- sh -c 'pnpm run build && pnpm --recursive --parallel run watch'",
     "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck",
     "test": "pnpm run build && vitest run",
     "test:tooling": "node --test scripts/tests/*.test.mjs",
