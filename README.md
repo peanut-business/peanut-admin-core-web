@@ -4,7 +4,7 @@ CI 默认 `mode=qualification` 保留完整资格。显式 `mode=identity` 须�
 
 该仓承载 A1 的六个可复用 Web 公共包：`@peanut-admin/client`、`@peanut-admin/vue`、`@peanut-admin/ui-vue`、`@peanut-admin/nuxt`、`@peanut-admin/uniapp` 和 `@peanut-admin/testing`。`client` 不依赖 Vue 或浏览器 DOM；产品业务页面、状态、权限键和固定 API 归 Peanut Admin Code 的负责模块维护。
 
-开发使用 pnpm workspace。所有包输出 `dist` JavaScript 和声明文件，并通过明确的根导出消费。生产输入政策为 `tools/build-inputs.json`：Linux/x64 的官方 Node 22.23.2 分发及实际执行文件 SHA、内置 zlib 版本/由 Node 文件覆盖的身份、npm 11.5.1/pnpm 10.15.0/TypeScript 5.9.3 官方分发 SHA 及完整模块内容身份、源 pnpm 锁、实际脚本/构建配置摘要和固定参数。模块包含其打包附带依赖，不能只用版本字符串代替实际编译器或 pack 工具内容。安装前缀不写入合同；工具按实际解析的模块和固定 Node 执行，不能以忽略路径掩盖工具查找变化。不采集整机包表、kernel、CPU、机器名或全部 process.versions。
+开发使用 pnpm workspace。所有包输出 `dist` JavaScript 和声明文件，并通过明确的根导出消费。生产输入政策为 `tools/build-inputs.json`：Linux/x64 的官方 Node 22.23.2 分发及实际执行文件 SHA、内置 zlib 版本/由 Node 文件覆盖的身份、npm 11.5.1/pnpm 10.15.0/TypeScript 5.9.3 官方分发 SHA 及完整模块内容身份、源 pnpm 锁、实际脚本/构建配置摘要和固定参数。模块包含其打包附带依赖，不能只用版本字符串代替实际编译器或 pack 工具内容。原生安装生成的 `.bin` 相对链接仅在目标位于已摘要模块、且精确对应同层依赖的 `package.json#bin` 时排除于分发 payload 摘要；其他链接及特殊类型拒绝。安装前缀不写入合同；工具按实际解析的模块和固定 Node 执行，不能以忽略路径掩盖工具查找变化。不采集整机包表、kernel、CPU、机器名或全部 process.versions。
 
 生产顺序是原锁原生安装后，`node scripts/release-identity.mjs inputs` → `node scripts/release-identity.mjs build` → `node scripts/release-identity.mjs pack`。`inputs` 只采集/验证实际输入，不构建、不制包、不授予资格；默认封存到 `.local/build-inputs.json`，`CORE_BUILD_INPUTS` 可选独立候选文件。初次封存成为本候选期望，已存在文件只允许完全相同的有效输入，不覆写为新来源。build 仍调用既有 pnpm build/Core writer，pack 仍用标准 npm pack；两者在执行前后实际重采，漂移拒绝。子进程排除 ambient npm_config，固定空 Node options/path 与用户/全局 npm config、locale，项目自身配置仍随 source 记录。日常源码构建入口未变。
 

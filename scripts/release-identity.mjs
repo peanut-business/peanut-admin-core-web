@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, realpathSync, lstatSync, existsSync } from 'node:fs';
-import { resolve, join, dirname, relative } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, realpathSync, lstatSync, existsSync, readlinkSync } from 'node:fs';
+import { resolve, join, dirname, relative, basename, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -34,11 +34,27 @@ const moduleIdentity = (name) => {
   const path = packageRoot(name);
   const manifest = JSON.parse(readFileSync(join(path, 'package.json')));
   const records = [];
+  const nativeBinLink = (file) => {
+    if (basename(dirname(file)) !== '.bin' || basename(dirname(dirname(file))) !== 'node_modules' || isAbsolute(readlinkSync(file))) return false;
+    const target = realpathSync(file), within = relative(path, target);
+    if (within.startsWith('../') || isAbsolute(within) || !lstatSync(target).isFile()) return false;
+    const modules = dirname(dirname(file));
+    for (let folder = dirname(target); folder !== modules && folder !== dirname(folder); folder = dirname(folder)) {
+      const manifestPath = join(folder, 'package.json');
+      if (!existsSync(manifestPath)) continue;
+      const pkg = JSON.parse(readFileSync(manifestPath));
+      if (resolve(modules, pkg.name || '') !== folder) continue;
+      const bins = typeof pkg.bin === 'string' ? { [pkg.name.split('/').pop()]: pkg.bin } : (pkg.bin || {});
+      return typeof bins[basename(file)] === 'string' && resolve(folder, bins[basename(file)]) === target;
+    }
+    return false;
+  };
   const visit = (folder) => {
     for (const entry of readdirSync(folder).sort()) {
       const file = join(folder, entry), stat = lstatSync(file);
       if (stat.isDirectory()) visit(file);
       else if (stat.isFile()) records.push([relative(path, file), hash(readFileSync(file))]);
+      else if (stat.isSymbolicLink() && nativeBinLink(file)) continue;
       else throw new Error(`Unexpected link or special entry in ${name} distribution`);
     }
   };
