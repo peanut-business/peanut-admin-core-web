@@ -1,5 +1,7 @@
 # Peanut Admin Core Web
 
+CI 默认 `mode=qualification` 保留完整资格。显式 `mode=identity` 须填写精确 `expected_source_commit`，仅在两个独立源码检出中按同一 pnpm 锁安装、构建，并由原生 `release-identity.mjs pack` 各生成六包；逐字节比较产物和输入清单，保存 `web-core-identity-*` artifact。该模式不运行测试或消费者资格、不标记 qualified、不发布；其 artifact 不能用于 tag 发行。CI 不取消已有运行。
+
 该仓承载 A1 的六个可复用 Web 公共包：`@peanut-admin/client`、`@peanut-admin/vue`、`@peanut-admin/ui-vue`、`@peanut-admin/nuxt`、`@peanut-admin/uniapp` 和 `@peanut-admin/testing`。`client` 不依赖 Vue 或浏览器 DOM；产品业务页面、状态、权限键和固定 API 归 Peanut Admin Code 的负责模块维护。
 
 开发使用 pnpm workspace。所有包输出 `dist` JavaScript 和声明文件，并通过明确的根导出消费。仓内 `scripts/verify-a1-packages.mjs` 在 Node 22（至少 22.12）下构建、测试，使用统一的 `npm pack` 生产入口生成六个最终 tgz，再在干净临时目录安装这些确切文件并用 Vite 构建。`artifacts/release-identity.json` 封存源码 commit/tree、pnpm 锁、Node/npm/pnpm 版本、六包 SHA-256/SHA-512 和消费者锁摘要；消费者成功后才标为 qualified。已有输出拒绝覆盖。归档生成与本地资格不代表已经发布到 npm。

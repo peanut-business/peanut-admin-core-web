@@ -3,17 +3,28 @@ name: CI
 # Development synchronization is not a validation request.
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Full qualification or nonpublishing package identity only
+        type: choice
+        options: [qualification, identity]
+        default: qualification
+      expected_source_commit:
+        description: Exact dispatch HEAD required for identity mode
+        type: string
+        default: ''
 
 permissions:
   contents: read
 
 concurrency:
   group: web-core-ci-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   changes:
     name: Changed paths
+    if: inputs.mode != 'identity'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -124,7 +135,7 @@ jobs:
 
   summary:
     name: CI summary
-    if: always()
+    if: ${{ always() && inputs.mode != 'identity' }}
     needs: [changes, core, docs]
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -137,3 +148,73 @@ jobs:
             --check='changes:${{ needs.changes.result }}:required' \
             --check='core:${{ needs.core.result }}:${{ needs.changes.outputs.runtime || 'false' }}' \
             --check='docs:${{ needs.docs.result }}:${{ needs.changes.outputs.docs_only || 'false' }}'
+
+  identity:
+    name: Nonpublishing package identity
+    if: inputs.mode == 'identity'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require the exact selected source
+        env:
+          EXPECTED_SOURCE: ${{ inputs.expected_source_commit }}
+        run: |
+          [[ "$EXPECTED_SOURCE" =~ ^[a-f0-9]{40}$ && "$EXPECTED_SOURCE" == "$GITHUB_SHA" ]]
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          git worktree add --detach "$RUNNER_TEMP/identity-source-b" "$EXPECTED_SOURCE"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.2'
+      - name: Use the standard release pack toolchain
+        run: npm install --global npm@11.5.1
+      - name: Independently install, build and pack twice
+        env:
+          HUSKY: '0'
+        run: |
+          set -Eeuo pipefail
+          source_a="$PWD"
+          for round in a b; do
+            if [[ "$round" == a ]]; then cd "$source_a"; else cd "$RUNNER_TEMP/identity-source-b"; fi
+            pnpm install --frozen-lockfile --ignore-scripts
+            pnpm run build
+            CORE_RELEASE_ARTIFACTS="$RUNNER_TEMP/identity-$round" node scripts/release-identity.mjs pack
+            git diff --exit-code HEAD --
+          done
+      - name: Compare actual standard artifacts and fixed inputs
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          a, b = root/'identity-a', root/'identity-b'
+          files = sorted(p.name for p in a.iterdir())
+          assert files == sorted(p.name for p in b.iterdir()) and files
+          identity = json.loads((a/'release-identity.json').read_text())
+          assert identity['sourceCommit'] == os.environ['GITHUB_SHA'] and identity.get('qualified') is not True
+          result = []
+          for name in files:
+              left, right = (a/name).read_bytes(), (b/name).read_bytes()
+              assert left == right, name
+              result.append(dict(name=name, size=len(left), sha256=hashlib.sha256(left).hexdigest()))
+          (root/'identity-comparison.json').write_text(json.dumps(dict(status='identical', sourceCommit=identity['sourceCommit'], inputs=identity['inputs'], qualified=False, files=result), indent=2)+'\n')
+          PYTHON
+          echo 'Two independent standard productions matched byte-for-byte; full qualification and publication NOT_RUN.' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-core-identity-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/identity-a/
+            ${{ runner.temp }}/identity-b/
+            ${{ runner.temp }}/identity-comparison.json
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 7
