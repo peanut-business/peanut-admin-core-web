@@ -33,6 +33,9 @@ if (mode === 'pack') {
 } else if (mode === 'verify' || mode === 'qualify') {
   const identity = JSON.parse(readFileSync(manifestPath, 'utf8'));
   if (process.env.CORE_QUALIFICATION_COMMIT && identity.sourceCommit !== process.env.CORE_QUALIFICATION_COMMIT) throw new Error('Artifact source does not match the selected qualification run');
+  if (!/^[0-9a-f]{40}$/.test(identity.sourceCommit) || run('git', ['cat-file', '-t', identity.sourceCommit]) !== 'commit') throw new Error('Qualification source is not an available commit object');
+  const sourceTree = run('git', ['rev-parse', '--verify', `${identity.sourceCommit}^{tree}`]);
+  if (sourceTree !== identity.inputs?.tree) throw new Error('Qualification commit object tree differs from the artifact');
   if (identity.schema !== 1 || JSON.stringify(identity.inputs) !== JSON.stringify(inputs())) throw new Error('Qualification source tree, lock or tool inputs differ');
   if (identity.packages?.length !== names.length || new Set(identity.packages.map((p) => p.name)).size !== names.length) throw new Error('Expected six unique qualified packages');
   for (const p of identity.packages) {
