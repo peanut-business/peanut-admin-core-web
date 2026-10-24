@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
   id-token: write
 
 concurrency:
@@ -75,13 +76,23 @@ jobs:
           package-manager-cache: false
       - name: Use npm with trusted publishing support
         run: npm install --global npm@11.5.1
-      - name: Qualify tagged packages
+      - name: Require a fixed successful qualification run
         env:
-          HUSKY: '0'
+          GH_TOKEN: ${{ github.token }}
+          QUALIFICATION_RUN: ${{ vars.CORE_QUALIFICATION_RUN_ID }}
         run: |
-          pnpm install --frozen-lockfile
-          mkdir -p .local/tmp
-          TMPDIR="$PWD/.local/tmp" pnpm run verify:a1
+          set -Eeuo pipefail
+          [[ "$QUALIFICATION_RUN" =~ ^[1-9][0-9]*$ ]] || { echo 'Set CORE_QUALIFICATION_RUN_ID to the approved CI run' >&2; exit 1; }
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$QUALIFICATION_RUN" > "$RUNNER_TEMP/qualification-run.json"
+          jq -e --arg repo "$GITHUB_REPOSITORY" '.conclusion == "success" and .path == ".github/workflows/ci.yml" and .head_repository.full_name == $repo' "$RUNNER_TEMP/qualification-run.json"
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-core-qualified
+          path: artifacts
+          github-token: ${{ github.token }}
+          run-id: ${{ vars.CORE_QUALIFICATION_RUN_ID }}
+      - name: Verify the exact qualified packages and inputs
+        run: node scripts/release-identity.mjs verify
       - name: Publish six packages in dependency order
         shell: bash
         run: |
@@ -126,13 +137,13 @@ jobs:
           for directory in client vue ui-vue nuxt uniapp testing; do
             name="@peanut-admin/$directory"
             version="${GITHUB_REF_NAME#v}"
-            current="$name@$version (pack)"
-            npm pack "./packages/$directory" --json --pack-destination "$RUNNER_TEMP" \
-              > "$RUNNER_TEMP/$directory-pack.json"
+            current="$name@$version (qualified package)"
             read -r filename integrity < <(node -e '
-              const p=require(process.argv[1])[0];
+              const identity=require("./artifacts/release-identity.json");
+              const p=identity.packages.find(p => p.name === process.argv[1] && p.version === process.argv[2]);
+              if (!p) throw new Error("Missing qualified package");
               process.stdout.write(`${p.filename} ${p.integrity}\n`);
-            ' "$RUNNER_TEMP/$directory-pack.json")
+            ' "$name" "$version")
             [[ -n "$filename" && -n "$integrity" ]] || exit 1
             current="$name@$version (registry lookup)"
             if published="$(lookup_integrity "$name@$version")"; then
@@ -140,6 +151,7 @@ jobs:
                 echo "Published $name@$version differs from this tag; refusing to continue" >&2
                 exit 1
               }
+              node scripts/release-identity.mjs registry "$name" "$RUNNER_TEMP/npm-version.json"
               completed+=("$name@$version $integrity (already matched)")
               echo "Already published with matching integrity: $name@$version $integrity" | tee -a "$GITHUB_STEP_SUMMARY"
               continue
@@ -149,9 +161,9 @@ jobs:
             fi
             current="$name@$version (npm publish)"
             if [[ "$version" == *-rc.* ]]; then
-              npm publish "$RUNNER_TEMP/$filename" --access public --tag rc --registry=https://registry.npmjs.org/
+              npm publish "artifacts/$filename" --access public --tag rc --registry=https://registry.npmjs.org/
             else
-              npm publish "$RUNNER_TEMP/$filename" --access public --registry=https://registry.npmjs.org/
+              npm publish "artifacts/$filename" --access public --registry=https://registry.npmjs.org/
             fi
             completed+=("$name@$version $integrity (published; registry verification pending)")
             current="$name@$version (registry verification)"
@@ -162,6 +174,7 @@ jobs:
                   echo "Published $name@$version has different integrity; refusing to continue" >&2
                   exit 1
                 }
+                node scripts/release-identity.mjs registry "$name" "$RUNNER_TEMP/npm-version.json"
                 verified=true
                 break
               else

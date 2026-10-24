@@ -23,7 +23,6 @@
   "scripts": {
     "build": "node ../../scripts/local-core-writer.mjs --packages testing --operation build -- tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "pack:candidate": "pnpm pack --pack-destination ../../artifacts",
     "watch": "node ../../scripts/local-core-writer.mjs --packages testing --operation watch -- tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {

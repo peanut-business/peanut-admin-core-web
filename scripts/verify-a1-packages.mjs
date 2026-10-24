@@ -4,7 +4,6 @@ import { execFileSync } from 'node:child_process';
 import {
   appendFileSync,
   mkdtempSync,
-  mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
@@ -87,9 +86,7 @@ const toolingTestCount = Number(toolingCounts.at(-1)?.[1] || 0);
 if (!Number.isInteger(toolingTestCount) || toolingTestCount <= 0) {
   throw new Error('Node tooling discovery selected zero tests');
 }
-rmSync(artifacts, { recursive: true, force: true });
-mkdirSync(artifacts, { recursive: true });
-run('pnpm', ['run', 'pack:candidates']);
+run('node', ['scripts/release-identity.mjs', 'pack']);
 
 const tgzs = readdirSync(artifacts)
   .filter((name) => name.endsWith('.tgz'))
@@ -169,6 +166,8 @@ verifyConsumer(consumer, () => {
   run(join(consumer, 'node_modules', '.bin', 'vite'), ['build'], {
     cwd: consumer,
   });
+  writeFileSync(join(artifacts, 'consumer-package-lock.json'), readFileSync(join(consumer, 'package-lock.json')));
+  run('node', ['scripts/release-identity.mjs', 'qualify']);
   console.log(
     JSON.stringify({
       node: process.versions.node,

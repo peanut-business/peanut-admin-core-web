@@ -2,7 +2,7 @@
 
 该仓承载 A1 的六个可复用 Web 公共包：`@peanut-admin/client`、`@peanut-admin/vue`、`@peanut-admin/ui-vue`、`@peanut-admin/nuxt`、`@peanut-admin/uniapp` 和 `@peanut-admin/testing`。`client` 不依赖 Vue 或浏览器 DOM；产品业务页面、状态、权限键和固定 API 归 Peanut Admin Code 的负责模块维护。
 
-开发使用 pnpm workspace。所有包输出 `dist` JavaScript 和声明文件，并通过明确的根导出消费。仓内 `scripts/verify-a1-packages.mjs` 在 Node 22（至少 22.12）下构建、测试、生成六个本地候选 tgz，再在干净临时目录安装并用 Vite 构建。候选 tgz 只用于本地资格验证，不代表已经发布到 npm。
+开发使用 pnpm workspace。所有包输出 `dist` JavaScript 和声明文件，并通过明确的根导出消费。仓内 `scripts/verify-a1-packages.mjs` 在 Node 22（至少 22.12）下构建、测试，使用统一的 `npm pack` 生产入口生成六个最终 tgz，再在干净临时目录安装这些确切文件并用 Vite 构建。`artifacts/release-identity.json` 封存源码 commit/tree、pnpm 锁、Node/npm/pnpm 版本、六包 SHA-256/SHA-512 和消费者锁摘要；消费者成功后才标为 qualified。已有输出拒绝覆盖。归档生成与本地资格不代表已经发布到 npm。
 
 Client 请求支持可选标准 `AbortSignal`，Nuxt transport 传给 fetch，UniApp transport 连接 `RequestTask.abort()`。预取消不发送请求；在途取消返回 `AbortError`，完成/失败/取消后清理监听，不把取消解码为业务错误或认证失败。Vue async action/list 的 generation 和 scope dispose 继续负责晚到结果与作用域清理；应用按组件/任务传 signal，不能用全局取消中断其他租户或请求。该能力不创建业务事件总线或共享登录态；SSR Client 与业务 runtime 仍按 app/请求创建。
 
@@ -11,5 +11,7 @@ Client 请求支持可选标准 `AbortSignal`，Nuxt transport 传给 fetch，Un
 常规验证：Node 22 与 `packageManager` 固定的 pnpm 下运行 `pnpm install --frozen-lockfile && pnpm test`。测试先构建当前 workspace 的包间导出，再仅发现当前 `packages/*/tests`；不会加载 `.worktrees` 中其他分支。`pnpm test:tooling` 验证打包/诊断工具；真实应用 SSR、浏览器和数据库资格由应用仓另验，不把包级单元测试外推为整站通过。
 
 日常开发使用 `dev`；`main` 只承载已批准的发布版本。该仓在 2026-09-17 从原 Core 单体仓的 `packages/web` 拆出，初始开发提交为 `46c17de0ebac8b3b43ba05c7c765b07df751b82b`。
+
+正式发行先显式运行 CI 的完整资格，通过后将本仓 Actions variable `CORE_QUALIFICATION_RUN_ID` 固定到该成功 run。tag 工作流只下载该 CI run 的 `web-core-qualified` artifact，严格比较当前源码 tree、锁与工具输入，核对最终包字节和消费者锁，直接发布这六个资格包，不另行打包或解析依赖。任一差异必须重新资格，不继承旧结果；commit 可因无内容变化的合并而不同，tree 和全部输入必须相同。已有 npm 版本及新发布版本都必须实际下载 registry tarball 并核 SHA-256，不能只相信 metadata integrity。归档缺失或过期时停止，不自动改用新包。
 
 本仓已准备由注释式 `vX.Y.Z` tag 触发六包发行的工作流源码。正式发布前须逐包确认 npm 可信发布者绑定及直接发布权限，并取得当前版本的发行授权；工作流存在不代表包已上架。npm 的既有发布版本仍是历史事实，不应将本仓的开发分支视为已发布包。
