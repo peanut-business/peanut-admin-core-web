@@ -184,7 +184,8 @@ jobs:
           for round in a b; do
             if [[ "$round" == a ]]; then cd "$source_a"; else cd "$RUNNER_TEMP/identity-source-b"; fi
             pnpm install --frozen-lockfile --ignore-scripts
-            pnpm run build
+            node scripts/release-identity.mjs inputs
+            node scripts/release-identity.mjs build
             CORE_RELEASE_ARTIFACTS="$RUNNER_TEMP/identity-$round" node scripts/release-identity.mjs pack
             git diff --exit-code HEAD --
           done
@@ -198,7 +199,7 @@ jobs:
           files = sorted(p.name for p in a.iterdir())
           assert files == sorted(p.name for p in b.iterdir()) and files
           identity = json.loads((a/'release-identity.json').read_text())
-          assert identity['sourceCommit'] == os.environ['GITHUB_SHA'] and identity.get('qualified') is not True
+          assert identity['schema'] == 2 and identity['sourceCommit'] == os.environ['GITHUB_SHA'] and identity.get('qualified') is not True
           result = []
           for name in files:
               left, right = (a/name).read_bytes(), (b/name).read_bytes()

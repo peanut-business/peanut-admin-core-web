@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "node": {
+    "version": "22.23.2",
+    "url": "https://nodejs.org/dist/v22.23.2/node-v22.23.2-linux-x64.tar.xz",
+    "sha256": "d60acfe00a2932254bb0ad20e01b0d74397a0875595de719654b214f4b03f307",
+    "binarySha256": "3517c2df0b2f8cd7f422b4b8450ef81c6889f08eb03e281d6de9079b15e6a327"
+  },
+  "modules": {
+    "npm": {
+      "name": "npm",
+      "version": "11.5.1",
+      "url": "https://registry.npmjs.org/npm/-/npm-11.5.1.tgz",
+      "sha256": "f4c82fbff74154f73bd5ce5a2b749700d55eaddebda97b16076bf7033040de34",
+      "integrity": "sha512-Iy5vXZ55m8tIaSCz6bqQf9+W5XbPfoyURsgWLjOkFglqHTep6RDZqRj2sfYGeRyZvGu2HuJWm0lux0rxPQ29lQ==",
+      "moduleSha256": "79055f1eff055a8c5ae4f5c85883dbf270cb48ffa82c000ee4589c6f282dc84b",
+      "moduleFiles": 2293
+    },
+    "pnpm": {
+      "name": "pnpm",
+      "version": "10.15.0",
+      "url": "https://registry.npmjs.org/pnpm/-/pnpm-10.15.0.tgz",
+      "sha256": "84c19e788d7d7ee248e4a6b7152f8ebba0f4fe7380a5f443ca17d76c030052d2",
+      "integrity": "sha512-SG68JZ0+mZpOhpHOA7XKxKccvso5Nyqbdiy1AM/fCHPiyxar49lRse4s8BJQPwJ7mLZYTk3yJSTgx0UNnseqew==",
+      "moduleSha256": "6e2427961decc8f71a8e41f657f48a0f6b040ad988b6b68672950b5654cdebdf",
+      "moduleFiles": 1098
+    },
+    "typescript": {
+      "name": "typescript",
+      "version": "5.9.3",
+      "url": "https://registry.npmjs.org/typescript/-/typescript-5.9.3.tgz",
+      "sha256": "10e108c9cf7d5f2879053dff18515fb405abf2ccef63eaaf017d9c571687a1d3",
+      "moduleSha256": "d1b32e75475710fdc85102b1365254d84ceb192d3639d962c53fe1355ce274ca",
+      "moduleFiles": 132,
+      "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="
+    }
+  },
+  "buildArgs": [
+    "run",
+    "build"
+  ],
+  "packArgs": [
+    "pack",
+    "<package>",
+    "--json",
+    "--pack-destination",
+    "<output>"
+  ],
+  "environment": {
+    "NODE_OPTIONS": "",
+    "NODE_PATH": "",
+    "TZ": "UTC",
+    "LC_ALL": "C.UTF-8",
+    "LANG": "C.UTF-8"
+  },
+  "npmConfig": "no npm_config_* inheritance; explicit empty user/global config"
+}

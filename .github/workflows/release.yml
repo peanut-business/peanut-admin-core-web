@@ -195,6 +195,14 @@ jobs:
             completed[$((${#completed[@]} - 1))]="$name@$version $integrity (published and verified)"
             echo "Published and verified: $name@$version $integrity" | tee -a "$GITHUB_STEP_SUMMARY"
           done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-core-release-verification
+          path: |
+            artifacts/release-identity.json
+            artifacts/build-inputs.json
+            artifacts/verification-inputs.json
+          if-no-files-found: error
       - name: Publish GitHub Release after registry verification
         shell: bash
         env:
