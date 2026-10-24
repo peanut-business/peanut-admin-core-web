@@ -32,6 +32,7 @@ if (mode === 'pack') {
   writeFileSync(manifestPath, JSON.stringify({ schema: 1, sourceCommit: run('git', ['rev-parse', 'HEAD']), inputs: inputIdentity, packages }, null, 2) + '\n');
 } else if (mode === 'verify' || mode === 'qualify') {
   const identity = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  if (process.env.CORE_QUALIFICATION_COMMIT && identity.sourceCommit !== process.env.CORE_QUALIFICATION_COMMIT) throw new Error('Artifact source does not match the selected qualification run');
   if (identity.schema !== 1 || JSON.stringify(identity.inputs) !== JSON.stringify(inputs())) throw new Error('Qualification source tree, lock or tool inputs differ');
   if (identity.packages?.length !== names.length || new Set(identity.packages.map((p) => p.name)).size !== names.length) throw new Error('Expected six unique qualified packages');
   for (const p of identity.packages) {

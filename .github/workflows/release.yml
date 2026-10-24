@@ -77,6 +77,7 @@ jobs:
       - name: Use npm with trusted publishing support
         run: npm install --global npm@11.5.1
       - name: Require a fixed successful qualification run
+        id: qualification
         env:
           GH_TOKEN: ${{ github.token }}
           QUALIFICATION_RUN: ${{ vars.CORE_QUALIFICATION_RUN_ID }}
@@ -85,13 +86,17 @@ jobs:
           [[ "$QUALIFICATION_RUN" =~ ^[1-9][0-9]*$ ]] || { echo 'Set CORE_QUALIFICATION_RUN_ID to the approved CI run' >&2; exit 1; }
           gh api "repos/$GITHUB_REPOSITORY/actions/runs/$QUALIFICATION_RUN" > "$RUNNER_TEMP/qualification-run.json"
           jq -e --arg repo "$GITHUB_REPOSITORY" '.conclusion == "success" and .path == ".github/workflows/ci.yml" and .head_repository.full_name == $repo' "$RUNNER_TEMP/qualification-run.json"
+          echo "run_id=$QUALIFICATION_RUN" >> "$GITHUB_OUTPUT"
+          echo "source_commit=$(jq -r .head_sha "$RUNNER_TEMP/qualification-run.json")" >> "$GITHUB_OUTPUT"
       - uses: actions/download-artifact@v4
         with:
           name: web-core-qualified
           path: artifacts
           github-token: ${{ github.token }}
-          run-id: ${{ vars.CORE_QUALIFICATION_RUN_ID }}
+          run-id: ${{ steps.qualification.outputs.run_id }}
       - name: Verify the exact qualified packages and inputs
+        env:
+          CORE_QUALIFICATION_COMMIT: ${{ steps.qualification.outputs.source_commit }}
         run: node scripts/release-identity.mjs verify
       - name: Publish six packages in dependency order
         shell: bash
