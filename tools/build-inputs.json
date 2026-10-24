@@ -54,5 +54,5 @@
     "LC_ALL": "C.UTF-8",
     "LANG": "C.UTF-8"
   },
-  "npmConfig": "no npm_config_* inheritance; explicit empty user/global config"
+  "npmConfig": "no npm_config_* inheritance; distinct user/global config files, each zero bytes, regular and single-linked"
 }

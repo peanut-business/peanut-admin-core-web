@@ -22,11 +22,21 @@ const packageRoot = (name) => {
   }
   throw new Error(`Cannot identify the actual ${name} distribution`);
 };
-const producerEnv = () => {
+export const producerEnv = () => {
   const env = { ...process.env, ...policy.environment };
   for (const key of Object.keys(env)) if (/^npm_config_/i.test(key)) delete env[key];
-  env.NPM_CONFIG_USERCONFIG = '/dev/null';
-  env.NPM_CONFIG_GLOBALCONFIG = '/dev/null';
+  const folder = join(root, '.local', 'release-npm-config');
+  for (const directory of [join(root, '.local'), folder]) {
+    try { mkdirSync(directory); } catch (error) { if (error.code !== 'EEXIST') throw error; }
+    if (!lstatSync(directory).isDirectory() || lstatSync(directory).isSymbolicLink()) throw new Error('Unsafe npm config directory');
+  }
+  for (const role of ['USER', 'GLOBAL']) {
+    const file = join(folder, `${role.toLowerCase()}.npmrc`);
+    try { writeFileSync(file, '', { flag: 'wx', mode: 0o600 }); } catch (error) { if (error.code !== 'EEXIST') throw error; }
+    const stat = lstatSync(file);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1 || readFileSync(file).length !== 0) throw new Error(`Unsafe or nonempty ${role} npm config`);
+    env[`NPM_CONFIG_${role}CONFIG`] = file;
+  }
   env.PATH = [dirname(run('which', ['pnpm'])), dirname(run('which', ['npm'])), dirname(process.execPath), process.env.PATH].join(':');
   if (realpathSync(execFileSync('which', ['node'], { env, encoding: 'utf8' }).trim()) !== realpathSync(process.execPath)) throw new Error('Child Node lookup differs from the recorded executable');
   return env;
@@ -116,7 +126,8 @@ const recordVerifier = (identity) => {
   } else writeFileSync(target, JSON.stringify(record, null, 2) + '\n', { flag: 'wx' });
 };
 const manifestPath = join(dir, 'release-identity.json');
-const mode = process.argv[2];
+const invoked = process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+const mode = invoked ? process.argv[2] : undefined;
 if (mode === 'inputs') {
   if (existsSync(sealPath)) verifyCurrentInputs();
   else {
@@ -184,4 +195,4 @@ if (mode === 'inputs') {
   const bytes = Buffer.from(await response.arrayBuffer());
   if (hash(bytes) !== pkg.sha256) throw new Error('Actual registry tarball bytes differ from qualification');
   console.log(`${pkg.name}@${pkg.version}: registry bytes matched ${pkg.sha256}`);
-} else throw new Error('Usage: release-identity.mjs inputs|build|pack|qualify|verify|registry [name metadata.json]');
+} else if (invoked) throw new Error('Usage: release-identity.mjs inputs|build|pack|qualify|verify|registry [name metadata.json]');

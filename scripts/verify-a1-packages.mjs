@@ -13,17 +13,13 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { verifyConsumer } from './consumer-verification.mjs';
+import { producerEnv } from './release-identity.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const artifacts = join(root, 'artifacts');
 const packages = ['client', 'vue', 'ui-vue', 'nuxt', 'uniapp', 'testing'];
 
 const version = process.versions.node.split('.').map(Number);
-const producerPolicy = JSON.parse(readFileSync(join(root, 'tools/build-inputs.json')));
-const commandEnvironment = { ...process.env, ...producerPolicy.environment };
-for (const key of Object.keys(commandEnvironment)) if (/^npm_config_/i.test(key)) delete commandEnvironment[key];
-commandEnvironment.NPM_CONFIG_USERCONFIG = '/dev/null';
-commandEnvironment.NPM_CONFIG_GLOBALCONFIG = '/dev/null';
 if (version[0] !== 22 || version[1] < 12) {
   throw new Error(
     `Node 22.12 or newer within major 22 is required; found ${process.versions.node}`
@@ -34,7 +30,7 @@ const run = (command, args, options = {}) =>
   execFileSync(command, args, {
     cwd: root,
     stdio: 'inherit',
-    env: commandEnvironment,
+    env: producerEnv(),
     ...options,
   });
 
@@ -42,7 +38,7 @@ const output = (command, args, options = {}) =>
   execFileSync(command, args, {
     cwd: root,
     encoding: 'utf8',
-    env: commandEnvironment,
+    env: producerEnv(),
     ...options,
   });
 
