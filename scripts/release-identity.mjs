@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, realpathSync, lstatSync, existsSync, readlinkSync } from 'node:fs';
 import { resolve, join, dirname, relative, basename, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { acquireCoreWriters } from './local-core-writer.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dir = resolve(process.env.CORE_RELEASE_ARTIFACTS || join(root, 'artifacts'));
@@ -125,7 +126,12 @@ if (mode === 'inputs') {
   console.log('Web build inputs: actual source, binary and distribution content sealed/verified');
 } else if (mode === 'build') {
   verifyCurrentInputs();
-  execFileSync(process.execPath, [join(packageRoot('pnpm'), 'bin/pnpm.cjs'), ...policy.buildArgs], { cwd: root, env: producerEnv(), stdio: 'inherit' });
+  const writers = acquireCoreWriters(root, names, { repository: root, operation: 'build' });
+  try {
+    for (const name of names) {
+      execFileSync(process.execPath, policy.buildArgs.map(arg => arg === '<typescript>/bin/tsc' ? join(packageRoot('typescript'), 'bin/tsc') : arg), { cwd: join(root, 'packages', name), env: producerEnv(), stdio: 'inherit' });
+    }
+  } finally { writers.release(); }
   verifyCurrentInputs();
 } else if (mode === 'pack') {
   mkdirSync(dir, { recursive: true });

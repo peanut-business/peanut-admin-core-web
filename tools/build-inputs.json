@@ -36,8 +36,9 @@
     }
   },
   "buildArgs": [
-    "run",
-    "build"
+    "<typescript>/bin/tsc",
+    "-p",
+    "tsconfig.json"
   ],
   "packArgs": [
     "pack",

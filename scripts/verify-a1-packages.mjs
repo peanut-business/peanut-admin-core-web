@@ -86,7 +86,7 @@ try {
 } finally {
   rmSync(testInventory, { force: true });
 }
-run('pnpm', ['run', 'test']);
+run('pnpm', ['exec', 'vitest', 'run']);
 const toolingOutput = output('pnpm', ['run', 'test:tooling']);
 process.stdout.write(toolingOutput);
 const toolingCounts = [...toolingOutput.matchAll(/^# tests ([0-9]+)$/gm)];
