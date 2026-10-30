@@ -1,5 +1,9 @@
 # Peanut Admin Core Web
 
+请求 data 类型可通过 `createClient<TRequestData>`、`createNuxtClientTransport<TRequestData>` 和 `createUniAppClientTransport<TRequestData>` 保持到 I/O 回调，默认仍为 `unknown`。Nuxt 回调的 method 为 Client 的七种大写方法；UniApp 的跨端原生方法集为 GET、HEAD、POST、PUT、DELETE、OPTIONS，PATCH 在 adapter 入口拒绝，不转成 POST 或新增备用请求路径。未知响应由 decoder 首次校验，Core 将错误 code/message 规范一次后交给应用错误 hook。
+
+Vue 的 auth/context stores、`useAccess` 和导航 registry 是包根导出的公共能力；context stores 供 `useAccess` 读取当前 audience 的权限，导航 registry 在可信路由和服务端菜单之间按 name 解析并承担模块切换清理。它们不自动接管宿主已有业务登录和菜单实现。UI 的 `defineShellHostConfig` 只接收展示配置，保留未知字段拒绝与展示值规范；身份、令牌、权限及业务配置不进入 shell 配置。UniApp H5 的配置失败停站由应用入口处理，不能替换成自动回退站点。
+
 CI 默认 `mode=qualification` 保留完整资格。显式 `mode=identity` 须填写精确 `expected_source_commit`，仅在两个独立源码检出中按同一 pnpm 锁安装、构建，并由原生 `release-identity.mjs pack` 各生成六包；逐字节比较产物和输入清单，保存 `web-core-identity-*` artifact。该模式不运行测试或消费者资格、不标记 qualified、不发布；其 artifact 不能用于 tag 发行。CI 不取消已有运行。
 
 该仓承载 A1 的六个可复用 Web 公共包：`@peanut-admin/client`、`@peanut-admin/vue`、`@peanut-admin/ui-vue`、`@peanut-admin/nuxt`、`@peanut-admin/uniapp` 和 `@peanut-admin/testing`。`client` 不依赖 Vue 或浏览器 DOM；产品业务页面、状态、权限键和固定 API 归 Peanut Admin Code 的负责模块维护。
