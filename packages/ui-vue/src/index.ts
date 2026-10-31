@@ -31,8 +31,16 @@ export {
 } from './states.js';
 export { TargetScopeSummary, TargetSelector } from './targets.js';
 export type { TargetScopeMode } from './targets.js';
-export { SHELL_THEME_TOKENS } from './theme.js';
-export type { ShellSlotName, ShellThemeToken } from './theme.js';
+export { createShellTheme, SHELL_THEME_TOKENS } from './theme.js';
+export type {
+  ShellDensity,
+  ShellLayout,
+  ShellNavigationMode,
+  ShellSlotName,
+  ShellThemeInput,
+  ShellThemeMode,
+  ShellThemeToken,
+} from './theme.js';
 export {
   allowsInstanceTools,
   deploymentMode,

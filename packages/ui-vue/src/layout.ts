@@ -1,10 +1,16 @@
 /* eslint-disable vue/one-component-per-file */
 
 import { ElButton, ElDrawer } from 'element-plus';
-import { defineComponent, h, onBeforeUnmount, onMounted } from 'vue';
+import { computed, defineComponent, h, onBeforeUnmount, onMounted } from 'vue';
 import type { Component, PropType, VNodeChild } from 'vue';
 
 import type { ShellHostConfig } from './config.js';
+import { createShellTheme } from './theme.js';
+import type {
+  ShellLayout,
+  ShellNavigationMode,
+  ShellThemeInput,
+} from './theme.js';
 
 export interface ShellIdentity {
   accountLabel: string;
@@ -17,6 +23,10 @@ export interface ShellNavigationItem {
   label: string;
   path: string | null;
   children: readonly ShellNavigationItem[];
+  icon?: string | Component;
+  activeMenu?: string;
+  external?: boolean;
+  target?: '_self' | '_blank';
 }
 
 export interface ShellBreadcrumbItem {
@@ -36,6 +46,13 @@ const shellProps = {
     default: () => [],
   },
   activePath: { type: String, default: '' },
+  activeMenu: { type: String, default: '' },
+  theme: { type: Object as PropType<ShellThemeInput>, default: () => ({}) },
+  layout: { type: String as PropType<ShellLayout>, default: 'admin' },
+  navigationMode: {
+    type: String as PropType<ShellNavigationMode>,
+    default: 'tree',
+  },
   collapsed: { type: Boolean, default: false },
   mobileOpen: { type: Boolean, default: false },
   openNavigationLabel: { type: String, default: 'Open navigation' },
@@ -73,6 +90,16 @@ const trustedLocalPath = (path: string | null): path is string => {
   }
 };
 
+const trustedExternalPath = (path: string | null): path is string => {
+  if (path === null || !/^https?:\/\//i.test(path)) return false;
+  try {
+    const url = new URL(path);
+    return url.protocol === 'https:' || url.protocol === 'http:';
+  } catch {
+    return false;
+  }
+};
+
 const ShellFrame = defineComponent({
   name: 'ShellFrame',
   inheritAttrs: false,
@@ -89,6 +116,12 @@ const ShellFrame = defineComponent({
         {
           ...attrs,
           'class': ['pa-shell', `pa-shell--${props.audience}`, attrs.class],
+          'style': [{
+            color: 'var(--pa-shell-text-color)',
+            fontFamily: 'var(--pa-shell-font-family)',
+            fontSize: 'var(--pa-shell-font-size)',
+            lineHeight: 'var(--pa-shell-line-height)',
+          }, attrs.style],
           'data-audience': props.audience,
         },
         [
@@ -118,6 +151,7 @@ const WorkspaceShell = defineComponent({
   },
   emits: shellEmits,
   setup(props, { attrs, emit, slots }) {
+    const themeStyle = computed(() => createShellTheme(props.theme));
     const closeMobile = () => emit('update:mobileOpen', false);
     const onKeydown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && props.mobileOpen) closeMobile();
@@ -130,8 +164,25 @@ const WorkspaceShell = defineComponent({
       mobile: boolean
     ): VNodeChild[] =>
       items.flatMap((item) => {
-        const children = renderNavigation(item.children, mobile);
-        if (!trustedLocalPath(item.path)) {
+        const nested = renderNavigation(item.children, mobile);
+        const children =
+          props.navigationMode === 'tree' && nested.length > 0
+            ? [h('div', { class: 'pa-shell-navigation__children' }, nested)]
+            : nested;
+        const external = item.external === true;
+        const canNavigate = external
+          ? trustedExternalPath(item.path)
+          : trustedLocalPath(item.path);
+        const icon = slots['navigation-icon']?.({ item }) ??
+          (typeof item.icon === 'string'
+            ? h('i', { class: item.icon, 'aria-hidden': 'true' })
+            : item.icon === undefined ? null : h(item.icon));
+        const iconContent = icon === null ? null : h(
+          'span',
+          { class: 'pa-shell-navigation__icon', 'aria-hidden': 'true' },
+          [icon]
+        );
+        if (!canNavigate) {
           return [
             h(
               'p',
@@ -139,26 +190,36 @@ const WorkspaceShell = defineComponent({
                 class: ['pa-shell-navigation__group', 'navigation-group'],
                 key: item.key,
               },
-              item.label
+              [iconContent, h('span', item.label)]
             ),
             ...children,
           ];
         }
+        const active = !external && (
+          props.activeMenu !== ''
+            ? props.activeMenu === (item.activeMenu ?? item.key)
+            : props.activePath === item.path
+        );
         return [
           h(
             'a',
             {
               'key': item.key,
               'href': item.path,
+              'target': external ? item.target ?? '_blank' : undefined,
+              'rel': external ? 'noopener noreferrer' : undefined,
               'class': [
                 'pa-shell-navigation__link',
                 'navigation-link',
-                { 'is-active': props.activePath === item.path },
+                { 'is-active': active },
               ],
-              'aria-current':
-                props.activePath === item.path ? 'page' : undefined,
+              'aria-current': active ? 'page' : undefined,
               'aria-label': item.label,
               'onClick': (event: MouseEvent) => {
+                if (
+                  external || event.button !== 0 || event.ctrlKey ||
+                  event.metaKey || event.shiftKey || event.altKey
+                ) return;
                 event.preventDefault();
                 emit('navigate', item.path as string);
                 if (mobile) closeMobile();
@@ -169,6 +230,7 @@ const WorkspaceShell = defineComponent({
                 'class': 'navigation-marker',
                 'aria-hidden': 'true',
               }),
+              iconContent,
               h('span', item.label),
             ]
           ),
@@ -177,8 +239,20 @@ const WorkspaceShell = defineComponent({
       });
 
     return () => {
+      const frameAttrs = {
+        ...attrs,
+        audience: props.audience,
+        class: [
+          attrs.class,
+          `pa-shell--layout-${props.layout}`,
+          `pa-shell--navigation-${props.navigationMode}`,
+        ],
+        style: [themeStyle.value, attrs.style],
+        'data-theme': props.theme.mode ?? 'light',
+        'data-density': props.theme.density ?? 'comfortable',
+      };
       if (props.config === null) {
-        return h(ShellFrame, { ...attrs, audience: props.audience }, slots);
+        return h(ShellFrame, frameAttrs, slots);
       }
 
       const audienceLabel = props.config.audiences[props.audience].label;
@@ -243,9 +317,9 @@ const WorkspaceShell = defineComponent({
 
       return h(
         ShellFrame,
-        { ...attrs, audience: props.audience },
+        frameAttrs,
         {
-          header: () =>
+          header: slots.header ?? (() =>
             h(ShellHeader, {}, () => [
               h(
                 'button',
@@ -276,7 +350,7 @@ const WorkspaceShell = defineComponent({
                   h('small', audienceLabel),
                 ]),
               ]),
-              identity === null
+              slots['header-context']?.({ identity }) ?? (identity === null
                 ? null
                 : h(
                     'div',
@@ -289,16 +363,17 @@ const WorkspaceShell = defineComponent({
                       h('strong', identity.actorLabel),
                       h('small', identity.accountLabel),
                     ]
-                  ),
+                  )),
               h(
                 'div',
                 { class: ['pa-shell-commands', 'shell-commands'] },
-                commands
+                [slots['header-actions']?.({ identity }), ...commands]
               ),
-            ]),
-          sidebar: () =>
+            ])),
+          sidebar: slots.sidebar ?? (() =>
             h(ShellSidebar, { collapsed: props.collapsed }, () => [
               navigation,
+              slots['sidebar-footer']?.({ identity }),
               h(
                 'button',
                 {
@@ -313,8 +388,8 @@ const WorkspaceShell = defineComponent({
                   ? props.expandNavigationLabel
                   : props.collapseNavigationLabel
               ),
-            ]),
-          breadcrumb: () =>
+            ])),
+          breadcrumb: slots.breadcrumb ?? (() =>
             h(ShellBreadcrumb, { label: props.breadcrumbLabel }, () =>
               props.breadcrumbs.map((item, index) =>
                 trustedLocalPath(item.path)
@@ -339,8 +414,10 @@ const WorkspaceShell = defineComponent({
                       item.label
                     )
               )
-            ),
+            )),
+          tabs: slots.tabs,
           default: () => [
+            slots['page-tools']?.({ identity }),
             slots.default?.(),
             h(
               ElDrawer as unknown as Component,
@@ -352,6 +429,7 @@ const WorkspaceShell = defineComponent({
                 'direction': 'ltr',
                 'size': 'min(84vw, 320px)',
                 'class': 'mobile-navigation-drawer',
+                'style': themeStyle.value,
                 'closeOnPressEscape': true,
               },
               () => mobileNavigation

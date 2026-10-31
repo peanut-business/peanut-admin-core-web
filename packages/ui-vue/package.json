@@ -17,6 +17,34 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme.d.ts",
+      "import": "./dist/theme.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js"
+    },
+    "./layout": {
+      "types": "./dist/layout.d.ts",
+      "import": "./dist/layout.js"
+    },
+    "./overrides": {
+      "types": "./dist/overrides.d.ts",
+      "import": "./dist/overrides.js"
+    },
+    "./states": {
+      "types": "./dist/states.d.ts",
+      "import": "./dist/states.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./targets": {
+      "types": "./dist/targets.d.ts",
+      "import": "./dist/targets.js"
     }
   },
   "types": "./dist/index.d.ts",

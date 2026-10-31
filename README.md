@@ -4,6 +4,8 @@
 
 Vue 的 auth/context stores、`useAccess` 和导航 registry 是包根导出的公共能力；context stores 供 `useAccess` 读取当前 audience 的权限，导航 registry 在可信路由和服务端菜单之间按 name 解析并承担模块切换清理。它们不自动接管宿主已有业务登录和菜单实现。UI 的 `defineShellHostConfig` 只接收展示配置，保留未知字段拒绝与展示值规范；身份、令牌、权限及业务配置不进入 shell 配置。UniApp H5 的配置失败停站由应用入口处理，不能替换成自动回退站点。
 
+UI 的按需入口、主题与 Element Plus 语义映射、布局/导航展示合同、完整与模块贡献 slots，以及同一 registry 的默认 → 预设 → 应用覆盖组合见 [ui-vue README](packages/ui-vue/README.md)。主题只作用于宿主拥有的元素；业务请求、权限过滤和路由继续由应用负责。
+
 CI 默认 `mode=qualification` 保留完整资格。显式 `mode=identity` 须填写精确 `expected_source_commit`，仅在两个独立源码检出中按同一 pnpm 锁安装、构建，并由原生 `release-identity.mjs pack` 各生成六包；逐字节比较产物和输入清单，保存 `web-core-identity-*` artifact。该模式不运行测试或消费者资格、不标记 qualified、不发布；其 artifact 不能用于 tag 发行。CI 不取消已有运行。
 
 该仓承载 A1 的六个可复用 Web 公共包：`@peanut-admin/client`、`@peanut-admin/vue`、`@peanut-admin/ui-vue`、`@peanut-admin/nuxt`、`@peanut-admin/uniapp` 和 `@peanut-admin/testing`。`client` 不依赖 Vue 或浏览器 DOM；产品业务页面、状态、权限键和固定 API 归 Peanut Admin Code 的负责模块维护。
