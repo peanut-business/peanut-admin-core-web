@@ -193,3 +193,7 @@ use the same key/kind/version/value validation. Unknown keys throw
 `ADMIN_OVERRIDE_SLOT_UNKNOWN`. A resolver returning a non-component throws
 `ADMIN_SHELL_OVERRIDE_RESULT_INVALID`. These failures remain observable; do not
 catch them and silently choose a default shell.
+
+`resolveWorkspaceShell` requires only a typed `get` for the workspace shell key.
+The same registry can also contain permission evaluators or other registered
+services; do not split it into a second shell registry to satisfy the type.
