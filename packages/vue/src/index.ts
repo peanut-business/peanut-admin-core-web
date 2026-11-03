@@ -63,9 +63,9 @@ export {
   defineAdminModule,
 } from './module/contribution.js';
 export {
-  collectPluginContributions,
+  collectModuleContributions,
   routesForTenantModules,
-} from './module/plugin-contribution-policy.js';
+} from './module/module-contribution-policy.js';
 export { enabledTenantModulesFromRoutes } from './module/tenant-modules.js';
 export type {
   AdminModuleContribution,
@@ -79,8 +79,8 @@ export type {
 } from './module/contribution.js';
 export type {
   ModuleFrontendContribution,
-  PluginFrontendRoute,
-} from './module/plugin-contribution-policy.js';
+  ModuleFrontendRoute,
+} from './module/module-contribution-policy.js';
 export type { TenantModuleRoute } from './module/tenant-modules.js';
 export { defineAdminHostConfig } from './runtime/config.js';
 export type {

@@ -5,7 +5,7 @@ import { evaluateRequiredPermissions } from '../access/permission-policy.js';
  * Minimal router contract shared by host applications without coupling to a
  * particular Vue Router major version.
  */
-export interface PluginFrontendRoute {
+export interface ModuleFrontendRoute {
   path: string;
   name?: unknown;
   component?: unknown;
@@ -13,17 +13,17 @@ export interface PluginFrontendRoute {
     requiredPermissions?: string | string[];
     [key: string]: unknown;
   };
-  children?: PluginFrontendRoute[];
+  children?: ModuleFrontendRoute[];
 }
 
 export interface ModuleFrontendContribution<
-  T extends PluginFrontendRoute = PluginFrontendRoute
+  T extends ModuleFrontendRoute = ModuleFrontendRoute
 > {
   moduleKey: string;
   routes: T[];
 }
 
-export const collectPluginContributions = (
+export const collectModuleContributions = (
   modules: Record<string, { default?: ModuleFrontendContribution }>
 ): ModuleFrontendContribution[] =>
   Object.keys(modules)
@@ -40,7 +40,7 @@ export const collectPluginContributions = (
  * Requires an enabled module plus at least one granted route permission.
  * Routes with no permission declaration remain hidden.
  */
-export const routesForTenantModules = <T extends PluginFrontendRoute>(
+export const routesForTenantModules = <T extends ModuleFrontendRoute>(
   contributions: ModuleFrontendContribution<T>[],
   enabledModules: readonly string[],
   grantedPermissions: readonly string[],
