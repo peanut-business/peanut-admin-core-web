@@ -78,7 +78,7 @@ export type {
   MenuRouteRegistry,
 } from './module/contribution.js';
 export type {
-  PluginFrontendContribution,
+  ModuleFrontendContribution,
   PluginFrontendRoute,
 } from './module/plugin-contribution-policy.js';
 export type { TenantModuleRoute } from './module/tenant-modules.js';

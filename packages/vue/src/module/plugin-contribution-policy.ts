@@ -16,7 +16,7 @@ export interface PluginFrontendRoute {
   children?: PluginFrontendRoute[];
 }
 
-export interface PluginFrontendContribution<
+export interface ModuleFrontendContribution<
   T extends PluginFrontendRoute = PluginFrontendRoute
 > {
   moduleKey: string;
@@ -24,13 +24,13 @@ export interface PluginFrontendContribution<
 }
 
 export const collectPluginContributions = (
-  modules: Record<string, { default?: PluginFrontendContribution }>
-): PluginFrontendContribution[] =>
+  modules: Record<string, { default?: ModuleFrontendContribution }>
+): ModuleFrontendContribution[] =>
   Object.keys(modules)
     .sort()
     .map((path) => modules[path]?.default)
     .filter(
-      (contribution): contribution is PluginFrontendContribution =>
+      (contribution): contribution is ModuleFrontendContribution =>
         typeof contribution?.moduleKey === 'string' &&
         contribution.moduleKey.length > 0 &&
         Array.isArray(contribution.routes)
@@ -41,7 +41,7 @@ export const collectPluginContributions = (
  * Routes with no permission declaration remain hidden.
  */
 export const routesForTenantModules = <T extends PluginFrontendRoute>(
-  contributions: PluginFrontendContribution<T>[],
+  contributions: ModuleFrontendContribution<T>[],
   enabledModules: readonly string[],
   grantedPermissions: readonly string[],
   evaluator: PermissionEvaluator
