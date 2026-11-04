@@ -1,6 +1,6 @@
 export type AdminOverrideKind = 'service' | 'component' | 'page' | 'route';
 
-export type AdminOverrideSource = 'default' | 'application';
+export type AdminOverrideSource = 'default' | 'preset' | 'application';
 
 export interface AdminOverrideSlot<Value = unknown> {
   readonly key: string;
@@ -34,6 +34,7 @@ export interface AdminOverrideRegistryInput<
   Slots extends readonly AdminOverrideSlot[] = readonly AdminOverrideSlot[]
 > {
   readonly slots: Slots;
+  readonly presets?: readonly AdminOverride[];
   readonly overrides?: readonly AdminOverride[];
 }
 
@@ -152,6 +153,9 @@ export const createAdminOverrideRegistry = <
   if (input.overrides !== undefined && !Array.isArray(input.overrides)) {
     fail('ADMIN_OVERRIDE_OVERRIDES_INVALID');
   }
+  if (input.presets !== undefined && !Array.isArray(input.presets)) {
+    fail('ADMIN_OVERRIDE_PRESETS_INVALID');
+  }
 
   const slots = new Map<string, AdminOverrideSlot>();
   for (const rawSlot of input.slots) {
@@ -207,44 +211,51 @@ export const createAdminOverrideRegistry = <
     );
   }
 
-  const seenOverrides = new Set<string>();
-  for (const rawOverride of input.overrides ?? []) {
-    if (!isRecord(rawOverride) || typeof rawOverride.key !== 'string') {
-      fail('ADMIN_OVERRIDE_OVERRIDE_KEY_INVALID');
-    }
-    const key = rawOverride.key;
-    if (seenOverrides.has(key)) fail('ADMIN_OVERRIDE_KEY_DUPLICATE', key);
-    seenOverrides.add(key);
+  const applyOverrides = (
+    overrides: readonly AdminOverride[],
+    source: 'preset' | 'application'
+  ): void => {
+    const seenOverrides = new Set<string>();
+    for (const rawOverride of overrides) {
+      if (!isRecord(rawOverride) || typeof rawOverride.key !== 'string') {
+        fail('ADMIN_OVERRIDE_OVERRIDE_KEY_INVALID');
+      }
+      const key = rawOverride.key;
+      if (seenOverrides.has(key)) fail('ADMIN_OVERRIDE_KEY_DUPLICATE', key);
+      seenOverrides.add(key);
 
-    const slot = slots.get(key) ?? fail('ADMIN_OVERRIDE_KEY_UNKNOWN', key);
-    if (rawOverride.kind !== slot.kind) {
-      fail('ADMIN_OVERRIDE_KIND_MISMATCH', key);
-    }
-    if (rawOverride.contractVersion !== slot.contractVersion) {
-      fail('ADMIN_OVERRIDE_CONTRACT_VERSION_MISMATCH', key);
-    }
-    if (!hasOwn(rawOverride, 'value'))
-      fail('ADMIN_OVERRIDE_VALUE_INVALID', key);
+      const slot = slots.get(key) ?? fail('ADMIN_OVERRIDE_KEY_UNKNOWN', key);
+      if (rawOverride.kind !== slot.kind) {
+        fail('ADMIN_OVERRIDE_KIND_MISMATCH', key);
+      }
+      if (rawOverride.contractVersion !== slot.contractVersion) {
+        fail('ADMIN_OVERRIDE_CONTRACT_VERSION_MISMATCH', key);
+      }
+      if (!hasOwn(rawOverride, 'value'))
+        fail('ADMIN_OVERRIDE_VALUE_INVALID', key);
 
-    const value = rawOverride.value;
-    if (
-      slot.validate !== undefined &&
-      !validatorAccepts(slot.validate, value)
-    ) {
-      fail('ADMIN_OVERRIDE_VALUE_INVALID', key);
-    }
+      const value = rawOverride.value;
+      if (
+        slot.validate !== undefined &&
+        !validatorAccepts(slot.validate, value)
+      ) {
+        fail('ADMIN_OVERRIDE_VALUE_INVALID', key);
+      }
 
-    values.set(
-      key,
-      freezeResolution({
+      values.set(
         key,
-        kind: slot.kind,
-        contractVersion: slot.contractVersion,
-        value,
-        source: 'application',
-      })
-    );
-  }
+        freezeResolution({
+          key,
+          kind: slot.kind,
+          contractVersion: slot.contractVersion,
+          value,
+          source,
+        })
+      );
+    }
+  };
+  applyOverrides(input.presets ?? [], 'preset');
+  applyOverrides(input.overrides ?? [], 'application');
 
   const metadata = [...values.values()].map(
     ({ key, kind, contractVersion, source }) =>

@@ -4,7 +4,6 @@ import { execFileSync } from 'node:child_process';
 import {
   appendFileSync,
   mkdtempSync,
-  mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
@@ -14,6 +13,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { verifyConsumer } from './consumer-verification.mjs';
+import { producerEnv } from './release-identity.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const artifacts = join(root, 'artifacts');
@@ -30,6 +30,7 @@ const run = (command, args, options = {}) =>
   execFileSync(command, args, {
     cwd: root,
     stdio: 'inherit',
+    env: producerEnv(),
     ...options,
   });
 
@@ -37,6 +38,7 @@ const output = (command, args, options = {}) =>
   execFileSync(command, args, {
     cwd: root,
     encoding: 'utf8',
+    env: producerEnv(),
     ...options,
   });
 
@@ -63,7 +65,8 @@ for (const name of packages) {
   }
 }
 
-run('pnpm', ['run', 'build']);
+run('node', ['scripts/release-identity.mjs', 'inputs']);
+run('node', ['scripts/release-identity.mjs', 'build']);
 const testInventory = join(
   tmpdir(),
   `peanut-web-core-tests-${process.pid}.json`
@@ -79,7 +82,7 @@ try {
 } finally {
   rmSync(testInventory, { force: true });
 }
-run('pnpm', ['run', 'test']);
+run('pnpm', ['exec', 'vitest', 'run']);
 const toolingOutput = output('pnpm', ['run', 'test:tooling']);
 process.stdout.write(toolingOutput);
 const toolingCounts = [...toolingOutput.matchAll(/^# tests ([0-9]+)$/gm)];
@@ -87,9 +90,7 @@ const toolingTestCount = Number(toolingCounts.at(-1)?.[1] || 0);
 if (!Number.isInteger(toolingTestCount) || toolingTestCount <= 0) {
   throw new Error('Node tooling discovery selected zero tests');
 }
-rmSync(artifacts, { recursive: true, force: true });
-mkdirSync(artifacts, { recursive: true });
-run('pnpm', ['run', 'pack:candidates']);
+run('node', ['scripts/release-identity.mjs', 'pack']);
 
 const tgzs = readdirSync(artifacts)
   .filter((name) => name.endsWith('.tgz'))
@@ -169,6 +170,8 @@ verifyConsumer(consumer, () => {
   run(join(consumer, 'node_modules', '.bin', 'vite'), ['build'], {
     cwd: consumer,
   });
+  writeFileSync(join(artifacts, 'consumer-package-lock.json'), readFileSync(join(consumer, 'package-lock.json')));
+  run('node', ['scripts/release-identity.mjs', 'qualify']);
   console.log(
     JSON.stringify({
       node: process.versions.node,

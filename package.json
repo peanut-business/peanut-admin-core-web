@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/web-workspace",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "private": true,
   "description": "Peanut Admin reusable web client, framework adapters, UI, and test tooling",
   "license": "Apache-2.0",
@@ -20,12 +20,12 @@
     "vue-router": "5.2.0"
   },
   "scripts": {
-    "build": "pnpm --recursive --workspace-concurrency=1 run build",
-    "watch": "pnpm run build && pnpm --recursive --parallel run watch",
+    "build": "node scripts/local-core-writer.mjs --packages all --operation build -- pnpm --recursive --workspace-concurrency=1 run build",
+    "watch": "node scripts/local-core-writer.mjs --packages all --operation watch -- sh -c 'pnpm run build && pnpm --recursive --parallel run watch'",
     "typecheck": "pnpm --recursive --workspace-concurrency=1 run typecheck",
     "test": "pnpm run build && vitest run",
     "test:tooling": "node --test scripts/tests/*.test.mjs",
-    "pack:candidates": "pnpm --recursive --workspace-concurrency=1 run pack:candidate",
+    "pack:candidates": "node scripts/release-identity.mjs pack",
     "verify:a1": "node scripts/verify-a1-packages.mjs"
   }
 }

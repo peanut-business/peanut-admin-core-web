@@ -1,5 +1,5 @@
 export const PEANUT_ADMIN_VUE_PACKAGE = '@peanut-admin/vue' as const;
-export const PEANUT_ADMIN_VUE_VERSION = '5.0.2' as const;
+export const PEANUT_ADMIN_VUE_VERSION = '5.0.3' as const;
 
 export type { ApiAudience } from './api/audience.js';
 export {
@@ -63,9 +63,9 @@ export {
   defineAdminModule,
 } from './module/contribution.js';
 export {
-  collectPluginContributions,
+  collectModuleContributions,
   routesForTenantModules,
-} from './module/plugin-contribution-policy.js';
+} from './module/module-contribution-policy.js';
 export { enabledTenantModulesFromRoutes } from './module/tenant-modules.js';
 export type {
   AdminModuleContribution,
@@ -78,9 +78,9 @@ export type {
   MenuRouteRegistry,
 } from './module/contribution.js';
 export type {
-  PluginFrontendContribution,
-  PluginFrontendRoute,
-} from './module/plugin-contribution-policy.js';
+  ModuleFrontendContribution,
+  ModuleFrontendRoute,
+} from './module/module-contribution-policy.js';
 export type { TenantModuleRoute } from './module/tenant-modules.js';
 export { defineAdminHostConfig } from './runtime/config.js';
 export type {

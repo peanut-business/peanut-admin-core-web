@@ -48,8 +48,8 @@ export interface ClientTransportRequest<TData = unknown> {
 }
 
 /** Performs I/O only; the configured decoder owns protocol validation. */
-export type ClientTransport = (
-  request: ClientTransportRequest
+export type ClientTransport<TData = unknown> = (
+  request: ClientTransportRequest<TData>
 ) => Promise<unknown>;
 
 export interface ClientSession {
@@ -111,15 +111,17 @@ export interface ClientHooks {
   readonly businessError?: (error: ClientRequestError) => void | Promise<void>;
 }
 
-export interface ClientOptions {
-  readonly transport: ClientTransport;
+export interface ClientOptions<TData = unknown> {
+  readonly transport: ClientTransport<TData>;
   readonly session: ClientSession;
   readonly decoder: ClientDecoder;
   readonly hooks?: ClientHooks;
 }
 
-export interface Client {
-  request: <TData = unknown>(request: ClientRequest) => Promise<TData>;
+export interface Client<TRequestData = unknown> {
+  request: <TData = unknown>(
+    request: ClientRequest<TRequestData>
+  ) => Promise<TData>;
 }
 
 const pathControlCharacters = /[\u0000-\u001f\u007f]/;
@@ -242,26 +244,26 @@ const isDecodedResult = (value: unknown): value is ClientDecodeResult => {
   return false;
 };
 
+type NormalizedDecodeResult =
+  | ClientDecodeSuccess
+  | { kind: 'unauthorized' | 'business'; code: string; message: string };
+
 const normalizedDecodedResult = (
   value: ClientDecodeResult
-): ClientDecodeResult => {
-  const kind = decodeKind(value);
-  if (kind === 'success')
-    return { kind: 'success', data: (value as ClientDecodeSuccess).data };
-  if (kind === 'unauthorized') {
-    const result = value as ClientDecodeUnauthorized;
+): NormalizedDecodeResult => {
+  if (value.kind === 'success') return value;
+  if (value.kind === 'unauthorized') {
     return {
       kind: 'unauthorized',
-      code: safeErrorCode(result.code, defaultUnauthorizedCode),
-      message: safeMessage(result.message, genericUnauthorizedMessage),
+      code: safeErrorCode(value.code, defaultUnauthorizedCode),
+      message: safeMessage(value.message, genericUnauthorizedMessage),
     };
   }
 
-  const result = value as ClientDecodeBusiness;
   return {
     kind: 'business',
-    code: safeErrorCode(result.code, defaultBusinessCode),
-    message: safeMessage(result.message, genericBusinessMessage),
+    code: safeErrorCode(value.code, defaultBusinessCode),
+    message: safeMessage(value.message, genericBusinessMessage),
   };
 };
 
@@ -335,22 +337,6 @@ const requestHeaders = (
   return result;
 };
 
-const methodOf = (
-  method: ClientRequestMethod | undefined
-): ClientRequestMethod =>
-  (method ?? 'GET').toUpperCase() as ClientRequestMethod;
-
-const requestError = (
-  kind: ClientRequestErrorKind,
-  code: string,
-  message: string
-): ClientRequestError =>
-  new ClientRequestError(
-    kind,
-    safeErrorCode(code, `CLIENT_${kind.toUpperCase()}_ERROR`),
-    safeMessage(message, 'The request could not be completed.')
-  );
-
 export const clientAbortError = (): Error => {
   const error = new Error('The request was aborted.');
   error.name = 'AbortError';
@@ -391,7 +377,9 @@ const awaitWithSignal = async <T>(
 /**
  * Centralizes bearer injection, response decoding and request error hooks.
  */
-export const createClient = (options: ClientOptions): Client => {
+export const createClient = <TRequestData = unknown>(
+  options: ClientOptions<TRequestData>
+): Client<TRequestData> => {
   const unauthorizedHandling = new Map<string | null, Promise<void>>();
 
   const invokeUnauthorized = async (
@@ -406,9 +394,10 @@ export const createClient = (options: ClientOptions): Client => {
           if ((options.session.accessToken() || null) !== requestToken) return;
           await options.session.clear(requestToken);
           const tokenAfterClear = options.session.accessToken() || null;
-          if (tokenAfterClear !== null && tokenAfterClear !== requestToken) return;
+          if (tokenAfterClear !== null && tokenAfterClear !== requestToken)
+            return;
         } catch {
-          throw requestError(
+          throw new ClientRequestError(
             'session',
             'CLIENT_SESSION_CLEAR_ERROR',
             'The client session could not be cleared.'
@@ -428,9 +417,7 @@ export const createClient = (options: ClientOptions): Client => {
     await handling;
   };
 
-  const isRequestSessionCurrent = (
-    requestToken: string | null
-  ): boolean => {
+  const isRequestSessionCurrent = (requestToken: string | null): boolean => {
     try {
       return (options.session.accessToken() || null) === requestToken;
     } catch {
@@ -439,7 +426,7 @@ export const createClient = (options: ClientOptions): Client => {
   };
 
   const request = async <TData = unknown>(
-    input: ClientRequest
+    input: ClientRequest<TRequestData>
   ): Promise<TData> => {
     if (input.signal?.aborted) throw clientAbortError();
     try {
@@ -449,13 +436,13 @@ export const createClient = (options: ClientOptions): Client => {
       throw invalidPath();
     }
 
-    const method = methodOf(input.method);
+    const method = input.method ?? 'GET';
     let requestToken: string | null = null;
     let headers: ClientHeaders;
     try {
       headers = requestHeaders(input.headers);
     } catch {
-      throw requestError(
+      throw new ClientRequestError(
         'path',
         'CLIENT_HEADERS_INVALID',
         'The request headers are invalid.'
@@ -466,7 +453,7 @@ export const createClient = (options: ClientOptions): Client => {
       try {
         requestToken = options.session.accessToken() || null;
       } catch {
-        throw requestError(
+        throw new ClientRequestError(
           'session',
           'CLIENT_SESSION_ERROR',
           'The client session is unavailable.'
@@ -476,7 +463,7 @@ export const createClient = (options: ClientOptions): Client => {
         headers.set('Authorization', `Bearer ${requestToken}`);
     }
 
-    const transportRequest: ClientTransportRequest = {
+    const transportRequest: ClientTransportRequest<TRequestData> = {
       path: input.path,
       method,
       ...(input.data !== undefined ? { data: input.data } : {}),
@@ -492,25 +479,27 @@ export const createClient = (options: ClientOptions): Client => {
         input.signal
       );
     } catch (error) {
-      if (input.signal?.aborted || isAbortError(error)) throw clientAbortError();
-      throw requestError(
+      if (input.signal?.aborted || isAbortError(error))
+        throw clientAbortError();
+      throw new ClientRequestError(
         'transport',
         'CLIENT_TRANSPORT_ERROR',
         'The request could not be completed.'
       );
     }
 
-    let decoded: ClientDecodeResult;
+    let decoded: NormalizedDecodeResult;
     try {
-      decoded = await awaitWithSignal(
+      const result = await awaitWithSignal(
         Promise.resolve(options.decoder(response, transportRequest)),
         input.signal
       );
-      if (!isDecodedResult(decoded)) throw new Error('invalid decoder result');
-      decoded = normalizedDecodedResult(decoded);
+      if (!isDecodedResult(result)) throw new Error('invalid decoder result');
+      decoded = normalizedDecodedResult(result);
     } catch (error) {
-      if (input.signal?.aborted || isAbortError(error)) throw clientAbortError();
-      throw requestError(
+      if (input.signal?.aborted || isAbortError(error))
+        throw clientAbortError();
+      throw new ClientRequestError(
         'decoder',
         'CLIENT_DECODER_INVALID',
         'The response could not be understood.'
@@ -518,11 +507,8 @@ export const createClient = (options: ClientOptions): Client => {
     }
 
     if (input.signal?.aborted) throw clientAbortError();
-    if (
-      input.auth !== false &&
-      !isRequestSessionCurrent(requestToken)
-    ) {
-      throw requestError(
+    if (input.auth !== false && !isRequestSessionCurrent(requestToken)) {
+      throw new ClientRequestError(
         'session',
         'CLIENT_SESSION_CHANGED',
         'The request session has changed.'
@@ -533,8 +519,8 @@ export const createClient = (options: ClientOptions): Client => {
     if (decoded.kind === 'unauthorized') {
       const error = new ClientRequestError(
         'unauthorized',
-        safeErrorCode(decoded.code, defaultUnauthorizedCode),
-        safeMessage(decoded.message, genericUnauthorizedMessage)
+        decoded.code,
+        decoded.message
       );
       if (input.auth !== false) {
         await invokeUnauthorized(error, requestToken);
@@ -544,8 +530,8 @@ export const createClient = (options: ClientOptions): Client => {
 
     const error = new ClientRequestError(
       'business',
-      safeErrorCode(decoded.code, defaultBusinessCode),
-      safeMessage(decoded.message, genericBusinessMessage)
+      decoded.code,
+      decoded.message
     );
     try {
       await options.hooks?.businessError?.(error);

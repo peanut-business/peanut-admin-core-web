@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/ui-vue",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Reusable Vue UI components for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -17,17 +17,44 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme.d.ts",
+      "import": "./dist/theme.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js"
+    },
+    "./layout": {
+      "types": "./dist/layout.d.ts",
+      "import": "./dist/layout.js"
+    },
+    "./overrides": {
+      "types": "./dist/overrides.d.ts",
+      "import": "./dist/overrides.js"
+    },
+    "./states": {
+      "types": "./dist/states.d.ts",
+      "import": "./dist/states.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./targets": {
+      "types": "./dist/targets.d.ts",
+      "import": "./dist/targets.js"
     }
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node ../../scripts/local-core-writer.mjs --packages ui-vue --operation build -- tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "pack:candidate": "pnpm pack --pack-destination ../../artifacts",
-    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
+    "watch": "node ../../scripts/local-core-writer.mjs --packages ui-vue --operation watch -- tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
-    "@peanut-admin/vue": "5.0.2",
+    "@peanut-admin/vue": "5.0.3",
     "element-plus": "^2.14.3",
     "vue": "^3.4.21"
   },

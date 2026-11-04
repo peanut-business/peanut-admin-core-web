@@ -1,5 +1,5 @@
 export const PEANUT_ADMIN_UI_VUE_PACKAGE = '@peanut-admin/ui-vue' as const;
-export const PEANUT_ADMIN_UI_VUE_VERSION = '5.0.2' as const;
+export const PEANUT_ADMIN_UI_VUE_VERSION = '5.0.3' as const;
 
 export { defineShellHostConfig } from './config.js';
 export type { ShellHostConfig, ShellHostConfigInput } from './config.js';
@@ -31,8 +31,16 @@ export {
 } from './states.js';
 export { TargetScopeSummary, TargetSelector } from './targets.js';
 export type { TargetScopeMode } from './targets.js';
-export { SHELL_THEME_TOKENS } from './theme.js';
-export type { ShellSlotName, ShellThemeToken } from './theme.js';
+export { createShellTheme, SHELL_THEME_TOKENS } from './theme.js';
+export type {
+  ShellDensity,
+  ShellLayout,
+  ShellNavigationMode,
+  ShellSlotName,
+  ShellThemeInput,
+  ShellThemeMode,
+  ShellThemeToken,
+} from './theme.js';
 export {
   allowsInstanceTools,
   deploymentMode,

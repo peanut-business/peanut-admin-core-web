@@ -136,7 +136,7 @@ describe('admin shell components', () => {
         .get('.pa-shell-navigation__link[href="/app/members"]')
         .attributes('aria-label')
     ).toBe('Members');
-    expect(wrapper.html()).not.toContain('component');
+    expect(wrapper.html()).not.toMatch(/<component(?:\s|>)/i);
     expect(wrapper.html()).not.toContain('javascript:');
   });
 

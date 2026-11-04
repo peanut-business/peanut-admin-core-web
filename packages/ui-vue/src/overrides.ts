@@ -43,7 +43,9 @@ export type AdminShellOverrideRegistry = AdminOverrideRegistry<
 >;
 
 export const resolveWorkspaceShell = (
-  registry: AdminShellOverrideRegistry,
+  registry: {
+    get(key: typeof WORKSPACE_SHELL_OVERRIDE_KEY): WorkspaceShellResolver;
+  },
   audience: ApiAudience
 ): Component => {
   const component = registry.get(WORKSPACE_SHELL_OVERRIDE_KEY)(audience);

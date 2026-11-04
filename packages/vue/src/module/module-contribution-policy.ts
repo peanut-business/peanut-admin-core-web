@@ -5,7 +5,7 @@ import { evaluateRequiredPermissions } from '../access/permission-policy.js';
  * Minimal router contract shared by host applications without coupling to a
  * particular Vue Router major version.
  */
-export interface PluginFrontendRoute {
+export interface ModuleFrontendRoute {
   path: string;
   name?: unknown;
   component?: unknown;
@@ -13,24 +13,24 @@ export interface PluginFrontendRoute {
     requiredPermissions?: string | string[];
     [key: string]: unknown;
   };
-  children?: PluginFrontendRoute[];
+  children?: ModuleFrontendRoute[];
 }
 
-export interface PluginFrontendContribution<
-  T extends PluginFrontendRoute = PluginFrontendRoute
+export interface ModuleFrontendContribution<
+  T extends ModuleFrontendRoute = ModuleFrontendRoute
 > {
   moduleKey: string;
   routes: T[];
 }
 
-export const collectPluginContributions = (
-  modules: Record<string, { default?: PluginFrontendContribution }>
-): PluginFrontendContribution[] =>
+export const collectModuleContributions = (
+  modules: Record<string, { default?: ModuleFrontendContribution }>
+): ModuleFrontendContribution[] =>
   Object.keys(modules)
     .sort()
     .map((path) => modules[path]?.default)
     .filter(
-      (contribution): contribution is PluginFrontendContribution =>
+      (contribution): contribution is ModuleFrontendContribution =>
         typeof contribution?.moduleKey === 'string' &&
         contribution.moduleKey.length > 0 &&
         Array.isArray(contribution.routes)
@@ -40,8 +40,8 @@ export const collectPluginContributions = (
  * Requires an enabled module plus at least one granted route permission.
  * Routes with no permission declaration remain hidden.
  */
-export const routesForTenantModules = <T extends PluginFrontendRoute>(
-  contributions: PluginFrontendContribution<T>[],
+export const routesForTenantModules = <T extends ModuleFrontendRoute>(
+  contributions: ModuleFrontendContribution<T>[],
   enabledModules: readonly string[],
   grantedPermissions: readonly string[],
   evaluator: PermissionEvaluator

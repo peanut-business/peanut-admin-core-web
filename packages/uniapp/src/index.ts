@@ -1,6 +1,7 @@
 import { clientAbortError, resolveClientUrl } from '@peanut-admin/client';
 import type {
   ClientHeaders,
+  ClientRequestMethod,
   ClientTransport,
   ClientTransportRequest,
 } from '@peanut-admin/client';
@@ -9,10 +10,12 @@ export interface UniAppClientResponse {
   readonly data: unknown;
 }
 
-export interface UniAppClientRequestOptions {
+export type UniAppClientRequestMethod = Exclude<ClientRequestMethod, 'PATCH'>;
+
+export interface UniAppClientRequestOptions<TData = unknown> {
   readonly url: string;
-  readonly method: string;
-  readonly data?: unknown;
+  readonly method: UniAppClientRequestMethod;
+  readonly data?: TData;
   readonly header: Record<string, string>;
   readonly success?: (response: UniAppClientResponse) => void;
   readonly fail?: (error: unknown) => void;
@@ -22,13 +25,13 @@ export interface UniAppRequestTask {
   abort: () => void;
 }
 
-export type UniAppClientRequest = (
-  options: UniAppClientRequestOptions
+export type UniAppClientRequest<TData = unknown> = (
+  options: UniAppClientRequestOptions<TData>
 ) => UniAppRequestTask;
 
-export interface UniAppClientTransportOptions {
+export interface UniAppClientTransportOptions<TData = unknown> {
   readonly baseUrl: string;
-  readonly request: UniAppClientRequest;
+  readonly request: UniAppClientRequest<TData>;
 }
 
 const headersRecord = (headers: ClientHeaders): Record<string, string> => {
@@ -43,8 +46,10 @@ const headersRecord = (headers: ClientHeaders): Record<string, string> => {
  * Bridges the shared request contract to uni.request, including cancellation.
  */
 export const createUniAppClientTransport =
-  (options: UniAppClientTransportOptions): ClientTransport =>
-  async (request: ClientTransportRequest): Promise<unknown> =>
+  <TData = unknown>(
+    options: UniAppClientTransportOptions<TData>
+  ): ClientTransport<TData> =>
+  async (request: ClientTransportRequest<TData>): Promise<unknown> =>
     new Promise<unknown>((resolve, reject) => {
       if (request.signal?.aborted) {
         reject(clientAbortError());
@@ -72,10 +77,14 @@ export const createUniAppClientTransport =
         finish(() => reject(clientAbortError()));
         abortTask();
       };
-      const method = request.method.toUpperCase();
-      const requestOptions: UniAppClientRequestOptions = {
+      // uni.request has no portable PATCH support across its target platforms.
+      if (request.method === 'PATCH') {
+        reject(new Error('UNIAPP_REQUEST_METHOD_INVALID'));
+        return;
+      }
+      const requestOptions: UniAppClientRequestOptions<TData> = {
         url: resolveClientUrl(options.baseUrl, request.path),
-        method,
+        method: request.method,
         ...(request.data !== undefined ? { data: request.data } : {}),
         header: headersRecord(request.headers),
         success: (response) => finish(() => resolve(response.data)),

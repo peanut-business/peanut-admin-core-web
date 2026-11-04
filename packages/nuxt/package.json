@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/nuxt",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Nuxt transport adapter for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -21,13 +21,12 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node ../../scripts/local-core-writer.mjs --packages nuxt --operation build -- tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "pack:candidate": "pnpm pack --pack-destination ../../artifacts",
-    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
+    "watch": "node ../../scripts/local-core-writer.mjs --packages nuxt --operation watch -- tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
-    "@peanut-admin/client": "5.0.2"
+    "@peanut-admin/client": "5.0.3"
   },
   "devDependencies": {
     "@peanut-admin/client": "workspace:*"

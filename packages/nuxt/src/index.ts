@@ -1,26 +1,27 @@
 import { clientAbortError, resolveClientUrl } from '@peanut-admin/client';
 import type {
   ClientHeaders,
+  ClientRequestMethod,
   ClientTransport,
   ClientTransportRequest,
 } from '@peanut-admin/client';
 
-export interface NuxtClientFetchOptions {
-  readonly method?: string;
-  readonly query?: unknown;
-  readonly body?: unknown;
+export interface NuxtClientFetchOptions<TData = unknown> {
+  readonly method?: ClientRequestMethod;
+  readonly query?: TData;
+  readonly body?: TData;
   readonly headers?: Record<string, string>;
   readonly signal?: AbortSignal;
 }
 
-export type NuxtClientFetch = (
+export type NuxtClientFetch<TData = unknown> = (
   url: string,
-  options?: NuxtClientFetchOptions
+  options?: NuxtClientFetchOptions<TData>
 ) => Promise<unknown>;
 
-export interface NuxtClientTransportOptions {
+export interface NuxtClientTransportOptions<TData = unknown> {
   readonly baseUrl: string;
-  readonly $fetch: NuxtClientFetch;
+  readonly $fetch: NuxtClientFetch<TData>;
   /** Trusted server-only headers added after request headers are normalized. */
   readonly forwardHeaders?: Readonly<Record<string, string>>;
 }
@@ -134,14 +135,14 @@ export const createNuxtSsrForwardHeaders = (
  * Uses the configured upstream URL and forwards normalized request headers
  * plus explicitly trusted server-side headers.
  */
-export const createNuxtClientTransport = (
-  options: NuxtClientTransportOptions
-): ClientTransport => {
-  return async (request: ClientTransportRequest): Promise<unknown> => {
+export const createNuxtClientTransport = <TData = unknown>(
+  options: NuxtClientTransportOptions<TData>
+): ClientTransport<TData> => {
+  return async (request: ClientTransportRequest<TData>): Promise<unknown> => {
     if (request.signal?.aborted) throw clientAbortError();
-    const method = request.method.toUpperCase();
+    const method = request.method;
     const url = resolveClientUrl(options.baseUrl, request.path);
-    const fetchOptions: NuxtClientFetchOptions = {
+    const fetchOptions: NuxtClientFetchOptions<TData> = {
       method,
       ...(request.signal !== undefined ? { signal: request.signal } : {}),
       headers: {
