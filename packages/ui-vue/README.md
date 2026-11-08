@@ -69,6 +69,17 @@ with or without `config`. Four contribution slots receive `{ identity }`:
 The module host decides which authorized contributions to pass. Replacing a
 complete slot also makes the host responsible for contributions inside it.
 
+## Tab identity
+
+`getTabKey` and `tabFromRoute` are available from the root and `/tabs` entry.
+The default key is the complete `fullPath`. With route metadata
+`fullPathKey: false`, the key excludes query and hash; `fullPath` still retains
+the complete navigation URL. `tabFromRoute` stores this identity in `key`.
+Hosts must use the same key for deduplication, active state, caching, reload and
+close, and update an existing tab's navigation URL when its key is reused.
+Choose this metadata for singleton pages; leave it unset for separate parameter
+workspaces. The helper does not manage a router, cache, store or persistence.
+
 ## Theme scope and semantic tokens
 
 `createShellTheme(input?: ShellThemeInput)` returns an immutable CSS variable

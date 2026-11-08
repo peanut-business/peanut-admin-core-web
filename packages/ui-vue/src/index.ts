@@ -47,7 +47,7 @@ export {
   routesForDeployment,
 } from './deployment-mode.js';
 export type { DeploymentMode, DeploymentRoute } from './deployment-mode.js';
-export { tabFromRoute } from './tabs.js';
+export { getTabKey, tabFromRoute } from './tabs.js';
 export type { ShellTab, ShellTabRoute, ShellTabState } from './tabs.js';
 export {
   ADMIN_SHELL_OVERRIDE_SLOTS,
