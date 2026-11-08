@@ -95,7 +95,7 @@ The existing nine tokens keep their names:
 
 | Shell token | Element Plus/default relationship |
 | --- | --- |
-| `--pa-shell-header-height` | Shell geometry: comfortable `64px`, compact `52px` |
+| `--pa-shell-header-height` | Shell geometry: compact `52px`, comfortable `64px`, spacious `72px` |
 | `--pa-shell-sidebar-width` | Shell geometry: `240px` |
 | `--pa-shell-sidebar-collapsed-width` | Shell geometry: `64px` |
 | `--pa-shell-content-max-width` | Shell geometry: `1440px` |
@@ -116,9 +116,11 @@ it adds no theme dependency.
 
 Shell hover/active/focus use `--pa-shell-hover-color`, `--pa-shell-active-color`,
 `--pa-shell-active-text-color` and `--pa-shell-focus-color`. Density supplies
-`--pa-shell-spacing` (`20px`/`12px`), `--pa-shell-gap` (`12px`/`8px`) and Element
-Plus component sizes (`32px`/`28px` default). Typography exposes shell font family,
-size and line height and maps family/size to Element Plus. Motion exposes
+`--pa-shell-spacing` (`12px`/`20px`/`28px`), `--pa-shell-gap` (`8px`/`12px`/`16px`)
+and Element Plus component sizes (`28px`/`32px`/`36px` default; small
+`24px`/`24px`/`32px`; large `36px`/`40px`/`44px`) for
+compact/comfortable/spacious density. Typography exposes shell font family, size
+and line height and maps family/size to Element Plus. Motion exposes
 `--pa-shell-motion-duration` and Element Plus transition durations; use `0s` for
 reduced motion. Explicit `tokens` apply last. No theme option changes layout or
 brand.

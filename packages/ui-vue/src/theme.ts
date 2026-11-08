@@ -35,7 +35,7 @@ export type ShellSlotName =
   | 'default';
 
 export type ShellThemeMode = 'light' | 'dark';
-export type ShellDensity = 'comfortable' | 'compact';
+export type ShellDensity = 'comfortable' | 'compact' | 'spacious';
 export type ShellLayout = 'admin' | 'workspace';
 export type ShellNavigationMode = 'tree' | 'grouped' | 'top';
 
@@ -70,6 +70,7 @@ export const createShellTheme = (
 ): Readonly<Record<string, string>> => {
   const dark = input.mode === 'dark';
   const compact = input.density === 'compact';
+  const spacious = input.density === 'spacious';
   const colors = {
     primary: '#409eff',
     success: '#67c23a',
@@ -116,12 +117,12 @@ export const createShellTheme = (
     '--el-fill-color-darker': mix(colors.text, 84),
     '--el-font-family': fontFamily,
     '--el-font-size-base': fontSize,
-    '--el-component-size': compact ? '28px' : '32px',
-    '--el-component-size-small': '24px',
-    '--el-component-size-large': compact ? '36px' : '40px',
+    '--el-component-size': compact ? '28px' : spacious ? '36px' : '32px',
+    '--el-component-size-small': spacious ? '32px' : '24px',
+    '--el-component-size-large': compact ? '36px' : spacious ? '44px' : '40px',
     '--el-transition-duration': duration,
     '--el-transition-duration-fast': `calc(${duration} * 0.5)`,
-    [SHELL_THEME_TOKENS.headerHeight]: compact ? '52px' : '64px',
+    [SHELL_THEME_TOKENS.headerHeight]: compact ? '52px' : spacious ? '72px' : '64px',
     [SHELL_THEME_TOKENS.sidebarWidth]: '240px',
     [SHELL_THEME_TOKENS.sidebarCollapsedWidth]: '64px',
     [SHELL_THEME_TOKENS.contentMaxWidth]: '1440px',
@@ -133,8 +134,8 @@ export const createShellTheme = (
     [SHELL_THEME_TOKENS.hoverColor]: 'var(--el-color-primary-light-9)',
     [SHELL_THEME_TOKENS.activeColor]: 'var(--el-color-primary-light-8)',
     [SHELL_THEME_TOKENS.activeTextColor]: 'var(--el-color-primary)',
-    [SHELL_THEME_TOKENS.spacing]: compact ? '12px' : '20px',
-    [SHELL_THEME_TOKENS.gap]: compact ? '8px' : '12px',
+    [SHELL_THEME_TOKENS.spacing]: compact ? '12px' : spacious ? '28px' : '20px',
+    [SHELL_THEME_TOKENS.gap]: compact ? '8px' : spacious ? '16px' : '12px',
     [SHELL_THEME_TOKENS.fontFamily]: 'var(--el-font-family)',
     [SHELL_THEME_TOKENS.fontSize]: 'var(--el-font-size-base)',
     [SHELL_THEME_TOKENS.lineHeight]: input.typography?.lineHeight ?? '1.5',
