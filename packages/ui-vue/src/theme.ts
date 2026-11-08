@@ -1,5 +1,8 @@
 export const SHELL_THEME_TOKENS = {
   headerHeight: '--pa-shell-header-height',
+  headerShadow: '--pa-shell-header-shadow',
+  pageHeaderShadow: '--pa-shell-page-header-shadow',
+  sidebarShadow: '--pa-shell-sidebar-shadow',
   sidebarWidth: '--pa-shell-sidebar-width',
   sidebarCollapsedWidth: '--pa-shell-sidebar-collapsed-width',
   contentMaxWidth: '--pa-shell-content-max-width',
@@ -96,6 +99,9 @@ export const createShellTheme = (
     'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
   const fontSize = input.typography?.fontSize ?? (compact ? '13px' : '14px');
   const duration = input.motion?.duration ?? '0.2s';
+  const shadowColor = dark
+    ? 'rgba(0, 0, 0, 0.28)'
+    : `color-mix(in srgb, ${colors.text} 8%, transparent)`;
   const style: Record<string, string> = {
     'color-scheme': dark ? 'dark' : 'light',
     '--el-bg-color': colors.surface,
@@ -122,7 +128,10 @@ export const createShellTheme = (
     '--el-component-size-large': compact ? '36px' : spacious ? '44px' : '40px',
     '--el-transition-duration': duration,
     '--el-transition-duration-fast': `calc(${duration} * 0.5)`,
-    [SHELL_THEME_TOKENS.headerHeight]: compact ? '52px' : spacious ? '72px' : '64px',
+    [SHELL_THEME_TOKENS.headerHeight]: compact ? '48px' : spacious ? '64px' : '56px',
+    [SHELL_THEME_TOKENS.headerShadow]: `0 1px 6px ${shadowColor}`,
+    [SHELL_THEME_TOKENS.pageHeaderShadow]: `0 2px 8px -4px ${shadowColor}`,
+    [SHELL_THEME_TOKENS.sidebarShadow]: `3px 0 10px -5px ${shadowColor}`,
     [SHELL_THEME_TOKENS.sidebarWidth]: '240px',
     [SHELL_THEME_TOKENS.sidebarCollapsedWidth]: '64px',
     [SHELL_THEME_TOKENS.contentMaxWidth]: '1440px',

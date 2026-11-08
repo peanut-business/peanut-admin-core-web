@@ -102,11 +102,14 @@ const newsroomTheme = {
 } satisfies ShellThemeInput;
 ```
 
-The existing nine tokens keep their names:
+The existing shell tokens keep their names:
 
 | Shell token | Element Plus/default relationship |
 | --- | --- |
-| `--pa-shell-header-height` | Shell geometry: compact `52px`, comfortable `64px`, spacious `72px` |
+| `--pa-shell-header-height` | Shell geometry: compact `48px`, comfortable `56px`, spacious `64px` |
+| `--pa-shell-header-shadow` | Light header shadow: `0 1px 6px` |
+| `--pa-shell-page-header-shadow` | Light page-header shadow: `0 2px 8px -4px` |
+| `--pa-shell-sidebar-shadow` | Light sidebar shadow: `3px 0 10px -5px` |
 | `--pa-shell-sidebar-width` | Shell geometry: `240px` |
 | `--pa-shell-sidebar-collapsed-width` | Shell geometry: `64px` |
 | `--pa-shell-content-max-width` | Shell geometry: `1440px` |
@@ -116,8 +119,11 @@ The existing nine tokens keep their names:
 | `--pa-shell-muted-text-color` | `--el-text-color-secondary` |
 | `--pa-shell-focus-color` | `--el-color-primary` |
 
-Geometry stays a shell concern; it has no Element Plus equivalent. Overriding an
-original color token also supplies its Element Plus semantic base. Color inputs
+Geometry stays a shell concern; it has no Element Plus equivalent. Shadow tokens
+use the theme text color at 8% opacity in light mode and black at 28% opacity in
+dark mode. They provide subtle defaults for host shell CSS to consume; explicit
+`tokens` values override all generated defaults. Overriding an original color
+token also supplies its Element Plus semantic base. Color inputs
 support `primary/success/warning/danger/info/background/surface/text/mutedText/border`.
 Light and dark palettes generate Element Plus tone variants with CSS `color-mix`,
 including light variants for hover and `dark-2` for pressed buttons. This follows
@@ -133,8 +139,8 @@ and Element Plus component sizes (`28px`/`32px`/`36px` default; small
 compact/comfortable/spacious density. Typography exposes shell font family, size
 and line height and maps family/size to Element Plus. Motion exposes
 `--pa-shell-motion-duration` and Element Plus transition durations; use `0s` for
-reduced motion. Explicit `tokens` apply last. No theme option changes layout or
-brand.
+reduced motion. Density changes header height while spacing, gap and component
+sizes retain their existing values. No theme option changes layout or brand.
 
 For example, host CSS can consume the same semantics:
 
