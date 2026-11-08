@@ -1,5 +1,5 @@
 export const PEANUT_ADMIN_UI_VUE_PACKAGE = '@peanut-admin/ui-vue' as const;
-export const PEANUT_ADMIN_UI_VUE_VERSION = '5.0.4' as const;
+export const PEANUT_ADMIN_UI_VUE_VERSION = '5.0.5' as const;
 
 export { defineShellHostConfig } from './config.js';
 export type { ShellHostConfig, ShellHostConfigInput } from './config.js';
@@ -47,7 +47,7 @@ export {
   routesForDeployment,
 } from './deployment-mode.js';
 export type { DeploymentMode, DeploymentRoute } from './deployment-mode.js';
-export { tabFromRoute } from './tabs.js';
+export { getTabKey, tabFromRoute } from './tabs.js';
 export type { ShellTab, ShellTabRoute, ShellTabState } from './tabs.js';
 export {
   ADMIN_SHELL_OVERRIDE_SLOTS,

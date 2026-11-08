@@ -129,8 +129,8 @@ const ShellFrame = defineComponent({
           h('div', { class: 'pa-shell__workspace' }, [
             slots.sidebar?.(),
             h('div', { class: 'pa-shell__main' }, [
-              slots.breadcrumb?.(),
               slots.tabs?.(),
+              slots.breadcrumb?.(),
               slots.default?.(),
             ]),
           ]),
