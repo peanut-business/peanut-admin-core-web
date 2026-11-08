@@ -81,6 +81,7 @@ test('native UI entry preserves config validation and tab projection', () => {
     frozen: true,
     rejected: true,
     tab: {
+      key: '/orders?page=2',
       title: 'Orders',
       name: 'orders',
       fullPath: '/orders?page=2',
