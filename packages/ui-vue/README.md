@@ -110,6 +110,7 @@ The existing shell tokens keep their names:
 | `--pa-shell-header-shadow` | Light header shadow: `0 1px 6px` |
 | `--pa-shell-page-header-shadow` | Light page-header shadow: `0 2px 8px -4px` |
 | `--pa-shell-sidebar-shadow` | Light sidebar shadow: `3px 0 10px -5px` |
+| `--pa-shell-panel-shadow` | Raised content panels: `0 1px 3px` plus `0 8px 24px -16px`; use once per independent panel, not for nested fields |
 | `--pa-shell-sidebar-width` | Shell geometry: `240px` |
 | `--pa-shell-sidebar-collapsed-width` | Shell geometry: `64px` |
 | `--pa-shell-content-max-width` | Shell geometry: `1440px` |
