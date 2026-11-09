@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/vue",
-  "version": "5.0.5",
+  "version": "5.1.0",
   "description": "Vue integration primitives for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -27,9 +27,13 @@
   },
   "peerDependencies": {
     "pinia": ">=2.0.23 <5",
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "@peanut-admin/client": "5.1.0"
   },
   "engines": {
     "node": ">=22.12.0 <23"
+  },
+  "devDependencies": {
+    "@peanut-admin/client": "workspace:*"
   }
 }

@@ -77,6 +77,10 @@ importers:
       vue:
         specifier: ^3.4.21
         version: 3.5.39(typescript@5.9.3)
+    devDependencies:
+      '@peanut-admin/client':
+        specifier: workspace:*
+        version: link:../client
 
 packages:
 
