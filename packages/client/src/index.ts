@@ -1,3 +1,16 @@
+export {
+  createSessionRecovery,
+  createSessionFetch,
+} from './session-recovery.js';
+export { createMemoryRefreshCoordinator } from './refresh.js';
+export type { RefreshAttempt, RefreshCoordinator } from './refresh.js';
+export type {
+  SessionSnapshot,
+  SessionRecoveryOptions,
+  SessionRecovery,
+  SessionFetchOptions,
+} from './session-recovery.js';
+
 export type ClientRequestMethod =
   | 'DELETE'
   | 'GET'

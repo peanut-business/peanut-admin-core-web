@@ -3,6 +3,8 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   ClientRequestError,
   createClient,
+  createSessionRecovery,
+  createSessionFetch,
   resolveClientUrl,
 } from '../src/index';
 import type {
@@ -11,6 +13,94 @@ import type {
   ClientTransport,
   ClientTransportRequest,
 } from '../src/index';
+
+describe('shared session recovery', () => {
+  function host() {
+    let current = { generation: 1, token: 'old' as string | null };
+    const rejected = new Error('credential rejected');
+    const invalidate = vi.fn(async () => { current = { generation: current.generation + 1, token: null }; });
+    const refresh = vi.fn(async () => { current = { ...current, token: 'new' }; return 'new'; });
+    const recovery = createSessionRecovery({
+      current: () => ({ ...current }), isRefreshable: (token) => token !== null,
+      refresh, isRefreshRejected: (error) => error === rejected, invalidate,
+    });
+    return { recovery, refresh, invalidate, rejected, switch: () => { current = { generation: 2, token: 'other-user' }; } };
+  }
+
+  it('merges concurrent refresh and invalidation across transports', async () => {
+    const h = host();
+    const snapshot = h.recovery.current();
+    expect(await Promise.all([h.recovery.refresh(snapshot), h.recovery.refresh(snapshot)])).toEqual(['new', 'new']);
+    expect(h.refresh).toHaveBeenCalledTimes(1);
+    const refreshed = h.recovery.current();
+    await Promise.all([h.recovery.invalidate(refreshed), h.recovery.invalidate(refreshed)]);
+    expect(h.invalidate).toHaveBeenCalledTimes(1);
+  });
+
+  it('clears definitive refresh rejection, but preserves network failures and new logins', async () => {
+    const h = host();
+    h.refresh.mockRejectedValueOnce(new Error('network'));
+    await expect(h.recovery.refresh(h.recovery.current())).rejects.toThrow('network');
+    expect(h.invalidate).not.toHaveBeenCalled();
+    h.refresh.mockRejectedValueOnce(h.rejected);
+    await expect(h.recovery.refresh(h.recovery.current())).rejects.toBe(h.rejected);
+    expect(h.invalidate).toHaveBeenCalledTimes(1);
+    const other = host();
+    const before = other.recovery.current();
+    other.switch();
+    await other.recovery.invalidate(before);
+    await expect(other.recovery.refresh(before)).rejects.toThrow('session has changed');
+    expect(other.invalidate).not.toHaveBeenCalled();
+  });
+
+  it('a cancelled waiter does not cancel shared refresh or clear a session', async () => {
+    const h = host();
+    let fail!: (error: Error) => void;
+    h.refresh.mockImplementationOnce(() => new Promise<string>((_, reject) => { fail = reject; }));
+    const abort = new AbortController();
+    const request = h.recovery.refresh(h.recovery.current(), abort.signal);
+    const rejection = expect(request).rejects.toMatchObject({ name: 'AbortError' });
+    await Promise.resolve();
+    await Promise.resolve();
+    abort.abort();
+    await rejection;
+    fail(h.rejected);
+    await Promise.resolve();
+    expect(h.invalidate).not.toHaveBeenCalled();
+  });
+
+  it('retries an eligible fetch once and expires a repeatedly rejected credential', async () => {
+    const h = host();
+    const transport = vi.fn(async (_request: Request) => new Response('{"code":40100}', { status: 401 }));
+    const fetcher = createSessionFetch({ recovery: h.recovery, isAllowedRequest: (request) => new URL(request.url).origin === 'https://example.test',
+      fetch: transport, isExpired: (response) => response.status === 401 });
+    const response = await fetcher(new Request('https://example.test/api/items'));
+    expect(response.status).toBe(401);
+    expect(transport).toHaveBeenCalledTimes(2);
+    expect(transport.mock.calls[0]?.[0].headers.get('Authorization')).toBe('Bearer old');
+    expect(transport.mock.calls[1]?.[0].headers.get('Authorization')).toBe('Bearer new');
+    expect(h.invalidate).toHaveBeenCalledTimes(1);
+  });
+
+  it('rejects a foreign API origin before sending credentials', async () => {
+    const h = host();
+    const transport = vi.fn(async (_request: Request) => new Response(null));
+    const fetcher = createSessionFetch({ recovery: h.recovery, fetch: transport,
+      isAllowedRequest: (request) => new URL(request.url).origin === 'https://example.test',
+      isExpired: (response) => response.status === 401 });
+    await expect(fetcher(new Request('https://foreign.test/api/items'))).rejects.toThrow('origin or audience');
+    expect(transport).not.toHaveBeenCalled();
+  });
+
+  it('does not refresh or expire a forbidden response', async () => {
+    const h = host();
+    const fetcher = createSessionFetch({ recovery: h.recovery, isAllowedRequest: () => true,
+      fetch: async () => new Response(null, { status: 403 }), isExpired: (response) => response.status === 401 });
+    expect((await fetcher(new Request('https://example.test/api/items'))).status).toBe(403);
+    expect(h.refresh).not.toHaveBeenCalled();
+    expect(h.invalidate).not.toHaveBeenCalled();
+  });
+});
 
 const session = (token: string | null = 'token'): ClientSession => ({
   accessToken: vi.fn(() => token),
