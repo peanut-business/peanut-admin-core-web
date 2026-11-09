@@ -18,6 +18,14 @@ import { producerEnv } from './release-identity.mjs';
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const artifacts = join(root, 'artifacts');
 const packages = ['client', 'vue', 'ui-vue', 'nuxt', 'uniapp', 'testing'];
+const mode = process.argv[2] || 'qualification';
+if (mode === '--help' || mode === 'help') {
+  console.log('Usage: verify-a1-packages.mjs [production|qualification]\nproduction: build/pack once, package integrity and clean consumer; full suites NOT_RUN\nqualification (default): also run Vitest and Node tooling suites');
+  process.exit(0);
+}
+if (!['production', 'qualification'].includes(mode) || process.argv.length > 3) {
+  throw new Error('Expected production or qualification');
+}
 
 const version = process.versions.node.split('.').map(Number);
 if (version[0] !== 22 || version[1] < 12) {
@@ -67,28 +75,31 @@ for (const name of packages) {
 
 run('node', ['scripts/release-identity.mjs', 'inputs']);
 run('node', ['scripts/release-identity.mjs', 'build']);
-const testInventory = join(
-  tmpdir(),
-  `peanut-web-core-tests-${process.pid}.json`
-);
 let vitestTestCount = 0;
-try {
-  run('pnpm', ['exec', 'vitest', 'list', `--json=${testInventory}`]);
-  const discovered = JSON.parse(readFileSync(testInventory, 'utf8'));
-  if (!Array.isArray(discovered) || discovered.length === 0) {
-    throw new Error('Vitest discovery selected zero tests');
+let toolingTestCount = 0;
+if (mode === 'qualification') {
+  const testInventory = join(
+    tmpdir(),
+    `peanut-web-core-tests-${process.pid}.json`
+  );
+  try {
+    run('pnpm', ['exec', 'vitest', 'list', `--json=${testInventory}`]);
+    const discovered = JSON.parse(readFileSync(testInventory, 'utf8'));
+    if (!Array.isArray(discovered) || discovered.length === 0) {
+      throw new Error('Vitest discovery selected zero tests');
+    }
+    vitestTestCount = discovered.length;
+  } finally {
+    rmSync(testInventory, { force: true });
   }
-  vitestTestCount = discovered.length;
-} finally {
-  rmSync(testInventory, { force: true });
-}
-run('pnpm', ['exec', 'vitest', 'run']);
-const toolingOutput = output('pnpm', ['run', 'test:tooling']);
-process.stdout.write(toolingOutput);
-const toolingCounts = [...toolingOutput.matchAll(/^# tests ([0-9]+)$/gm)];
-const toolingTestCount = Number(toolingCounts.at(-1)?.[1] || 0);
-if (!Number.isInteger(toolingTestCount) || toolingTestCount <= 0) {
-  throw new Error('Node tooling discovery selected zero tests');
+  run('pnpm', ['exec', 'vitest', 'run']);
+  const toolingOutput = output('pnpm', ['run', 'test:tooling']);
+  process.stdout.write(toolingOutput);
+  const toolingCounts = [...toolingOutput.matchAll(/^# tests ([0-9]+)$/gm)];
+  toolingTestCount = Number(toolingCounts.at(-1)?.[1] || 0);
+  if (!Number.isInteger(toolingTestCount) || toolingTestCount <= 0) {
+    throw new Error('Node tooling discovery selected zero tests');
+  }
 }
 run('node', ['scripts/release-identity.mjs', 'pack']);
 
@@ -171,13 +182,17 @@ verifyConsumer(consumer, () => {
     cwd: consumer,
   });
   writeFileSync(join(artifacts, 'consumer-package-lock.json'), readFileSync(join(consumer, 'package-lock.json')));
-  run('node', ['scripts/release-identity.mjs', 'qualify']);
+  run('node', ['scripts/release-identity.mjs', 'qualify', mode, String(vitestTestCount), String(toolingTestCount)]);
   console.log(
     JSON.stringify({
       node: process.versions.node,
       sourceCommit: output('git', ['rev-parse', 'HEAD']).trim(),
       sourceDirty: output('git', ['status', '--porcelain']).trim() !== '',
       packageCount: tgzs.length,
+      mode,
+      fullQualification: mode === 'qualification' ? 'PASS' : 'NOT_RUN',
+      vitestStatus: mode === 'qualification' ? 'PASS' : 'NOT_RUN',
+      toolingStatus: mode === 'qualification' ? 'PASS' : 'NOT_RUN',
       vitestTests: vitestTestCount,
       toolingTests: toolingTestCount,
       cleanConsumer: 'passed',
@@ -187,11 +202,13 @@ verifyConsumer(consumer, () => {
     appendFileSync(
       process.env.GITHUB_STEP_SUMMARY,
       [
-        '## Web Core qualification',
+        `## Web Core ${mode}`,
         '',
         `- Candidate: \`${output('git', ['rev-parse', 'HEAD']).trim()}\``,
         `- Vitest tests discovered: ${vitestTestCount}`,
         `- Node tooling tests: ${toolingTestCount}`,
+        `- Vitest / Node tooling suites: ${mode === 'qualification' ? 'PASS' : 'NOT_RUN'}`,
+        `- Full qualification: ${mode === 'qualification' ? 'PASS' : 'NOT_RUN'}`,
         `- Candidate packages: ${tgzs.length}`,
         '- Clean package consumer: **passed**',
         '',

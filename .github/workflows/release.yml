@@ -76,7 +76,7 @@ jobs:
           package-manager-cache: false
       - name: Use npm with trusted publishing support
         run: npm install --global npm@11.5.1
-      - name: Require a fixed successful qualification run
+      - name: Require a fixed successful CI package production or qualification run
         id: qualification
         env:
           GH_TOKEN: ${{ github.token }}
@@ -88,15 +88,18 @@ jobs:
           jq -e --arg repo "$GITHUB_REPOSITORY" '.conclusion == "success" and .path == ".github/workflows/ci.yml" and .head_repository.full_name == $repo' "$RUNNER_TEMP/qualification-run.json"
           echo "run_id=$QUALIFICATION_RUN" >> "$GITHUB_OUTPUT"
           echo "source_commit=$(jq -r .head_sha "$RUNNER_TEMP/qualification-run.json")" >> "$GITHUB_OUTPUT"
+          echo "run_attempt=$(jq -r .run_attempt "$RUNNER_TEMP/qualification-run.json")" >> "$GITHUB_OUTPUT"
       - uses: actions/download-artifact@v4
         with:
           name: web-core-qualified
           path: artifacts
           github-token: ${{ github.token }}
           run-id: ${{ steps.qualification.outputs.run_id }}
-      - name: Verify the exact qualified packages and inputs
+      - name: Verify exact CI packages, consumer acceptance and recorded test scope
         env:
           CORE_QUALIFICATION_COMMIT: ${{ steps.qualification.outputs.source_commit }}
+          CORE_QUALIFICATION_RUN_ID: ${{ steps.qualification.outputs.run_id }}
+          CORE_QUALIFICATION_RUN_ATTEMPT: ${{ steps.qualification.outputs.run_attempt }}
         run: node scripts/release-identity.mjs verify
       - name: Publish six packages in dependency order
         shell: bash
@@ -142,11 +145,11 @@ jobs:
           for directory in client vue ui-vue nuxt uniapp testing; do
             name="@peanut-admin/$directory"
             version="${GITHUB_REF_NAME#v}"
-            current="$name@$version (qualified package)"
+            current="$name@$version (accepted CI package)"
             read -r filename integrity < <(node -e '
               const identity=require("./artifacts/release-identity.json");
               const p=identity.packages.find(p => p.name === process.argv[1] && p.version === process.argv[2]);
-              if (!p) throw new Error("Missing qualified package");
+              if (!p) throw new Error("Missing accepted CI package");
               process.stdout.write(`${p.filename} ${p.integrity}\n`);
             ' "$name" "$version")
             [[ -n "$filename" && -n "$integrity" ]] || exit 1
