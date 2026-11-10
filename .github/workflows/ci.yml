@@ -5,12 +5,12 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: Full qualification or nonpublishing package identity only
+        description: Package production, optional full qualification, or nonpublishing identity
         type: choice
-        options: [qualification, identity]
-        default: qualification
+        options: [production, qualification, identity]
+        default: production
       expected_source_commit:
-        description: Exact dispatch HEAD required for identity mode
+        description: Exact 40-character dispatch HEAD (required for production/identity; optional for qualification)
         type: string
         default: ''
 
@@ -91,13 +91,24 @@ jobs:
           echo 'baseline=explicit' >> "$GITHUB_OUTPUT"
 
   core:
-    name: Web Core qualification
+    name: Web Core ${{ inputs.mode }}
     needs: changes
     if: needs.changes.outputs.runtime == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Bind production to the exact selected source
+        env:
+          EXPECTED_SOURCE: ${{ inputs.expected_source_commit }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -Eeuo pipefail
+          [[ "$MODE" == production || "$MODE" == qualification ]]
+          if [[ "$MODE" == production || -n "$EXPECTED_SOURCE" ]]; then
+            [[ "$EXPECTED_SOURCE" =~ ^[a-f0-9]{40}$ && "$EXPECTED_SOURCE" == "$GITHUB_SHA" ]]
+            [[ "$(git rev-parse HEAD)" == "$EXPECTED_SOURCE" ]]
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: '22.23.2'
@@ -107,10 +118,13 @@ jobs:
         env:
           HUSKY: '0'
         run: pnpm install --frozen-lockfile
-      - name: Build, test, pack and consume public packages
+      - name: Produce once and consume public packages (full suites only in qualification)
+        env:
+          MODE: ${{ inputs.mode }}
         run: |
+          set -Eeuo pipefail
           mkdir -p .local/tmp
-          TMPDIR="$PWD/.local/tmp" pnpm run verify:a1
+          TMPDIR="$PWD/.local/tmp" node scripts/verify-a1-packages.mjs "$MODE"
       - uses: actions/upload-artifact@v4
         with:
           name: web-core-qualified

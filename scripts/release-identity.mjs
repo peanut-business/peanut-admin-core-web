@@ -116,6 +116,7 @@ const artifactSeal = (identity) => {
   if (hash(bytes) !== identity.inputSealSha256) throw new Error('Build-input seal bytes differ');
   const seal = JSON.parse(bytes); validateSupply(seal);
   if (seal.sourceCommit !== identity.sourceCommit || JSON.stringify(seal.inputs) !== JSON.stringify(identity.inputs)) throw new Error('Artifact input seal identity differs');
+  if (process.env.CORE_QUALIFICATION_RUN_ID && (seal.provenance.githubRunId !== process.env.CORE_QUALIFICATION_RUN_ID || seal.provenance.githubRunAttempt !== process.env.CORE_QUALIFICATION_RUN_ATTEMPT)) throw new Error('Artifact provenance differs from the selected CI run/attempt');
   return seal;
 };
 const recordVerifier = (identity) => {
@@ -126,6 +127,17 @@ const recordVerifier = (identity) => {
   } else writeFileSync(target, JSON.stringify(record, null, 2) + '\n', { flag: 'wx' });
 };
 const manifestPath = join(dir, 'release-identity.json');
+const validateAcceptance = (identity) => {
+  const checks = identity.checks;
+  if (!checks || !['production', 'qualification'].includes(checks.mode) || checks.packageConsumer !== 'PASS'
+    || identity.consumerLockSha256 !== hash(readFileSync(join(dir, 'consumer-package-lock.json')))) throw new Error('Package consumer acceptance or dependency lock differs');
+  const full = checks.mode === 'qualification';
+  if (identity.qualified !== full || checks.fullQualification !== (full ? 'PASS' : 'NOT_RUN')) throw new Error('Full qualification scope differs');
+  for (const name of ['vitest', 'tooling']) {
+    const check = checks[name];
+    if (!check || check.status !== (full ? 'PASS' : 'NOT_RUN') || !Number.isSafeInteger(check.tests) || (full ? check.tests <= 0 : check.tests !== 0)) throw new Error(`Invalid ${name} execution scope`);
+  }
+};
 const invoked = process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
 const mode = invoked ? process.argv[2] : undefined;
 if (mode === 'inputs') {
@@ -168,26 +180,34 @@ if (mode === 'inputs') {
   artifactSeal(identity);
   if (mode === 'qualify' && JSON.stringify(verifyCurrentInputs().inputs) !== JSON.stringify(identity.inputs)) throw new Error('Qualification build inputs differ');
   if (mode === 'verify') recordVerifier(identity);
-  if (identity.packages?.length !== names.length || new Set(identity.packages.map((p) => p.name)).size !== names.length) throw new Error('Expected six unique qualified packages');
+  if (identity.packages?.length !== names.length || new Set(identity.packages.map((p) => p.name)).size !== names.length) throw new Error('Expected six unique packages');
   for (const p of identity.packages) {
-    if (!names.some((name) => p.name === `@peanut-admin/${name}`) || p.filename !== `peanut-admin-${p.name.split('/')[1]}-${p.version}.tgz`) throw new Error('Unexpected package identity');
+    const name = names.find(name => p.name === `@peanut-admin/${name}`);
+    if (!name || p.version !== JSON.parse(readFileSync(join(root, 'packages', name, 'package.json'))).version || p.filename !== `peanut-admin-${name}-${p.version}.tgz`) throw new Error('Unexpected package identity or version');
     const bytes = readFileSync(join(dir, p.filename));
-    if (hash(bytes) !== p.sha256 || `sha512-${createHash('sha512').update(bytes).digest('base64')}` !== p.integrity) throw new Error(`Qualified bytes differ: ${p.name}`);
+    if (hash(bytes) !== p.sha256 || `sha512-${createHash('sha512').update(bytes).digest('base64')}` !== p.integrity) throw new Error(`Original package bytes differ: ${p.name}`);
   }
   if (mode === 'qualify') {
+    const scope = process.argv[3];
+    const full = scope === 'qualification';
+    const counts = process.argv.slice(4).map(value => /^[0-9]+$/.test(value) ? Number(value) : NaN);
+    if (!['production', 'qualification'].includes(scope) || counts.length !== 2 || counts.some(count => !Number.isSafeInteger(count) || (full ? count <= 0 : count !== 0))) throw new Error('Expected actual production/qualification test counts');
     identity.consumerLockSha256 = hash(readFileSync(join(dir, 'consumer-package-lock.json')));
-    identity.qualified = true;
+    identity.qualified = full;
+    identity.checks = { mode: scope, packageConsumer: 'PASS', fullQualification: full ? 'PASS' : 'NOT_RUN', vitest: { status: full ? 'PASS' : 'NOT_RUN', tests: counts[0] }, tooling: { status: full ? 'PASS' : 'NOT_RUN', tests: counts[1] } };
     writeFileSync(manifestPath, JSON.stringify(identity, null, 2) + '\n');
-  } else if (identity.qualified !== true || identity.consumerLockSha256 !== hash(readFileSync(join(dir, 'consumer-package-lock.json')))) throw new Error('Package consumer qualification did not complete or its dependency lock differs');
-  console.log(`Web Core ${mode}: ${identity.packages.length} exact packages`);
+  }
+  validateAcceptance(identity);
+  console.log(`Web Core ${mode}: ${identity.packages.length} exact packages; consumer ${identity.checks.packageConsumer}; full qualification ${identity.checks.fullQualification}`);
 } else if (mode === 'registry') {
   const identity = JSON.parse(readFileSync(manifestPath, 'utf8'));
   artifactSeal(identity);
+  validateAcceptance(identity);
   recordVerifier(identity);
   const pkg = identity.packages.find((p) => p.name === process.argv[3]);
-  if (!pkg || identity.qualified !== true) throw new Error('Package is not qualified');
+  if (!pkg) throw new Error('Package has no consumer acceptance');
   const metadata = JSON.parse(readFileSync(process.argv[4], 'utf8'));
-  if (metadata.name !== pkg.name || metadata.version !== pkg.version || metadata.dist?.integrity !== pkg.integrity) throw new Error('Registry metadata differs from qualified package');
+  if (metadata.name !== pkg.name || metadata.version !== pkg.version || metadata.dist?.integrity !== pkg.integrity) throw new Error('Registry metadata differs from accepted package');
   const url = new URL(metadata.dist.tarball);
   if (url.protocol !== 'https:' || url.hostname !== 'registry.npmjs.org') throw new Error('Unexpected registry tarball origin');
   const response = await fetch(url);
@@ -195,4 +215,8 @@ if (mode === 'inputs') {
   const bytes = Buffer.from(await response.arrayBuffer());
   if (hash(bytes) !== pkg.sha256) throw new Error('Actual registry tarball bytes differ from qualification');
   console.log(`${pkg.name}@${pkg.version}: registry bytes matched ${pkg.sha256}`);
-} else if (invoked) throw new Error('Usage: release-identity.mjs inputs|build|pack|qualify|verify|registry [name metadata.json]');
+} else if (invoked) {
+  const usage = 'Usage: release-identity.mjs inputs|build|pack|verify\n  qualify <production|qualification> <vitest-count> <tooling-count> (native producer only)\n  registry <name> <metadata.json>';
+  if (mode === '--help' || mode === 'help') console.log(usage);
+  else throw new Error(usage);
+}
