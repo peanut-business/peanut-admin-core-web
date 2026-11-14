@@ -1,5 +1,5 @@
 export const PEANUT_ADMIN_VUE_PACKAGE = '@peanut-admin/vue' as const;
-export const PEANUT_ADMIN_VUE_VERSION = '5.1.0' as const;
+export const PEANUT_ADMIN_VUE_VERSION = '5.1.1' as const;
 
 export type { ApiAudience } from './api/audience.js';
 export {

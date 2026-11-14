@@ -49,9 +49,9 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "node ../../scripts/local-core-writer.mjs --packages ui-vue --operation build -- tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "watch": "node ../../scripts/local-core-writer.mjs --packages ui-vue --operation watch -- tsc -p tsconfig.json --watch --preserveWatchOutput"
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
     "@peanut-admin/vue": "5.1.1",

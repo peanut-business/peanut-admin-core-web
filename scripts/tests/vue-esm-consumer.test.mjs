@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import test from 'node:test';
@@ -14,12 +14,8 @@ const entry = resolve(packageRoot, manifest.exports['.'].import);
 assert.ok(entry.startsWith(packageRoot + sep));
 
 function consume(source) {
-  const temporaryRoot = resolve(process.env.TMPDIR || '');
-  const owned = relative(join(root, '.local/tmp'), temporaryRoot);
-  assert.ok(
-    owned !== '..' && !owned.startsWith('..' + sep),
-    'Use this checkout-owned TMPDIR'
-  );
+  const temporaryRoot = join(root, '.local/tmp');
+  mkdirSync(temporaryRoot, { recursive: true });
   const directory = mkdtempSync(join(temporaryRoot, 'vue-esm-'));
   try {
     const result = spawnSync(
