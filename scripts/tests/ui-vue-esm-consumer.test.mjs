@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import {
   existsSync,
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   readdirSync,
@@ -23,12 +24,8 @@ const importEntry = `import * as api from ${JSON.stringify(
 )};`;
 
 function consume(source) {
-  const temporaryRoot = resolve(process.env.TMPDIR || '');
-  const owned = relative(join(root, '.local/tmp'), temporaryRoot);
-  assert.ok(
-    owned !== '..' && !owned.startsWith('..' + sep),
-    'Use this checkout-owned TMPDIR'
-  );
+  const temporaryRoot = join(root, '.local/tmp');
+  mkdirSync(temporaryRoot, { recursive: true });
   const directory = mkdtempSync(join(temporaryRoot, 'ui-vue-esm-'));
   try {
     const result = spawnSync(

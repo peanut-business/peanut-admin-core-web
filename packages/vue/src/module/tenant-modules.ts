@@ -6,6 +6,14 @@ export interface TenantModuleRoute {
   children?: readonly TenantModuleRoute[];
 }
 
+const flattenRoutes = (
+  routes: readonly TenantModuleRoute[]
+): TenantModuleRoute[] =>
+  routes.flatMap((route) => [
+    route,
+    ...(route.children ? flattenRoutes(route.children) : []),
+  ]);
+
 /**
  * Derive the distinct Tenant module keys exposed by a server-authorized route
  * tree. The host owns fetching and route-to-component resolution.
@@ -15,8 +23,7 @@ export const enabledTenantModulesFromRoutes = (
 ): string[] =>
   Array.from(
     new Set(
-      routes
-        .flatMap((route) => [route, ...(route.children ?? [])])
+      flattenRoutes(routes)
         .map((route) => route.meta?.tenantModuleKey)
         .filter((key): key is string => typeof key === 'string')
     )

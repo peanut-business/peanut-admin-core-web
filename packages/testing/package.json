@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/testing",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Reusable testing helpers for Peanut Admin Vue clients",
   "type": "module",
   "license": "Apache-2.0",
@@ -21,12 +21,12 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "node ../../scripts/local-core-writer.mjs --packages testing --operation build -- tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "watch": "node ../../scripts/local-core-writer.mjs --packages testing --operation watch -- tsc -p tsconfig.json --watch --preserveWatchOutput"
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
-    "@peanut-admin/vue": "5.1.1"
+    "@peanut-admin/vue": "5.1.2"
   },
   "devDependencies": {
     "@peanut-admin/vue": "workspace:*"

@@ -4,7 +4,6 @@ import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, realpathSync, lstatSync, existsSync, readlinkSync } from 'node:fs';
 import { resolve, join, dirname, relative, basename, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { acquireCoreWriters } from './local-core-writer.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dir = resolve(process.env.CORE_RELEASE_ARTIFACTS || join(root, 'artifacts'));
@@ -79,7 +78,7 @@ const moduleIdentity = (name) => {
 const sourceInputs = () => {
   run('git', ['diff', '--exit-code', 'HEAD', '--']);
   if (run('git', ['ls-files', '--others', '--exclude-standard'])) throw new Error('Untracked source must be committed before sealing inputs');
-  const files = ['tools/build-inputs.json', 'scripts/release-identity.mjs', 'scripts/verify-a1-packages.mjs', 'scripts/local-core-writer.mjs', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'tsconfig.base.json', '.github/workflows/ci.yml', '.github/workflows/release.yml', ...names.flatMap(name => [`packages/${name}/package.json`, `packages/${name}/tsconfig.json`]), ...['.npmrc', ...names.map(name => `packages/${name}/.npmrc`)].filter(name => existsSync(join(root, name)))];
+  const files = ['tools/build-inputs.json', 'scripts/release-identity.mjs', 'scripts/verify-a1-packages.mjs', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'tsconfig.base.json', '.github/workflows/ci.yml', '.github/workflows/release.yml', ...names.flatMap(name => [`packages/${name}/package.json`, `packages/${name}/tsconfig.json`]), ...['.npmrc', ...names.map(name => `packages/${name}/.npmrc`)].filter(name => existsSync(join(root, name)))];
   return { tree: run('git', ['rev-parse', 'HEAD^{tree}']), files: Object.fromEntries(files.map(name => [name, hash(readFileSync(join(root, name)))])), lock: hash(readFileSync(join(root, 'pnpm-lock.yaml'))) };
 };
 const captureInputs = () => {
@@ -149,12 +148,9 @@ if (mode === 'inputs') {
   console.log('Web build inputs: actual source, binary and distribution content sealed/verified');
 } else if (mode === 'build') {
   verifyCurrentInputs();
-  const writers = acquireCoreWriters(root, names, { repository: root, operation: 'build' });
-  try {
-    for (const name of names) {
-      execFileSync(process.execPath, policy.buildArgs.map(arg => arg === '<typescript>/bin/tsc' ? join(packageRoot('typescript'), 'bin/tsc') : arg), { cwd: join(root, 'packages', name), env: producerEnv(), stdio: 'inherit' });
-    }
-  } finally { writers.release(); }
+  for (const name of names) {
+    execFileSync(process.execPath, policy.buildArgs.map(arg => arg === '<typescript>/bin/tsc' ? join(packageRoot('typescript'), 'bin/tsc') : arg), { cwd: join(root, 'packages', name), env: producerEnv(), stdio: 'inherit' });
+  }
   verifyCurrentInputs();
 } else if (mode === 'pack') {
   mkdirSync(dir, { recursive: true });

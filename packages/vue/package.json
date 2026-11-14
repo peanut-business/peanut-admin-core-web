@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/vue",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Vue integration primitives for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -21,14 +21,14 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "node ../../scripts/local-core-writer.mjs --packages vue --operation build -- tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "watch": "node ../../scripts/local-core-writer.mjs --packages vue --operation watch -- tsc -p tsconfig.json --watch --preserveWatchOutput"
+    "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
     "pinia": ">=2.0.23 <5",
     "vue": "^3.4.21",
-    "@peanut-admin/client": "5.1.1"
+    "@peanut-admin/client": "5.1.2"
   },
   "engines": {
     "node": ">=22.12.0 <23"
