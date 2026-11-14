@@ -1,6 +1,6 @@
 {
   "name": "@peanut-admin/ui-vue",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "Reusable Vue UI components for Peanut Admin",
   "type": "module",
   "license": "Apache-2.0",
@@ -54,7 +54,7 @@
     "watch": "tsc -p tsconfig.json --watch --preserveWatchOutput"
   },
   "peerDependencies": {
-    "@peanut-admin/vue": "5.1.1",
+    "@peanut-admin/vue": "5.1.2",
     "element-plus": "^2.14.3",
     "vue": "^3.4.21"
   },
