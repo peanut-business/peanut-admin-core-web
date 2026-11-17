@@ -5,6 +5,7 @@ export interface ShellTabRoute {
   query?: unknown;
   meta?: {
     locale?: string;
+    title?: string;
     ignoreCache?: boolean | undefined;
     fullPathKey?: boolean;
   };
@@ -34,7 +35,7 @@ export interface ShellTabState {
 
 export const tabFromRoute = (route: ShellTabRoute): ShellTab => ({
   key: getTabKey(route),
-  title: route.meta?.locale || '',
+  title: route.meta?.locale || route.meta?.title || String(route.name ?? ''),
   name: String(route.name),
   fullPath: route.fullPath,
   query: route.query,

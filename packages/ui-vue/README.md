@@ -77,6 +77,9 @@ The default key is the complete `fullPath`. With route metadata
 the complete navigation URL. `tabFromRoute` stores this identity in `key`.
 Hosts must use the same key for deduplication, active state, caching, reload and
 close, and update an existing tab's navigation URL when its key is reused.
+The title uses `meta.locale`, then `meta.title`, then the route name. Hosts
+translate locale keys and may project the authorized menu's display name without
+changing tab identity or its navigation URL.
 Choose this metadata for singleton pages; leave it unset for separate parameter
 workspaces. The helper does not manage a router, cache, store or persistence.
 
