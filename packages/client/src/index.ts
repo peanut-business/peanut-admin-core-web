@@ -560,3 +560,16 @@ export const createClient = <TRequestData = unknown>(
 export type ClientResult<TData = unknown> = ClientDecodeResult<TData>;
 export type ClientRequestResult<TData = unknown> = Promise<TData>;
 export type ClientHook = (error: ClientRequestError) => void | Promise<void>;
+export {
+  createRevisionedRequestCache,
+  createSingleFlight,
+  fetchAllPagesConcurrently,
+} from './concurrency.js';
+export type {
+  ConcurrentPageResult,
+  FetchAllPagesOptions,
+  FetchAllPagesOutcome,
+  RevisionedRequestCache,
+  RevisionedRequestCacheOptions,
+  SingleFlight,
+} from './concurrency.js';

@@ -1,5 +1,3 @@
-/* eslint-disable vue/one-component-per-file */
-
 import { ElButton, ElDrawer } from 'element-plus';
 import { computed, defineComponent, h, onBeforeUnmount, onMounted } from 'vue';
 import type { Component, PropType, VNodeChild } from 'vue';

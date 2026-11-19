@@ -6,7 +6,24 @@ export {
   createBrowserRefreshCoordinator,
   createMemoryRefreshCoordinator,
 } from './api/refresh.js';
-export type { RefreshAttempt, RefreshCoordinator } from './api/refresh.js';
+export type {
+  BrowserRefreshCoordinatorOptions,
+  RefreshAttempt,
+  RefreshCoordinator,
+} from './api/refresh.js';
+export {
+  createRevisionedRequestCache,
+  createSingleFlight,
+  fetchAllPagesConcurrently,
+} from '@peanut-admin/client';
+export type {
+  ConcurrentPageResult,
+  FetchAllPagesOptions,
+  FetchAllPagesOutcome,
+  RevisionedRequestCache,
+  RevisionedRequestCacheOptions,
+  SingleFlight,
+} from '@peanut-admin/client';
 export { isProblemCode, parseProblemDetails } from './api/problem.js';
 export type { ProblemDetails, ProblemFieldError } from './api/problem.js';
 export { hasAllPermissions, hasPermission } from './access/access.js';

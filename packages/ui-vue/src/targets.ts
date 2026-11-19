@@ -1,5 +1,3 @@
-/* eslint-disable vue/one-component-per-file */
-
 import type { TargetCandidate, TypedTarget } from '@peanut-admin/vue';
 import { ElOption, ElPagination, ElSelect } from 'element-plus';
 import { computed, defineComponent, h } from 'vue';

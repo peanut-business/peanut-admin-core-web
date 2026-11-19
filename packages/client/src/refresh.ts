@@ -7,6 +7,8 @@ export interface RefreshAttempt {
 
 export interface RefreshCoordinator {
   coordinate: (attempt: RefreshAttempt) => Promise<string | null>;
+  clearScope?: (scope: string) => void;
+  dispose?: () => void;
 }
 
 export const createMemoryRefreshCoordinator = (): RefreshCoordinator => {
@@ -23,6 +25,12 @@ export const createMemoryRefreshCoordinator = (): RefreshCoordinator => {
         pending.set(attempt.scope, promise);
       }
       return promise;
+    },
+    clearScope(scope) {
+      pending.delete(scope);
+    },
+    dispose() {
+      pending.clear();
     },
   };
 };
