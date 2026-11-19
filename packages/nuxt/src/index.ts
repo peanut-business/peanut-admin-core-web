@@ -1,6 +1,9 @@
-import { clientAbortError, resolveClientUrl } from '@peanut-admin/client';
+import {
+  clientAbortError,
+  clientHeadersToRecord,
+  resolveClientUrl,
+} from '@peanut-admin/client';
 import type {
-  ClientHeaders,
   ClientRequestMethod,
   ClientTransport,
   ClientTransportRequest,
@@ -39,14 +42,6 @@ export interface NuxtSsrForwardHeadersOptions {
 
 const isQueryMethod = (method: string): boolean =>
   method === 'GET' || method === 'DELETE';
-
-const headersRecord = (headers: ClientHeaders): Record<string, string> => {
-  const result: Record<string, string> = {};
-  headers.forEach((value, key) => {
-    result[key] = value;
-  });
-  return result;
-};
 
 const invalidForwardContext = (): Error =>
   new Error('NUXT_SSR_FORWARD_CONTEXT_INVALID');
@@ -146,7 +141,7 @@ export const createNuxtClientTransport = <TData = unknown>(
       method,
       ...(request.signal !== undefined ? { signal: request.signal } : {}),
       headers: {
-        ...headersRecord(request.headers),
+        ...clientHeadersToRecord(request.headers),
         ...options.forwardHeaders,
       },
       ...(request.data !== undefined

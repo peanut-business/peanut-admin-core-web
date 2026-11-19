@@ -1,6 +1,9 @@
-import { clientAbortError, resolveClientUrl } from '@peanut-admin/client';
+import {
+  clientAbortError,
+  clientHeadersToRecord,
+  resolveClientUrl,
+} from '@peanut-admin/client';
 import type {
-  ClientHeaders,
   ClientRequestMethod,
   ClientTransport,
   ClientTransportRequest,
@@ -33,14 +36,6 @@ export interface UniAppClientTransportOptions<TData = unknown> {
   readonly baseUrl: string;
   readonly request: UniAppClientRequest<TData>;
 }
-
-const headersRecord = (headers: ClientHeaders): Record<string, string> => {
-  const result: Record<string, string> = {};
-  headers.forEach((value, key) => {
-    result[key] = value;
-  });
-  return result;
-};
 
 /**
  * Bridges the shared request contract to uni.request, including cancellation.
@@ -86,7 +81,7 @@ export const createUniAppClientTransport =
         url: resolveClientUrl(options.baseUrl, request.path),
         method: request.method,
         ...(request.data !== undefined ? { data: request.data } : {}),
-        header: headersRecord(request.headers),
+        header: clientHeadersToRecord(request.headers),
         success: (response) => finish(() => resolve(response.data)),
         fail: (error) => finish(() => reject(error)),
       };

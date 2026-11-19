@@ -1,3 +1,51 @@
+export type AbortableSignal = Pick<
+  AbortSignal,
+  'aborted' | 'addEventListener' | 'removeEventListener'
+> & { readonly reason?: unknown };
+
+/** Races a promise against an AbortSignal and cleans up listeners upon completion. */
+export const raceAbortSignal = async <T>(
+  promise: Promise<T>,
+  signal?: AbortableSignal,
+  createAbortError?: (signal: AbortableSignal) => unknown
+): Promise<T> => {
+  if (signal === undefined) return promise;
+  const toError =
+    createAbortError ??
+    ((sig: AbortableSignal) =>
+      sig.reason ??
+      Object.assign(new Error('The request was aborted.'), {
+        name: 'AbortError',
+      }));
+  if (signal.aborted) {
+    throw toError(signal);
+  }
+  return new Promise<T>((resolve, reject) => {
+    const abort = () => {
+      cleanup();
+      reject(toError(signal));
+    };
+    const cleanup = () => signal.removeEventListener('abort', abort);
+    signal.addEventListener('abort', abort, { once: true });
+    if (signal.aborted) {
+      abort();
+      return;
+    }
+    promise.then(
+      (result) => {
+        cleanup();
+        if (signal.aborted) reject(toError(signal));
+        else resolve(result);
+      },
+      (error) => {
+        cleanup();
+        if (signal.aborted) reject(toError(signal));
+        else reject(error);
+      }
+    );
+  });
+};
+
 export interface SingleFlight<T = unknown> {
   run: <TResult extends T = T>(
     key: string,

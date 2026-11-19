@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
+  createPeanutEnvelopeDecoder,
   createRevisionedRequestCache,
   createSingleFlight,
   fetchAllPagesConcurrently,
+  raceAbortSignal,
 } from '../src/index.js';
 
 describe('concurrency helpers', () => {
@@ -89,5 +91,41 @@ describe('concurrency helpers', () => {
 
     cache.invalidateScope('t1:rev1');
     expect(cache.get('t1:rev1', 'menus')).toBeUndefined();
+  });
+
+  it('races promises against AbortSignal and decodes standard Peanut envelopes', async () => {
+    const controller = new AbortController();
+    const pending = new Promise<string>((resolve) => {
+      setTimeout(() => resolve('late'), 50);
+    });
+    setTimeout(() => controller.abort(), 5);
+    await expect(raceAbortSignal(pending, controller.signal)).rejects.toThrow();
+
+    const decode = createPeanutEnvelopeDecoder();
+    const dummyReq = {
+      path: '/api/v1/demo',
+      method: 'GET' as const,
+      headers: {
+        delete: () => undefined,
+        get: () => null,
+        has: () => false,
+        set: () => undefined,
+        forEach: () => undefined,
+      },
+    };
+    expect(decode({ code: 0, data: { ok: true } }, dummyReq)).toEqual({
+      kind: 'success',
+      data: { ok: true },
+    });
+    expect(decode({ code: 401, msg: 'expired' }, dummyReq)).toEqual({
+      kind: 'unauthorized',
+      code: '401',
+      message: 'expired',
+    });
+    expect(decode({ code: 422, msg: 'bad' }, dummyReq)).toEqual({
+      kind: 'business',
+      code: '422',
+      message: 'bad',
+    });
   });
 });

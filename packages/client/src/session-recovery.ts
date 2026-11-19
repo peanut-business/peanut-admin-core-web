@@ -1,3 +1,5 @@
+import { createSingleFlight, raceAbortSignal } from './concurrency.js';
+import type { AbortableSignal } from './concurrency.js';
 import { createMemoryRefreshCoordinator } from './refresh.js';
 
 export interface SessionSnapshot {
@@ -15,10 +17,7 @@ export interface SessionRecoveryOptions {
   readonly invalidate: (snapshot: SessionSnapshot) => Promise<void>;
 }
 
-type RequestSignal = Pick<
-  AbortSignal,
-  'aborted' | 'addEventListener' | 'removeEventListener'
-> & { readonly reason?: unknown };
+type RequestSignal = AbortableSignal;
 
 const changed = () => new Error('The request session has changed.');
 const aborted = (signal: RequestSignal) =>
@@ -31,35 +30,10 @@ function checkSignal(signal?: RequestSignal): void {
   }
 }
 
-function awaitRefresh(
-  pending: Promise<string>,
-  signal?: RequestSignal
-): Promise<string> {
-  if (!signal) return pending;
-  checkSignal(signal);
-  return new Promise((resolve, reject) => {
-    const abort = () => {
-      signal.removeEventListener('abort', abort);
-      reject(aborted(signal));
-    };
-    signal.addEventListener('abort', abort, { once: true });
-    pending.then(
-      (token) => {
-        signal.removeEventListener('abort', abort);
-        resolve(token);
-      },
-      (error: unknown) => {
-        signal.removeEventListener('abort', abort);
-        reject(error);
-      }
-    );
-  });
-}
-
 /** One instance per host session, shared by its Axios and fetch adapters. */
 export function createSessionRecovery(options: SessionRecoveryOptions) {
   const refreshes = createMemoryRefreshCoordinator();
-  const invalidations = new Map<string, Promise<void>>();
+  const invalidationFlight = createSingleFlight<void>();
   const key = (snapshot: SessionSnapshot) =>
     JSON.stringify([snapshot.generation, snapshot.token]);
   const assertCurrent = (
@@ -79,17 +53,10 @@ export function createSessionRecovery(options: SessionRecoveryOptions) {
     )
       return;
     const identity = key(snapshot);
-    let pending = invalidations.get(identity);
-    if (!pending) {
-      pending = Promise.resolve()
-        .then(() => {
-          assertCurrent(snapshot);
-          return options.invalidate(snapshot);
-        })
-        .finally(() => invalidations.delete(identity));
-      invalidations.set(identity, pending);
-    }
-    await pending;
+    await invalidationFlight.run(identity, async () => {
+      assertCurrent(snapshot);
+      await options.invalidate(snapshot);
+    });
   };
   const refresh = async (
     snapshot: SessionSnapshot,
@@ -129,7 +96,7 @@ export function createSessionRecovery(options: SessionRecoveryOptions) {
       });
     let token: string;
     try {
-      token = await awaitRefresh(pending, signal);
+      token = await raceAbortSignal(pending, signal, aborted);
     } catch (error) {
       checkSignal(signal);
       const latest = options.current();

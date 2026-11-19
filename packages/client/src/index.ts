@@ -1,3 +1,5 @@
+import { createSingleFlight, raceAbortSignal } from './concurrency.js';
+
 export {
   createSessionRecovery,
   createSessionFetch,
@@ -350,6 +352,82 @@ const requestHeaders = (
   return result;
 };
 
+export const clientHeadersToRecord = (
+  headers: ClientHeaders
+): Record<string, string> => {
+  const result: Record<string, string> = {};
+  headers.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
+};
+
+export interface PeanutEnvelopeDecoderOptions {
+  readonly successCode?: number;
+  readonly unauthorizedCodes?: readonly number[];
+  readonly invalidResponseMessage?: string;
+}
+
+export const createPeanutEnvelopeDecoder = (
+  options: PeanutEnvelopeDecoderOptions = {}
+): ClientDecoder => {
+  const successCode = options.successCode ?? 0;
+  const unauthorizedSet = new Set(options.unauthorizedCodes ?? [401, 40100]);
+  const invalidMessage =
+    options.invalidResponseMessage ?? 'Invalid server response.';
+
+  return (raw: unknown): ClientDecodeResult => {
+    if (!isRecord(raw)) {
+      return {
+        kind: 'business',
+        code: 'INVALID_RESPONSE',
+        message: invalidMessage,
+      };
+    }
+    const rawCode = raw.code;
+    const numericCode =
+      typeof rawCode === 'number'
+        ? rawCode
+        : typeof rawCode === 'string' && rawCode.trim() !== ''
+          ? Number(rawCode)
+          : Number.NaN;
+    const codeStr =
+      typeof rawCode === 'string' && rawCode.trim() !== ''
+        ? rawCode.trim()
+        : Number.isFinite(numericCode)
+          ? String(numericCode)
+          : undefined;
+    const msg =
+      typeof raw.msg === 'string'
+        ? raw.msg
+        : typeof raw.message === 'string'
+          ? raw.message
+          : undefined;
+
+    if (numericCode === successCode) {
+      return {
+        kind: 'success',
+        data: 'data' in raw ? raw.data : raw,
+      };
+    }
+    if (
+      (Number.isFinite(numericCode) && unauthorizedSet.has(numericCode)) ||
+      codeStr === 'UNAUTHORIZED'
+    ) {
+      return {
+        kind: 'unauthorized',
+        ...(codeStr !== undefined ? { code: codeStr } : {}),
+        ...(msg !== undefined ? { message: msg } : {}),
+      };
+    }
+    return {
+      kind: 'business',
+      ...(codeStr !== undefined ? { code: codeStr } : {}),
+      ...(msg !== undefined ? { message: msg } : {}),
+    };
+  };
+};
+
 export const clientAbortError = (): Error => {
   const error = new Error('The request was aborted.');
   error.name = 'AbortError';
@@ -362,30 +440,7 @@ const isAbortError = (error: unknown): boolean =>
 const awaitWithSignal = async <T>(
   value: Promise<T>,
   signal?: AbortSignal
-): Promise<T> => {
-  if (signal === undefined) return value;
-  return new Promise<T>((resolve, reject) => {
-    const abort = () => {
-      cleanup();
-      reject(clientAbortError());
-    };
-    const cleanup = () => signal.removeEventListener('abort', abort);
-    signal.addEventListener('abort', abort, { once: true });
-    if (signal.aborted) abort();
-    value.then(
-      (result) => {
-        cleanup();
-        if (signal.aborted) reject(clientAbortError());
-        else resolve(result);
-      },
-      (error) => {
-        cleanup();
-        if (signal.aborted) reject(clientAbortError());
-        else reject(error);
-      }
-    );
-  });
-};
+): Promise<T> => raceAbortSignal(value, signal, () => clientAbortError());
 
 /**
  * Centralizes bearer injection, response decoding and request error hooks.
@@ -393,41 +448,33 @@ const awaitWithSignal = async <T>(
 export const createClient = <TRequestData = unknown>(
   options: ClientOptions<TRequestData>
 ): Client<TRequestData> => {
-  const unauthorizedHandling = new Map<string | null, Promise<void>>();
+  const unauthorizedFlight = createSingleFlight<void>();
 
   const invokeUnauthorized = async (
     error: ClientRequestError,
     requestToken: string | null
   ): Promise<void> => {
-    const identityKey = requestToken;
-    let handling = unauthorizedHandling.get(identityKey);
-    if (handling === undefined) {
-      handling = (async () => {
-        try {
-          if ((options.session.accessToken() || null) !== requestToken) return;
-          await options.session.clear(requestToken);
-          const tokenAfterClear = options.session.accessToken() || null;
-          if (tokenAfterClear !== null && tokenAfterClear !== requestToken)
-            return;
-        } catch {
-          throw new ClientRequestError(
-            'session',
-            'CLIENT_SESSION_CLEAR_ERROR',
-            'The client session could not be cleared.'
-          );
-        }
-        try {
-          await options.hooks?.unauthorized?.(error);
-        } catch {
-          // Hook failures cannot turn an unauthorized response into success.
-        }
-      })().finally(() => {
-        unauthorizedHandling.delete(identityKey);
-      });
-      unauthorizedHandling.set(identityKey, handling);
-    }
-
-    await handling;
+    const identityKey = requestToken === null ? '\0null' : `token:${requestToken}`;
+    await unauthorizedFlight.run(identityKey, async () => {
+      try {
+        if ((options.session.accessToken() || null) !== requestToken) return;
+        await options.session.clear(requestToken);
+        const tokenAfterClear = options.session.accessToken() || null;
+        if (tokenAfterClear !== null && tokenAfterClear !== requestToken)
+          return;
+      } catch {
+        throw new ClientRequestError(
+          'session',
+          'CLIENT_SESSION_CLEAR_ERROR',
+          'The client session could not be cleared.'
+        );
+      }
+      try {
+        await options.hooks?.unauthorized?.(error);
+      } catch {
+        // Hook failures cannot turn an unauthorized response into success.
+      }
+    });
   };
 
   const isRequestSessionCurrent = (requestToken: string | null): boolean => {
@@ -564,8 +611,10 @@ export {
   createRevisionedRequestCache,
   createSingleFlight,
   fetchAllPagesConcurrently,
+  raceAbortSignal,
 } from './concurrency.js';
 export type {
+  AbortableSignal,
   ConcurrentPageResult,
   FetchAllPagesOptions,
   FetchAllPagesOutcome,
