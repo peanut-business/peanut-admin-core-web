@@ -41,3 +41,15 @@ export const tabFromRoute = (route: ShellTabRoute): ShellTab => ({
   query: route.query,
   ignoreCache: route.meta?.ignoreCache,
 });
+
+export type ShellTabAction = 'refresh' | 'left' | 'right' | 'other' | 'all';
+/** Resolve affected tabs; the host owns navigation, cache eviction and refresh. */
+export const tabsForAction = (tabs: readonly ShellTab[], key: string, action: ShellTabAction): ShellTab[] => {
+  const index = tabs.findIndex(tab => getTabKey(tab) === key);
+  if (action === 'all') return tabs.slice(1);
+  if (index < 0) return [];
+  if (action === 'refresh') return [tabs[index]!];
+  if (action === 'left') return tabs.slice(1, index);
+  if (action === 'right') return tabs.slice(index + 1);
+  return tabs.filter((_, position) => position !== 0 && position !== index);
+};

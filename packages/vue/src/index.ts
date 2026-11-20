@@ -144,3 +144,10 @@ export type {
   TypedTarget,
   TypedTargetSet,
 } from './targets/store.js';
+export { useCrudTable } from './data/useCrudTable.js';
+export type { CrudScope, CrudSort, CrudTableOptions } from './data/useCrudTable.js';
+export { useCrudModal } from './data/useCrudModal.js';
+export type { CrudFormInstance, CrudModalMode, CrudModalOptions } from './data/useCrudModal.js';
+export { useTableColumns } from './data/useTableColumns.js';
+export type { TableColumn, TableColumnOptions } from './data/useTableColumns.js';
+export { invalidateDict, useDict } from './data/useDict.js';

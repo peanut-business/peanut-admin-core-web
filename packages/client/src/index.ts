@@ -52,6 +52,8 @@ export interface ClientRequest<TData = unknown> {
   /** Disables bearer injection and unauthorized-session cleanup. */
   readonly auth?: boolean;
   readonly signal?: AbortSignal;
+  /** Explicit caller-owned identity for deduplicating equivalent writes. */
+  readonly dedupeKey?: string;
 }
 
 export interface ClientTransportRequest<TData = unknown> {
@@ -112,6 +114,7 @@ export type ClientRequestErrorKind =
 export class ClientRequestError extends Error {
   readonly kind: ClientRequestErrorKind;
   readonly code: string;
+  traceId?: string;
 
   constructor(kind: ClientRequestErrorKind, code: string, message: string) {
     super(message);
@@ -485,7 +488,7 @@ export const createClient = <TRequestData = unknown>(
     }
   };
 
-  const request = async <TData = unknown>(
+  const performRequest = async <TData = unknown>(
     input: ClientRequest<TRequestData>
   ): Promise<TData> => {
     if (input.signal?.aborted) throw clientAbortError();
@@ -582,6 +585,9 @@ export const createClient = <TRequestData = unknown>(
         decoded.code,
         decoded.message
       );
+      const responseHeaders = isRecord(response) && 'headers' in response ? response.headers : undefined;
+      if (responseHeaders && typeof (responseHeaders as ClientHeaders).get === 'function') error.traceId = (responseHeaders as ClientHeaders).get('X-Request-Id') ?? undefined;
+      error.traceId ??= headers.get('X-Request-Id') ?? undefined;
       if (input.auth !== false) {
         await invokeUnauthorized(error, requestToken);
       }
@@ -593,6 +599,9 @@ export const createClient = <TRequestData = unknown>(
       decoded.code,
       decoded.message
     );
+    const responseHeaders = isRecord(response) && 'headers' in response ? response.headers : undefined;
+    if (responseHeaders && typeof (responseHeaders as ClientHeaders).get === 'function') error.traceId = (responseHeaders as ClientHeaders).get('X-Request-Id') ?? undefined;
+    error.traceId ??= headers.get('X-Request-Id') ?? undefined;
     try {
       await options.hooks?.businessError?.(error);
     } catch {
@@ -601,6 +610,44 @@ export const createClient = <TRequestData = unknown>(
     throw error;
   };
 
+  const writes = new Map<string, { controller: AbortController; promise: Promise<unknown>; users: number }>();
+  const request = async <TData = unknown>(input: ClientRequest<TRequestData>): Promise<TData> => {
+    const method = input.method ?? 'GET';
+    if (!input.dedupeKey || ['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+      try { return await performRequest<TData>(input); }
+      catch (error) {
+        if (error instanceof ClientRequestError && !error.traceId) {
+          try { error.traceId = requestHeaders(input.headers).get('X-Request-Id') ?? undefined; } catch { /* invalid header already reported */ }
+        }
+        throw error;
+      }
+    }
+    if (input.signal?.aborted) throw clientAbortError();
+    let key: string;
+    try {
+      const inspect = (value: unknown, seen = new Set<object>()): void => {
+        if (value === null || typeof value === 'string' || typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value))) return;
+        if (typeof value !== 'object' || seen.has(value) || (!Array.isArray(value) && Object.getPrototypeOf(value) !== Object.prototype)) throw new Error('not JSON data');
+        seen.add(value);
+        for (const child of Object.values(value)) inspect(child, seen);
+        seen.delete(value);
+      };
+      if (input.data !== undefined) inspect(input.data);
+      key = JSON.stringify([input.dedupeKey, method, input.path, input.data, clientHeadersToRecord(requestHeaders(input.headers)), input.auth === false ? null : options.session.accessToken()]);
+    } catch { return performRequest<TData>(input); }
+    let entry = writes.get(key);
+    if (!entry) {
+      const controller = new AbortController();
+      const promise = performRequest<TData>({ ...input, signal: controller.signal });
+      entry = { controller, promise, users: 0 };
+      writes.set(key, entry);
+      const active = entry;
+      void promise.then(() => { if (writes.get(key) === active) writes.delete(key); }, () => { if (writes.get(key) === active) writes.delete(key); });
+    }
+    entry.users++;
+    try { return await raceAbortSignal(entry.promise as Promise<TData>, input.signal, clientAbortError); }
+    finally { if (--entry.users === 0 && writes.get(key) === entry) { writes.delete(key); entry.controller.abort(); } }
+  };
   return { request };
 };
 
@@ -622,3 +669,5 @@ export type {
   RevisionedRequestCacheOptions,
   SingleFlight,
 } from './concurrency.js';
+export { createAbortScope, downloadBlob, downloadFilename } from './download.js';
+export type { DownloadBlobOptions } from './download.js';

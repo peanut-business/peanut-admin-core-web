@@ -58,3 +58,8 @@ export type {
   AdminShellOverrideRegistry,
   WorkspaceShellResolver,
 } from './overrides.js';
+export { CommandPalette } from './commands.js';
+export type { ShellCommand } from './commands.js';
+export { tabsForAction } from './tabs.js';
+export type { ShellTabAction } from './tabs.js';
+export { ShellTabContextMenu } from './commands.js';
