@@ -46,7 +46,7 @@ export function useCrudTable<T, F extends Record<string, unknown>>(options: Crud
     return result.status === 'completed' && current.value;
   };
   return { loading: list.loading, pagination: list.pagination, searchForm: list.filters, data: list.items,
-    error: list.error, clear: list.clear, deleting: deletion.loading, deleteError: deletion.error,
+    error: list.error, clear: () => { list.clear(); selection.value = []; }, deleting: deletion.loading, deleteError: deletion.error,
     fetchList, handleSearch, handleReset, handleDelete, selection, sort,
     setSelection: (value: readonly T[]) => { selection.value = value; },
     setSort: (value: CrudSort | undefined) => { sort.value = value; },

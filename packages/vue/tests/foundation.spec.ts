@@ -22,10 +22,26 @@ describe('shared data primitives', () => {
     await state.load(); expect(load).toHaveBeenCalledTimes(2); scope.stop();
   });
   it('passes sorting through to the list loader', async () => {
-    const load = vi.fn(async (query: { page: number; pageSize: number }) => ({ items: [], total: 0, page: query.page, pageSize: query.pageSize }));
+    const load = vi.fn(async (query: { page: number; pageSize: number }) => ({ items: [] as { id: number }[], total: 0, page: query.page, pageSize: query.pageSize }));
     const scope = effectScope(); const table = scope.run(() => useCrudTable({ initialFilters: {}, initialPageSize: 20, load, errorMessage: String }))!;
     await table.handleSortChange({ prop: 'name', order: 'ascending' });
-    expect(load).toHaveBeenCalledWith(expect.objectContaining({ sort: { prop: 'name', order: 'ascending' }, page: 1 })); scope.stop();
+    expect(load).toHaveBeenCalledWith(expect.objectContaining({ sort: { prop: 'name', order: 'ascending' }, page: 1 }));
+    table.setSelection([{ id: 1 }]); table.clear(); expect(table.selection.value).toEqual([]); scope.stop();
+  });
+  it('ignores malformed stored columns and resets all preferences', async () => {
+    const values = new Map<string, string>();
+    values.set('columns', JSON.stringify({ columns: [null, { key: 'a', visible: false, title: 'injected', width: 'bad' }, { key: 'a' }, { key: 'gone' }], density: 'compact', fixedHeader: false }));
+    vi.stubGlobal('localStorage', { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => values.set(key, value) });
+    try {
+      const scope = effectScope();
+      const state = scope.run(() => useTableColumns([{ key: 'a', title: 'original', width: 100 }, { key: 'b', title: 'second' }], { storageKey: 'columns', density: 'normal', fixedHeader: true }))!;
+      expect(state.columns.value[0]).toMatchObject({ key: 'a', title: 'original', width: 100, visible: false });
+      state.reset(); await nextTick();
+      expect(state.columns.value.map(column => column.key)).toEqual(['a', 'b']);
+      expect(state.columns.value[0]?.visible).toBeUndefined();
+      expect(state.density.value).toBe('normal'); expect(state.fixedHeader.value).toBe(true);
+      scope.stop();
+    } finally { vi.unstubAllGlobals(); }
   });
   it('keeps schema order within fixed partitions', async () => {
     const scope = effectScope();

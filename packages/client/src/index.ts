@@ -614,10 +614,13 @@ export const createClient = <TRequestData = unknown>(
   const request = async <TData = unknown>(input: ClientRequest<TRequestData>): Promise<TData> => {
     const method = input.method ?? 'GET';
     if (!input.dedupeKey || ['GET', 'HEAD', 'OPTIONS'].includes(method)) {
-      try { return await performRequest<TData>(input); }
-      catch (error) {
+      try {
+        return await performRequest<TData>(input);
+      } catch (error) {
         if (error instanceof ClientRequestError && !error.traceId) {
-          try { error.traceId = requestHeaders(input.headers).get('X-Request-Id') ?? undefined; } catch { /* invalid header already reported */ }
+          try {
+            error.traceId = requestHeaders(input.headers).get('X-Request-Id') ?? undefined;
+          } catch { /* invalid header already reported */ }
         }
         throw error;
       }
@@ -633,7 +636,11 @@ export const createClient = <TRequestData = unknown>(
         seen.delete(value);
       };
       if (input.data !== undefined) inspect(input.data);
-      key = JSON.stringify([input.dedupeKey, method, input.path, input.data, clientHeadersToRecord(requestHeaders(input.headers)), input.auth === false ? null : options.session.accessToken()]);
+      key = JSON.stringify([
+        input.dedupeKey, method, input.path, input.data,
+        clientHeadersToRecord(requestHeaders(input.headers)),
+        input.auth === false ? null : options.session.accessToken(),
+      ]);
     } catch { return performRequest<TData>(input); }
     let entry = writes.get(key);
     if (!entry) {
@@ -642,11 +649,18 @@ export const createClient = <TRequestData = unknown>(
       entry = { controller, promise, users: 0 };
       writes.set(key, entry);
       const active = entry;
-      void promise.then(() => { if (writes.get(key) === active) writes.delete(key); }, () => { if (writes.get(key) === active) writes.delete(key); });
+      const remove = () => { if (writes.get(key) === active) writes.delete(key); };
+      void promise.then(remove, remove);
     }
     entry.users++;
-    try { return await raceAbortSignal(entry.promise as Promise<TData>, input.signal, clientAbortError); }
-    finally { if (--entry.users === 0 && writes.get(key) === entry) { writes.delete(key); entry.controller.abort(); } }
+    try {
+      return await raceAbortSignal(entry.promise as Promise<TData>, input.signal, clientAbortError);
+    } finally {
+      if (--entry.users === 0 && writes.get(key) === entry) {
+        writes.delete(key);
+        entry.controller.abort();
+      }
+    }
   };
   return { request };
 };
