@@ -7,6 +7,15 @@ import { AdminShell, PlatformShell } from './layout.js';
 export const WORKSPACE_SHELL_OVERRIDE_KEY =
   'peanut.shell.service.workspace-component' as const;
 
+export const LOGIN_EXTRA_OVERRIDE_KEY =
+  'peanut.shell.component.login-extra' as const;
+export const NAVBAR_ACTIONS_OVERRIDE_KEY =
+  'peanut.shell.component.navbar-actions' as const;
+export const WORKBENCH_EXTRA_OVERRIDE_KEY =
+  'peanut.shell.component.workbench-extra' as const;
+export const FOOTER_OVERRIDE_KEY =
+  'peanut.shell.component.footer' as const;
+
 export type WorkspaceShellResolver = (audience: ApiAudience) => Component;
 
 const defaultWorkspaceShell: WorkspaceShellResolver = (audience) =>
@@ -28,6 +37,16 @@ const isVueComponent = (value: unknown): value is Component => {
   );
 };
 
+const optionalComponentSlot = <Key extends string>(key: Key) =>
+  defineAdminOverrideSlot({
+    key,
+    kind: 'component',
+    contractVersion: '1.0.0',
+    defaultValue: null as Component | null,
+    validate: (value): value is Component | null =>
+      value === null || isVueComponent(value),
+  });
+
 export const ADMIN_SHELL_OVERRIDE_SLOTS = [
   defineAdminOverrideSlot({
     key: WORKSPACE_SHELL_OVERRIDE_KEY,
@@ -36,6 +55,10 @@ export const ADMIN_SHELL_OVERRIDE_SLOTS = [
     defaultValue: defaultWorkspaceShell,
     validate: isWorkspaceShellResolver,
   }),
+  optionalComponentSlot(LOGIN_EXTRA_OVERRIDE_KEY),
+  optionalComponentSlot(NAVBAR_ACTIONS_OVERRIDE_KEY),
+  optionalComponentSlot(WORKBENCH_EXTRA_OVERRIDE_KEY),
+  optionalComponentSlot(FOOTER_OVERRIDE_KEY),
 ] as const;
 
 export type AdminShellOverrideRegistry = AdminOverrideRegistry<

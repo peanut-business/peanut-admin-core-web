@@ -51,6 +51,10 @@ export { getTabKey, tabFromRoute } from './tabs.js';
 export type { ShellTab, ShellTabRoute, ShellTabState } from './tabs.js';
 export {
   ADMIN_SHELL_OVERRIDE_SLOTS,
+  FOOTER_OVERRIDE_KEY,
+  LOGIN_EXTRA_OVERRIDE_KEY,
+  NAVBAR_ACTIONS_OVERRIDE_KEY,
+  WORKBENCH_EXTRA_OVERRIDE_KEY,
   resolveWorkspaceShell,
   WORKSPACE_SHELL_OVERRIDE_KEY,
 } from './overrides.js';
