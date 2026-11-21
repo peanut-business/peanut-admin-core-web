@@ -161,6 +161,20 @@ For example, host CSS can consume the same semantics:
 .pa-shell__main { padding: var(--pa-shell-spacing); }
 ```
 
+## Optional host components
+
+The `@peanut-admin/ui-vue/overrides` entry exports four optional component keys
+through `ADMIN_SHELL_OVERRIDE_SLOTS`. Each defaults to `null` and uses contract
+version `1.0.0`. The application shell reads and renders them at its own mount
+points.
+
+| Export | Host mount point |
+| --- | --- |
+| `LOGIN_EXTRA_OVERRIDE_KEY` | Login additions |
+| `NAVBAR_ACTIONS_OVERRIDE_KEY` | Navigation bar actions |
+| `WORKBENCH_EXTRA_OVERRIDE_KEY` | Workbench additions |
+| `FOOTER_OVERRIDE_KEY` | Footer component |
+
 ## Default and application composition
 
 This source example defines a trusted application component locally. It uses the
