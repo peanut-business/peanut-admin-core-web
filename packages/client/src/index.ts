@@ -688,3 +688,11 @@ export type { DownloadBlobOptions } from './download.js';
 
 export { createSessionSync } from './session-sync.js';
 export type { SessionSyncEvent, SessionSyncType } from './session-sync.js';
+export {
+  newBrowserSessionIdentity,
+  readBrowserSession,
+  writeBrowserSession,
+} from './session-storage.js';
+export { formatRequestError } from './request-trace.js';
+export { createPlatformSession } from './platform-session.js';
+export type { PlatformSessionSnapshot } from './platform-session.js';
