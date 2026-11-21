@@ -685,3 +685,6 @@ export type {
 } from './concurrency.js';
 export { createAbortScope, downloadBlob, downloadFilename } from './download.js';
 export type { DownloadBlobOptions } from './download.js';
+
+export { createSessionSync } from './session-sync.js';
+export type { SessionSyncEvent, SessionSyncType } from './session-sync.js';
